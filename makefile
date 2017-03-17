@@ -7,5 +7,4 @@ build:
 deploy:
 	git add --all
 	git commit -m "updated on `date`"
-	git push
-	cd iqdevs.github.io && make deploy
+	git push origin HEAD:master
