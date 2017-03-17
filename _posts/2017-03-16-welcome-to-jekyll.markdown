@@ -34,6 +34,24 @@ var r = {
 };
 ```
 
+```rust
+struct Response
+{
+	code: i32,
+	message: &'static str
+}
+
+fn get_response() -> Response
+{
+	Response {code: 0, message: ""}
+}
+
+fn main()
+{
+	println!("{:?}", get_response());
+}
+```
+
 [jekyll-docs]: https://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
