@@ -1,0 +1,3 @@
+[submodule "iqdevs.github.io"]
+	path = public
+	url = https://github.com/IQDevs/iqdevs.github.io
