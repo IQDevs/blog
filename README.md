@@ -1,5 +1,10 @@
 # Blog
 
+# Checking Out the Code
+```bash
+$ git clone --recursive https://github.com/IQDevs/blog.git
+```
+
 # Production Build & Deployment
 
 ```bash
