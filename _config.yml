@@ -1,7 +1,7 @@
 title: IQDevs Blog
 email: your-email@domain.com
 description: > # this means to ignore newlines until "baseurl:"
-  Description goes here
+  IQDevs is a group on Facebook full of people with technical skills in different fields in technology (though the vast majourity comes from a backgroup in computer science and software engineering, but that's certainly not the limit).
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: jekyllrb
