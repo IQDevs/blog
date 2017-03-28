@@ -1,6 +1,7 @@
 title: IQDevs Blog
 email: ceo@skaykeapp.com
-description: IQDevs is a group on Facebook full of people with technical skills in different fields in technology (though the vast majority comes from a background in computer science and software engineering, but that's certainly not the limit).
+description: >
+  IQDevs is a Facebook group of technical Iraqi enthusiasts holding skills from various technical backgrounds spanning all over the globe. From Iraq to EU countries to North America, people who share a homeland and a passion for skill enhancement, sharing ideas and following bleeding edge technical trends. We focus to upgrade our knowledge and our limit is the sky.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  iqdevs
