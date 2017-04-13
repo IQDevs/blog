@@ -1,6 +1,6 @@
 # Blog
 
-## How to Contribute (Release Blog Posts under [https://iqdevs.github.io](https://iqdevs.github.io))
+## How to Contribute (Releasing Blog Posts Under [https://iqdevs.github.io](https://iqdevs.github.io))
 1. Fork the repository
 2. Start a new branch
 3. under `_posts/` create an `.markdown` file that meets the following criteria:
