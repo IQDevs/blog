@@ -7,7 +7,7 @@
   * File name must have the following format:
     * `YYYY-MM-DD-TITLE.markdown`
     
-    Where:
+      Where:
     
        * `YYYY` is the year
        * `MM` is the month
