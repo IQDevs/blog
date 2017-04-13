@@ -65,7 +65,7 @@ $ git clone --recursive https://github.com/IQDevs/blog.git
 $ jekyll build --destination iqdevs.github.io
 $ cd iqdevs.github.io
 $ git add --all
-$ git commit -m <message>
+$ git commit -m `date`
 $ git push origin HEAD:master 
 $ cd ..
 ```
