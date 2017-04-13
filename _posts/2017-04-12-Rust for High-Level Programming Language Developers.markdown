@@ -209,7 +209,7 @@ class Person:
     return self.lastName
 ```
 
-Notice how we have our fields and functions mixed together inside a single class. Rust separates the two. You'd have your fields defined inside a `struct` and an `impl` containing all relevant functions. So, when interpreted, our JavaScript class would look in Rust as follows:
+Notice how we have our fields and functions mixed together inside a single class. Rust separates the two. You'd have your fields defined inside a `struct` and an `impl` containing all relevant functions. So, when interpreted, our Python class would look in Rust as follows:
 
 ```rust
 struct Person {
@@ -241,7 +241,7 @@ let person = Person::new("Fadi".to_string(), "Hanna Al-Kass".to_string());
 println!("{}, {}", person.get_last_name(), person.get_first_name());
 ```
 
-You've probably already looked at the code and thought to yourself "aha, `Person::new()` must be the constructor" to which you'd definitely be right. however, one thing you need to meek in mind is that Rust has no concept of a `constructor` per se. Instead, we define a static function that we use to instantiate our object. This also means `new` is not a keyword nor is it the required name of your entry point to your object; it can really be anything but `new` is the convention.
+You've probably already looked at the code and thought to yourself "aha, `Person::new()` must be the constructor" to which you'd definitely be right. however, one thing you need to keep in mind is that Rust has no concept of a `constructor` per se. Instead, we define a static function that we use to instantiate our object. This also means `new` is not a keyword nor is it the required name of your entry point to your object; it can really be anything but `new` is the convention.
 
 > In short, your class constructor is a static function located inside an `impl` and turns an object of the type of the class you're instantiating (Person in our case).
 
