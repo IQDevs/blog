@@ -53,7 +53,7 @@ Now back to the first (and perhaps, more obvious) difference. Rust is a very (an
 ### Nested pseudo-JSON Objects?
 #### Sure, forward we go
 
-Let's design our `Person` JSON object in a more modern fashion. Instead of having a field to contain the `full_name`, we can turn `full_name` into a sub-`struct` that has two fields (`first_name` and `last_name`). Instead of storing `date_of_birth` as a string that we may, at some point, need to parse down to extract the day, month, and the year from, we can store this information in a `struct` with 3 separate fields. And for our `gender` field, we can reference an `enum` value.
+Let's design our `Person` JSON object in a more modern fashion. Instead of having a field containing the `full_name`, we can turn `full_name` into a sub-`struct` that has two fields (`first_name` and `last_name`). Instead of storing `date_of_birth` as a string that we may, at some point, need to parse down to extract the day, month, and the year from, we can store this information in a `struct` with three separate fields. And for our `gender` field, we can reference an `enum` value.
 
 ```rust
 struct FullName {
