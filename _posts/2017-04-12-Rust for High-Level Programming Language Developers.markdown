@@ -200,13 +200,13 @@ Say you have a `Person` `class` with a constructor that takes a first_name and a
 
 ```python
 class Person:
-	def __init__(self, firstName, lastName):
-		self.firstName = firstName
-		self.lastName = lastName
-	def getFirstName(self):
-		return self.firstName
-	def getLastName(self):
-		return self.lastName
+  def __init__(self, firstName, lastName):
+    self.firstName = firstName
+    self.lastName = lastName
+  def getFirstName(self):
+    return self.firstName
+  def getLastName(self):
+    return self.lastName
 ```
 
 Notice how we have our fields and functions mixed together inside a single class. Rust separates the two. You'd have your fields defined inside a `struct` and an `impl` containing all relevant functions. So, when interpreted, our JavaScript class would look in Rust as follows:
@@ -256,15 +256,15 @@ Let's say you have a `Response` object you return to a HTTP validation layer tha
 
 ```rust
 struct Response {
-	code: i32,
-	message: String
+  code: i32,
+  message: String
 }
 
 fn main () {
-	let res = Response{
-		code: 200,
-		message: "OK".to_string()
-	};
+  let res = Response{
+    code: 200,
+    message: "OK".to_string()
+  };
 }
 ```
 
@@ -272,9 +272,9 @@ Now let's add a `Drop` `trait` to our object and see when `Drop` is invoked:
 
 ```rust
 impl Drop for Response {
-	fn drop(&mut self) {
-		println!("I ran out of scope. I'm about to be destroyed")
-	}
+  fn drop(&mut self) {
+    println!("I ran out of scope. I'm about to be destroyed")
+  }
 }
 ```
 
@@ -282,21 +282,21 @@ If you try to run the complete program now, i.e.:
 
 ```rust
 struct Response {
-	code: i32,
-	message: String
+  code: i32,
+  message: String
 }
 
 impl Drop for Response {
-	fn drop(&mut self) {
-		println!("I ran out of scope. I'm about to be destroyed")
-	}
+  fn drop(&mut self) {
+    println!("I ran out of scope. I'm about to be destroyed")
+  }
 }
 
 fn main () {
-	let res = Response{
-		code: 200,
-		message: "OK".to_string()
-	};
+  let res = Response{
+    code: 200,
+    message: "OK".to_string()
+  };
 }
 ```
 
@@ -311,13 +311,13 @@ If you've ever done any scientific computation in Python, chances are you've ove
 
 ```python
 class Vector:
-	def __init__(self, a, b):
-		self.a = a
-		self.b = b
-	def __add__(self, otherVector):
-		return Vector(self.a + otherVector.a, self.b + otherVector.b)
-	def __str__(self):
-		return "Vector(%s, %s)" % (self.a, self.b)
+  def __init__(self, a, b):
+    self.a = a
+    self.b = b
+  def __add__(self, otherVector):
+    return Vector(self.a + otherVector.a, self.b + otherVector.b)
+  def __str__(self):
+    return "Vector(%s, %s)" % (self.a, self.b)
 ```
 
 And if you were to add two `Vector` objects, you'd so something like the following:
@@ -346,8 +346,8 @@ Here's our Rust `Vector` object:
 
 ```rust
 struct Vector {
-	a: i32,
-	b: i32
+  a: i32,
+  b: i32
 }
 ```
 
@@ -357,21 +357,27 @@ We, then, add the `+` operation overloaded to our `Vector` `struct` as follows:
 use std::ops::Add;
 
 impl Add for Vector {
-	type Output = Vector;
-	fn add(self, other_vector: Vector) -> Vector {
-		return Vector {
-			a: self.a + other_vector.a,
-			b: self.b + other_vector.b
-		};
-	}
+  type Output = Vector;
+  fn add(self, other_vector: Vector) -> Vector {
+    return Vector {
+      a: self.a + other_vector.a,
+      b: self.b + other_vector.b
+    };
+  }
 }
 ```
 
 At this point, we can have the following in our `main` function:
 
 ```rust
-let v1 = Vector{a: 1, b: 2};
-let v2 = Vector{a: 5, b: 7};
+let v1 = Vector {
+  a: 1,
+  b: 2
+};
+let v2 = Vector {
+  a: 5,
+  b: 7
+};
 let v3 = v1 + v2;
 ```
 
@@ -380,9 +386,9 @@ But we can't print quite yet. Let's implement this:
 ```rust
 use std::fmt::{Debug, Formatter, Result};
 impl Debug for Vector {
-	fn fmt(&self, f: &mut Formatter) -> Result {
-		write!(f, "Vector({}, {})", self.a, self.b)
-	}
+  fn fmt(&self, f: &mut Formatter) -> Result {
+    write!(f, "Vector({}, {})", self.a, self.b)
+  }
 }
 ```
 
@@ -402,34 +408,34 @@ Your final program should look like the following:
 
 ```rust
 struct Vector {
-	a: i32,
-	b: i32
+  a: i32,
+  b: i32
 }
 
 use std::ops::Add;
 
 impl Add for Vector {
-	type Output = Vector;
-	fn add(self, other_vector: Vector) -> Vector {
-		return Vector {
-			a: self.a + other_vector.a,
-			b: self.b + other_vector.b
-		};
-	}
+  type Output = Vector;
+  fn add(self, other_vector: Vector) -> Vector {
+    return Vector {
+      a: self.a + other_vector.a,
+      b: self.b + other_vector.b
+    };
+  }
 }
 
 use std::fmt::{Debug, Formatter, Result};
 impl Debug for Vector {
-	fn fmt(&self, f: &mut Formatter) -> Result {
-		write!(f, "Vector({}, {})", self.a, self.b)
-	}
+  fn fmt(&self, f: &mut Formatter) -> Result {
+    write!(f, "Vector({}, {})", self.a, self.b)
+  }
 }
 
 fn main () {
-	let v1 = Vector{a: 1, b: 2};
-	let v2 = Vector{a: 5, b: 7};
-	let v3 = v1 + v2;
-	println!("{:?}", v3);
+  let v1 = Vector{a: 1, b: 2};
+  let v2 = Vector{a: 5, b: 7};
+  let v3 = v1 + v2;
+  println!("{:?}", v3);
 }
 ```
 
