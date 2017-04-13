@@ -18,6 +18,23 @@
       
       `2017-04-12-Rust for High-Level Programming Language Developers.markdown`
   * File content
+    * The header (upper part) of your `.markdown` file needs to contain the following piece of information
+   
+      ```
+      ---
+      layout: post
+      title:  TITLE
+      date:   YYYY-MM-DD 00:00:00 -0500
+      categories: CATEGORY
+      author: alkass
+      ---
+     ```
+     
+     Where:
+     
+       * `YYYY`, `MM`, `DD` and `TITLE` are identical to the entries you entered above.
+     
+    * The rest of your file is where your blog post goes
 
 ## Checking Out the Code
 ```bash
