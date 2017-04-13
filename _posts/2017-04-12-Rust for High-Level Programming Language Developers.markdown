@@ -6,7 +6,7 @@ categories: Rust
 author: alkass
 ---
 
-So you've been doing high-level programming all your life and you've been eying Rust for some time and you're not sure where to start --or how to start. Well, this walk-through-like post will guide you through some of the common tasks you preform in high-level languages such as JavaScript, Python, or even C#. I'll try to stay away from C++ for reasons I won't get to discuss here. Just know that this is a C++-free post.
+So you've been doing high-level programming all your life and you've been eyeing Rust for some time and you're not sure where to start (or how to start). Well, this walk-through-like post will guide you through some of the common tasks you preform in high-level languages such as JavaScript, Python, or even C#. I'll try to stay away from C++ for reasons I won't get to discuss here. Just know that this is a C++-free post.
 
 ### So, JSON in Rust?
 #### The short answer is 'no built-in support for JSON', but...
@@ -105,7 +105,7 @@ Our pseudo-JSON object is now looking much cleaner and even user to utilize. Spe
 println!("{} {}", person.full_name.first_name, person.full_name.last_name);
 ```
 
-and you're probably seeing a problem here already. It would absolutely be tedious to use this approach to print out the full name of a person especially if you were to do this from multiple places of your program let alone the fact the way the print is done looks really primitive. There must be a different (perhaps, even, better) way you say. You bet there is. In fact, there not only is but are many ways you can go about handling this issue, which one of which would be the use of `traits`. A trait is a programmatical way of telling the compiler how to carry out specific functionalities during the build process. We're going to use one her learn how to write our own further below. The trait we're about to use in a moment is called the `Debug` trait which basically sets out a specific printing layout for your defined `enum`, `struct` or what have you.
+and you're probably seeing a problem here already. It would absolutely be tedious to use this approach to print out the full name of a person especially if you were to do this from multiple places of your program let alone the fact the way the print is done looks really primitive. There must be a different (perhaps, even, better) way you say. You bet there is. In fact, there not only is but are many ways you can go about handling this issue, which one of which would be the use of `traits`. A trait is a programmatical way of telling the compiler how to carry out specific functionalities during the build process. We're going to use one here to learn how to write our own further below. The trait we're about to use in a moment is called the `Debug` trait which basically sets out a specific printing layout for your defined `enum`, `struct` or what have you.
 
 If you simply add `#[derive(Debug)]` right on top of your `FullName` `struct` definition: i.e.:
 
