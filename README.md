@@ -34,7 +34,8 @@
      
         * `YYYY`, `MM`, `DD` and `TITLE` are identical to the entries you entered above.
      
-    * The rest of your file is where your blog post goes
+    * The rest of your file is where your blog post goes. Your blog post needs to be written in `markdown` format.
+4. Submit a pull request
 
 ## Checking Out the Code
 ```bash
