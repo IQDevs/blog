@@ -196,7 +196,7 @@ Person { full_name: FullName { first_name: "Fadi", last_name: "Hanna Al-Kass" },
 Our output is looking pretty verbose already, and you may not like that. Is there a way to manipulate this output in terms of re-arranging its layout or limiting the amount of information being displayed? You bet there is, and it's through writing our own `Debug` `trait` instead of using a `derive`d one. I think it's better to introduce one more thing right before we get down to business with `trait`s, and that is Rust's `OOP`-like paradigm. I call it `OOP`-like because Rust doesn't consider itself an Object-Oriented Programming Language, but sure that in no way means we can't do `OOP` in Rust. It just means `OOP` is done differently. To be more precise, `OOP` in Rust is done in a way Rust wouldn't consider `OOP`.
 
 Up until now, we've only been working with `struct`s and `enum`s. You've probably already noticed that we used them to store data, but no logic (constructors, function, destructors, etc) was added to them. That's because that's not where the functions go. before I further explain this, let's look at a tiny Python class and discuss how its alternative can be written in Rust.
-Say you have a `Person` `class` with a constructor that takes a first_name and a last_name and provides two separate getter functions that give you these two string values whenever you need them. You'd write your class something as follows:
+Say you have a `Person` `class` with a constructor that takes a `first_name` and a `last_name` and provides two separate getter functions that give you these two string values whenever you need them. You'd write your class something as follows:
 
 ```python
 class Person:
