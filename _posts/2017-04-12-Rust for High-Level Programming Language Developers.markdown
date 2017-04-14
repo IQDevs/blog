@@ -272,7 +272,7 @@ Now let's add a `Drop` `trait` to our object and see when `Drop` is invoked:
 
 ```rust
 impl Drop for Response {
-  fn drop(&mut self) {
+  fn drop (&mut self) {
     println!("I ran out of scope. I'm about to be destroyed")
   }
 }
@@ -287,7 +287,7 @@ struct Response {
 }
 
 impl Drop for Response {
-  fn drop(&mut self) {
+  fn drop (&mut self) {
     println!("I ran out of scope. I'm about to be destroyed")
   }
 }
@@ -358,7 +358,7 @@ use std::ops::Add;
 
 impl Add for Vector {
   type Output = Vector;
-  fn add(self, other_vector: Vector) -> Vector {
+  fn add (self, other_vector: Vector) -> Vector {
     return Vector {
       a: self.a + other_vector.a,
       b: self.b + other_vector.b
@@ -416,7 +416,7 @@ use std::ops::Add;
 
 impl Add for Vector {
   type Output = Vector;
-  fn add(self, other_vector: Vector) -> Vector {
+  fn add (self, other_vector: Vector) -> Vector {
     return Vector {
       a: self.a + other_vector.a,
       b: self.b + other_vector.b
