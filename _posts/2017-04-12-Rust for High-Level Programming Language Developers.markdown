@@ -512,4 +512,24 @@ println!("{}", v3);
 And voila! You're all set.
 
 ### Statements vs. Expressions?
-To be continued
+At this point, I'm a bit tired of having to included unnecessary keywords in my code snippets, so I thought I'd introduce the concept of statement-vs-expression in Rust.
+
+So, basically statements that don't end with a semi-colon (`;`) return something and they even have a special label: `expressions`. Without getting into too much detail and get you all confused, let me instead throw a little snippet at you and let you sort it out in your head.
+
+So, let's say you have a function that takes two `i32` arguments and returns the their sum. You could have your function like this:
+
+```rust
+fn sum(a: i32, b: i32) -> i32 {
+  return a + b;
+}
+```
+
+of you could have the shorthand notation of the function by using an expression instead of a statement:
+
+```rust
+fn sub(a: i32, b: i32) -> {
+  a + b
+}
+```
+
+So from this point on, I will be using expressions whenever possible.
