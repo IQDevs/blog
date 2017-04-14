@@ -581,7 +581,7 @@ To be added
 ### Conditionals
 To be added
 
-### pseudo-Switch-Case Statements
+### Pattern Matching (aka pseudo-Switch-Case Statements)
 To be added
 
 ### Loops
