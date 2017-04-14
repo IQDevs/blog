@@ -584,12 +584,13 @@ To be added
 ### pseudo-Switch-Case Statements
 To be added
 
-#### Loops
+### Loops
 To be added
 
-#### Macros!
+### Object Wrapping/Unwrapping
+To be added
 
-#### Object Wrapping/Unwrapping
+### Macros!
 To be added
 
 #### Generics
