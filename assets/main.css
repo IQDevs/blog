@@ -220,7 +220,9 @@ pre > code {
     border-bottom: 1px solid #e8e8e8;
     min-height: 56px;
     position: relative;
+    box-shadow: 0 0 30px #e1e1e1;
 }
+
 .site-title {
     font-size: 26px;
     font-weight: 300;
