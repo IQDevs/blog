@@ -585,7 +585,40 @@ To be added
 To be added
 
 ### Loops
-To be added
+Loops are a very interesting subject in Rust. The langauge currently has three approaches to any kind of iterative activity. These three approaches use three separate keywords: `for`, `while`, and `loop`.
+
+The `for` loop is used when you've already decided the number of times you'd like to iterate. For example, the following will loop 9 times and print the values `0` through `9`:
+
+```rust
+for i in 0..10 {
+    println!("{}", i);
+}
+```
+
+`for` loops can also preform some sophisticated tasks. For instance, if you have the string `"hello\nworld\nmy\nname\nis\nFadi"` and you want it up split it up using the linefeeed (`\n`) delimiter, you can use the `lines()` function. This function returns an enumerator containing both the substring and the line number. So something like the following:
+
+```rust
+let my_str_tokens = "hello\nworld\nmy\nname\nis\nFadi".lines();
+    for (line_no, term) in my_str_tokens.enumerate() {
+        println!("{}: {}", line_no, term);
+    }
+```
+
+Results in this:
+
+```
+0: hello
+1: world
+2: my
+3: name
+4: is
+5: Fadi
+```
+
+The `while` loop is used when you're not sure how many times you need to loop.
+TO BE ADDED
+TO BE ADDED
+TO BE ADDED
 
 ### Object Wrapping/Unwrapping
 To be added
