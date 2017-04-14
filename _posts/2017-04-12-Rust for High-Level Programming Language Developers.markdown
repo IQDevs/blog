@@ -432,8 +432,12 @@ impl Debug for Vector {
 }
 
 fn main () {
-  let v1 = Vector{a: 1, b: 2};
-  let v2 = Vector{a: 5, b: 7};
+  let v1 = Vector {
+    a: 1, b: 2
+  };
+  let v2 = Vector {
+    a: 5, b: 7
+  };
   let v3 = v1 + v2;
   println!("{:?}", v3);
 }
