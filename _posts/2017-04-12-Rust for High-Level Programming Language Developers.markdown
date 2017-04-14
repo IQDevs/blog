@@ -351,6 +351,19 @@ struct Vector {
 }
 ```
 
+Then we add the `constructor`:
+
+```rust
+impl Vector {
+    fn new (a: i32, b: i32) -> Vector {
+        return Vector {
+            a: a,
+            b: b
+        };
+    }
+}
+```
+
 We, then, add the `+` operation overloaded to our `Vector` `struct` as follows:
 
 ```rust
@@ -370,14 +383,8 @@ impl Add for Vector {
 At this point, we can have the following in our `main` function:
 
 ```rust
-let v1 = Vector {
-  a: 1,
-  b: 2
-};
-let v2 = Vector {
-  a: 5,
-  b: 7
-};
+let v1 = Vector::new(1, 2);
+let v2 = Vector::new(5, 7);
 let v3 = v1 + v2;
 ```
 
@@ -412,8 +419,16 @@ struct Vector {
   b: i32
 }
 
-use std::ops::Add;
+impl Vector {
+    fn new (a: i32, b: i32) -> Vector {
+        return Vector {
+            a: a,
+            b: b
+        };
+    }
+}
 
+use std::ops::Add;
 impl Add for Vector {
   type Output = Vector;
   fn add (self, other_vector: Vector) -> Vector {
@@ -432,14 +447,10 @@ impl Debug for Vector {
 }
 
 fn main () {
-  let v1 = Vector {
-    a: 1, b: 2
-  };
-  let v2 = Vector {
-    a: 5, b: 7
-  };
-  let v3 = v1 + v2;
-  println!("{:?}", v3);
+    let v1 = Vector::new(1, 2);
+   let v2 = Vector::new(5, 7);
+   let v3 = v1 + v2;
+   println!("{:?}", v3);
 }
 ```
 
