@@ -387,7 +387,7 @@ But we can't print quite yet. Let's implement this:
 use std::fmt::{Debug, Formatter, Result};
 impl Debug for Vector {
   fn fmt(&self, f: &mut Formatter) -> Result {
-    write!(f, "Vector({}, {})", self.a, self.b)
+    return write!(f, "Vector({}, {})", self.a, self.b);
   }
 }
 ```
@@ -427,7 +427,7 @@ impl Add for Vector {
 use std::fmt::{Debug, Formatter, Result};
 impl Debug for Vector {
   fn fmt(&self, f: &mut Formatter) -> Result {
-    write!(f, "Vector({}, {})", self.a, self.b)
+    return write!(f, "Vector({}, {})", self.a, self.b);
   }
 }
 
