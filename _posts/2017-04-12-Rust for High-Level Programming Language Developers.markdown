@@ -105,7 +105,7 @@ Our pseudo-JSON object is now looking much cleaner and even easier to utilize. S
 println!("{} {}", person.full_name.first_name, person.full_name.last_name);
 ```
 
-and you're probably seeing a problem here already. It would absolutely be tedious to use this approach to print out the full name of a person especially if you were to do this from multiple places in your program let alone the fact the way the print is done looks really primitive. There must be a different (perhaps, even, better) way you say. You bet there is. In fact, there not only is but are many ways you can go about handling this issue, which one of which would be the use of `traits`. A trait is a programmatical way of telling the compiler how to carry out specific functionalities during the build process. We're going to use one here to learn how to write our own further below. The trait we're about to use in a moment is called the `Debug` trait which basically sets out a specific printing layout for your defined `enum`, `struct` or what have you.
+and you're probably seeing a problem here already. It would absolutely be tedious to use this approach to print out the full name of a person especially if you were to do this from multiple places in your program let alone the fact the way the print is done looks really primitive. There must be a different (perhaps, even, better) way you say. You bet there is. In fact, there not only is but are many ways you can go about handling this issue, which one of which would be the use of `traits`. A trait is a programmatical way of telling the compiler how to carry out specific functionalities during the build process. We're going to use one here and learn how to write our own further below. The trait we're about to use in a moment is called the `Debug` trait which basically sets out a specific printing layout for your defined `enum`, `struct` or what have you.
 
 If you simply add `#[derive(Debug)]` right on top of your `FullName` `struct` definition: i.e.:
 
@@ -484,7 +484,7 @@ At this point, I'm a bit tired of having to included unnecessary keywords in my 
 
 So, basically statements that don't end with a semi-colon (`;`) return something and they even have a special label: `expressions`. Without getting into too much detail and get you all confused, let me instead throw a little snippet at you and let you sort it out in your head.
 
-So, let's say you have a function that takes two `i32` arguments and returns the their sum. You could have your function like this:
+So, let's say you have a function that takes two `i32` arguments and returns the sum of the two values. You could have your function written like this:
 
 ```rust
 fn sum(a: i32, b: i32) -> i32 {
@@ -492,7 +492,7 @@ fn sum(a: i32, b: i32) -> i32 {
 }
 ```
 
-of you could have the shorthand notation of the function by using an expression instead of a statement:
+or you could have the shorthand notation of the function by using an expression instead of a statement:
 
 ```rust
 fn sub(a: i32, b: i32) -> {
@@ -500,4 +500,19 @@ fn sub(a: i32, b: i32) -> {
 }
 ```
 
-So from this point on, I will be using expressions whenever possible.
+From this point on, I will be using expressions whenever possible.
+
+### Our Journey into the Specifics
+To be added
+
+### pseudo-Switch-Case Statements
+To be added
+
+#### Loops
+To be added
+
+#### Object Wrapping/Unwrapping
+To be added
+
+#### Generics
+To be added
