@@ -599,9 +599,9 @@ for i in 0..10 {
 
 ```rust
 let my_str_tokens = "hello\nworld\nmy\nname\nis\nFadi".lines();
-    for (line_no, term) in my_str_tokens.enumerate() {
-        println!("{}: {}", line_no, term);
-    }
+for (line_no, term) in my_str_tokens.enumerate() {
+    println!("{}: {}", line_no, term);
+}
 ```
 
 Results in this:
