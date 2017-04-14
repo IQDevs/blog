@@ -509,6 +509,29 @@ From this point on, I will be using expressions whenever possible.
 ### Our Journey into the Specifics
 We're now going to dive into the basics of Rust.
 
+### Variable/Object Decleration
+To be added
+
+#### Mutibility
+To be added
+
+### Type Aliases
+Rust has a keyword called `type` used to declare aliases of other types.
+Say you want to use `i32` across a whole `class`, `module` or even across your whole application, and for clarity's sake you'd rather use `Int` insteat of `i32` to reference 32-bit integers. You could define your `Int` type as follows:
+
+```rust
+type Int = i32;
+```
+
+And now to use your new type, you could define your variables like this:
+
+```rust
+let var1: Int = 10;
+let var2: Int = 20;
+```
+
+And so on.
+
 ### Functions
 Function decleration are pretty intuative and starightforward. Say you want to write a `greeting` function that prints out the test `"hello there!"` over `stdio`. You'd write your function as follows:
 
@@ -549,23 +572,11 @@ Remember that we're using an `expression` in the code snippet above. If you want
 ### Closures
 To be added
 
-### Type Aliases
-Rust has a keyword called `type` used to declare aliases of other types.
-Say you want to use `i32` across a whole `class`, `module` or even across your whole application, and for clarity's sake you'd rather use `Int` insteat of `i32` to reference 32-bit integers. You could define your `Int` type as follows:
+### Function Pointers
+To be added
 
-```rust
-type Int = i32;
-```
-
-And now to use your new type, you could define your variables like this:
-
-```rust
-let var1: Int = 10;
-let var2: Int = 20;
-```
-
-And so on.
-
+### Passing Functions/Closures to Functions/Closures
+To be added
 
 ### Conditionals
 To be added
