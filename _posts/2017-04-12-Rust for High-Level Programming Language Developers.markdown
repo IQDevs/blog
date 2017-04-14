@@ -261,7 +261,7 @@ struct Response {
 }
 
 fn main () {
-  let res = Response{
+  let res = Response {
     code: 200,
     message: "OK".to_string()
   };
@@ -293,7 +293,7 @@ impl Drop for Response {
 }
 
 fn main () {
-  let res = Response{
+  let res = Response {
     code: 200,
     message: "OK".to_string()
   };
