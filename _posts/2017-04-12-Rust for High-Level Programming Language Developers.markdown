@@ -12,7 +12,7 @@ So you've been doing high-level programming all your life, and you've been eyein
 #### The short answer is 'no built-in support for JSON', but...
 Well, Rust has no built-in support for JSON objects, but before you let that throw you off, Rust `struct`s are ~ 99% identical to JSON objects in their outer structure and the way they are defined and used. Let's look at an example:
 
-Say you want to define a Person JSON object with fields holding things like the `full name`, `date of birth`, and `gender` of a person. Here's how you'd likely define your object in a language like JavaScript:
+Say you want to define a Person JSON object with fields holding things like the `full_name`, `date_of_birth`, and `gender` of a person. Here's how you'd likely define your object in a language like JavaScript:
 
 ```js
 var person = {
@@ -355,7 +355,6 @@ We, then, add the `+` operation overloaded to our `Vector` `struct` as follows:
 
 ```rust
 use std::ops::Add;
-
 impl Add for Vector {
   type Output = Vector;
   fn add(self, other_vector: Vector) -> Vector {
@@ -413,7 +412,6 @@ struct Vector {
 }
 
 use std::ops::Add;
-
 impl Add for Vector {
   type Output = Vector;
   fn add(self, other_vector: Vector) -> Vector {
@@ -432,11 +430,45 @@ impl Debug for Vector {
 }
 
 fn main () {
-  let v1 = Vector{a: 1, b: 2};
-  let v2 = Vector{a: 5, b: 7};
+  let v1 = Vector {
+    a: 1,
+    b: 2
+  };
+  let v2 = Vector {
+    a: 5,
+    b: 7
+  };
   let v3 = v1 + v2;
   println!("{:?}", v3);
 }
+```
+
+Or if you'd rather have a constructor you pass the parameters to, you can do so by implementing a `new` function as follows:
+
+```rust
+impl Vector {
+  fn new (a: i32, b: i32) -> Vector {
+    return Vector {
+      a: a,
+      b: b
+    };
+  }
+}
+```
+
+And now you can replace:
+
+```rust
+let v1 = Vector {
+  a: 1,
+  b: 2
+};
+```
+
+with:
+
+```rust
+let v1 = Vector::new(1, 2);
 ```
 
 Oh, and you know how I said `"{}"` is used to communicate output to the user while `"{:?}"` is usually used for debugging purposes? Well, it turns out you can overload the `Display` trail (available under `std::fmt` as well) to print your object using `{}` instead of `"{:?}"`.
@@ -477,7 +509,7 @@ With:
 println!("{}", v3);
 ```
 
-And voila, you're all set.
+And voila! You're all set.
 
 ### Statements vs. Expressions?
 To be continued

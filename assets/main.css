@@ -15,7 +15,7 @@ dl, dd, ol, ul, figure {
  */
 body {
   color: #111;
-    background: rgb(239,239,239);
+	background: rgb(239,239,239);
   background: -moz-linear-gradient(-45deg, rgba(239,239,239,1) 0%, rgba(255,255,255,1) 50%, rgba(239,239,239,1) 94%, rgba(239,239,239,1) 95%, rgba(239,239,239,1) 96%, rgba(191,15,44,1) 96%, rgba(191,15,44,1) 96%, rgba(191,15,44,1) 96%, rgba(170,52,60,1) 100%);
   background: -webkit-linear-gradient(-45deg, rgba(239,239,239,1) 0%,rgba(255,255,255,1) 50%,rgba(239,239,239,1) 94%,rgba(239,239,239,1) 95%,rgba(239,239,239,1) 96%,rgba(191,15,44,1) 96%,rgba(191,15,44,1) 96%,rgba(191,15,44,1) 96%,rgba(170,52,60,1) 100%);
   background: linear-gradient(135deg, rgba(239,239,239,1) 0%,rgba(255,255,255,1) 50%,rgba(239,239,239,1) 94%,rgba(239,239,239,1) 95%,rgba(239,239,239,1) 96%,rgba(191,15,44,1) 96%,rgba(191,15,44,1) 96%,rgba(191,15,44,1) 96%,rgba(170,52,60,1) 100%);
@@ -104,7 +104,7 @@ code {
   font-size: 15px;
   border: 1px solid #e8e8e8;
   border-radius: 3px;
-  background-color: #E9E581; }
+  background-color: #efefef; }
 
 code {
   padding: 1px 5px; }
@@ -325,7 +325,7 @@ pre {
 .highlight {
   background: #fff; }
   .highlighter-rouge .highlight {
-    background: #E9E581; }
+    background: #efefef; }
   .highlight .c {
     color: #998;
     font-style: italic; }
