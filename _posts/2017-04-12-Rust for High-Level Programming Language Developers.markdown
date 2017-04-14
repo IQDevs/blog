@@ -637,6 +637,14 @@ Results in this:
 5: Fadi
 ```
 
+The above example is equivilent to the following python code:
+
+```python
+myStrTokens = "hello\nworld\nmy\nname\nis\nFadi".split("\n")
+for i in range(0, len(myStrTokens)):
+    print("%d: %s" % (i, myStrTokens[i]))
+```
+
 The `while` loop is used when you're not sure how many times you need to loop.
 TO BE ADDED
 TO BE ADDED
