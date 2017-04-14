@@ -595,6 +595,28 @@ for i in 0..10 {
 }
 ```
 
+This interprets to the following Python code:
+
+```python
+    for i in range(0, 10):
+        print("%d" % i)
+```
+
+You can also iterate over a list using a `for` loop as follows:
+
+```rust
+for i in &[10, 20, 30] {
+        println!("{}", i);
+    }
+```
+
+This is equivelent to the following python code:
+
+```python
+for i in [10, 20, 30]:
+    print("%d" % i)
+```
+
 `for` loops can also preform some sophisticated tasks. For instance, if you have the string `"hello\nworld\nmy\nname\nis\nFadi"` and you want it up split it up using the linefeeed (`\n`) delimiter, you can use the `lines()` function. This function returns an enumerator containing both the substring and the line number. So something like the following:
 
 ```rust
