@@ -598,16 +598,16 @@ for i in 0..10 {
 This interprets to the following Python code:
 
 ```python
-    for i in range(0, 10):
-        print("%d" % i)
+for i in range(0, 10):
+    print("%d" % i)
 ```
 
 You can also iterate over a list using a `for` loop as follows:
 
 ```rust
 for i in &[10, 20, 30] {
-        println!("{}", i);
-    }
+    println!("{}", i);
+}
 ```
 
 This is equivelent to the following python code:
