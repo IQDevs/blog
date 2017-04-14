@@ -542,11 +542,30 @@ fn add (a: i32, b: i32) -> i32 {
 }
 ```
 
-> i32 is a 32-bit integer variable in Rust. You can read more about Rust's support for numeric types [here](https://doc.rust-lang.org/book/primitive-types.html#numeric-types)
+> i32 is a 32-bit integer type in Rust. You can read more about Rust's support for numeric types [here](https://doc.rust-lang.org/book/primitive-types.html#numeric-types)
 
 Remember that we're using an `expression` in the code snippet above. If you wanted to replace it with a statement `return a + b;` will do.
 
 ### Closures
+To be added
+
+### Type Aliases
+Rust has a keyword called `type` used to declare aliases of other types.
+Say you want to use `i32` across a whole `class`, `module` or even across your whole application, and for clarity's sake you'd rather use `Int` insteat of `i32` to reference 32-bit integers. You could define your `Int` type as follows:
+
+```rust
+type Int = i32;
+```
+
+And now to use your new type, you could define your variables like this:
+
+```rust
+let var1: Int = 10;
+let var2: Int = 20;
+```
+
+And so on.
+
 
 ### Conditionals
 To be added
