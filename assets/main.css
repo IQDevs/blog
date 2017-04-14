@@ -1,9 +1,11 @@
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
 /**
  * Reset some basic elements
  */
 
-@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 body,
 h1,
 h2,
