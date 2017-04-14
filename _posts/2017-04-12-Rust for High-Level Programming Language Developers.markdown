@@ -261,7 +261,7 @@ struct Response {
 }
 
 fn main () {
-  let res = Response{
+  let res = Response {
     code: 200,
     message: "OK".to_string()
   };
@@ -272,7 +272,7 @@ Now let's add a `Drop` `trait` to our object and see when `Drop` is invoked:
 
 ```rust
 impl Drop for Response {
-  fn drop(&mut self) {
+  fn drop (&mut self) {
     println!("I ran out of scope. I'm about to be destroyed")
   }
 }
@@ -287,13 +287,13 @@ struct Response {
 }
 
 impl Drop for Response {
-  fn drop(&mut self) {
+  fn drop (&mut self) {
     println!("I ran out of scope. I'm about to be destroyed")
   }
 }
 
 fn main () {
-  let res = Response{
+  let res = Response {
     code: 200,
     message: "OK".to_string()
   };
@@ -351,6 +351,19 @@ struct Vector {
 }
 ```
 
+Then we add the `constructor`:
+
+```rust
+impl Vector {
+    fn new (a: i32, b: i32) -> Vector {
+        return Vector {
+            a: a,
+            b: b
+        };
+    }
+}
+```
+
 We, then, add the `+` operation overloaded to our `Vector` `struct` as follows:
 
 ```rust
@@ -358,7 +371,7 @@ use std::ops::Add;
 
 impl Add for Vector {
   type Output = Vector;
-  fn add(self, other_vector: Vector) -> Vector {
+  fn add (self, other_vector: Vector) -> Vector {
     return Vector {
       a: self.a + other_vector.a,
       b: self.b + other_vector.b
@@ -370,14 +383,8 @@ impl Add for Vector {
 At this point, we can have the following in our `main` function:
 
 ```rust
-let v1 = Vector {
-  a: 1,
-  b: 2
-};
-let v2 = Vector {
-  a: 5,
-  b: 7
-};
+let v1 = Vector::new(1, 2);
+let v2 = Vector::new(5, 7);
 let v3 = v1 + v2;
 ```
 
@@ -387,7 +394,7 @@ But we can't print quite yet. Let's implement this:
 use std::fmt::{Debug, Formatter, Result};
 impl Debug for Vector {
   fn fmt(&self, f: &mut Formatter) -> Result {
-    write!(f, "Vector({}, {})", self.a, self.b)
+    return write!(f, "Vector({}, {})", self.a, self.b);
   }
 }
 ```
@@ -412,11 +419,19 @@ struct Vector {
   b: i32
 }
 
-use std::ops::Add;
+impl Vector {
+    fn new (a: i32, b: i32) -> Vector {
+        return Vector {
+            a: a,
+            b: b
+        };
+    }
+}
 
+use std::ops::Add;
 impl Add for Vector {
   type Output = Vector;
-  fn add(self, other_vector: Vector) -> Vector {
+  fn add (self, other_vector: Vector) -> Vector {
     return Vector {
       a: self.a + other_vector.a,
       b: self.b + other_vector.b
@@ -427,19 +442,15 @@ impl Add for Vector {
 use std::fmt::{Debug, Formatter, Result};
 impl Debug for Vector {
   fn fmt(&self, f: &mut Formatter) -> Result {
-    write!(f, "Vector({}, {})", self.a, self.b)
+    return write!(f, "Vector({}, {})", self.a, self.b);
   }
 }
 
 fn main () {
-  let v1 = Vector {
-    a: 1, b: 2
-  };
-  let v2 = Vector {
-    a: 5, b: 7
-  };
-  let v3 = v1 + v2;
-  println!("{:?}", v3);
+    let v1 = Vector::new(1, 2);
+   let v2 = Vector::new(5, 7);
+   let v3 = v1 + v2;
+   println!("{:?}", v3);
 }
 ```
 
@@ -507,20 +518,153 @@ fn sub(a: i32, b: i32) -> {
 From this point on, I will be using expressions whenever possible.
 
 ### Our Journey into the Specifics
+We're now going to dive into the basics of Rust.
+
+### Variable/Object Decleration
+To be added
+
+#### Mutibility
+To be added
+
+### Type Aliases
+Rust has a keyword called `type` used to declare aliases of other types.
+Say you want to use `i32` across a whole `class`, `module` or even across your whole application, and for clarity's sake you'd rather use `Int` insteat of `i32` to reference 32-bit integers. You could define your `Int` type as follows:
+
+```rust
+type Int = i32;
+```
+
+And now to use your new type, you could define your variables like this:
+
+```rust
+let var1: Int = 10;
+let var2: Int = 20;
+```
+
+And so on.
+
+### Functions
+Function decleration are pretty intuative and starightforward. Say you want to write a `greeting` function that prints out the test `"hello there!"` over `stdio`. You'd write your function as follows:
+
+```rust
+fn greeting () {
+    println!("hello there!");
+}
+```
+
+What if you want to pass the string to the function instead of hard-coding a specefic value? Then, you'd write it like this:
+
+```rust
+fn greeting (message: String) {
+    // TODO: Implement
+}
+```
+
+Multiple function arguments? Sure! Here's how:
+
+```rust
+fn greeting (name: String, message: String) {
+    // TODO: Implement
+}
+```
+
+Functions with return values? Here's how:
+
+```rust
+fn add (a: i32, b: i32) -> i32 {
+ a + b
+}
+```
+
+> i32 is a 32-bit integer type in Rust. You can read more about Rust's support for numeric types [here](https://doc.rust-lang.org/book/primitive-types.html#numeric-types)
+
+Remember that we're using an `expression` in the code snippet above. If you wanted to replace it with a statement `return a + b;` will do.
+
+### Closures
+To be added
+
+### Function Pointers
+To be added
+
+### Passing Functions/Closures to Functions/Closures
 To be added
 
 ### Conditionals
 To be added
 
-### pseudo-Switch-Case Statements
+### Pattern Matching (aka pseudo-Switch-Case Statements)
 To be added
 
-#### Loops
+### Loops
+Loops are a very interesting subject in Rust. The langauge currently has three approaches to any kind of iterative activity. These three approaches use three separate keywords: `for`, `while`, and `loop`.
+
+The `for` loop is used when you've already decided the number of times you'd like to iterate. For example, the following will loop 9 times and print the values `0` through `9`:
+
+```rust
+for i in 0..10 {
+    println!("{}", i);
+}
+```
+
+This interprets to the following Python code:
+
+```python
+for i in range(0, 10):
+    print("%d" % i)
+```
+
+You can also iterate over a list using a `for` loop as follows:
+
+```rust
+for i in &[10, 20, 30] {
+    println!("{}", i);
+}
+```
+
+This is equivelent to the following python code:
+
+```python
+for i in [10, 20, 30]:
+    print("%d" % i)
+```
+
+`for` loops can also preform some sophisticated tasks. For instance, if you have the string `"hello\nworld\nmy\nname\nis\nFadi"` and you want it up split it up using the linefeeed (`\n`) delimiter, you can use the `lines()` function. This function returns an enumerator containing both the substring and the line number. So something like the following:
+
+```rust
+let my_str_tokens = "hello\nworld\nmy\nname\nis\nFadi".lines();
+for (line_no, term) in my_str_tokens.enumerate() {
+    println!("{}: {}", line_no, term);
+}
+```
+
+Results in this:
+
+```
+0: hello
+1: world
+2: my
+3: name
+4: is
+5: Fadi
+```
+
+The above example is equivilent to the following python code:
+
+```python
+myStrTokens = "hello\nworld\nmy\nname\nis\nFadi".split("\n")
+for i in range(0, len(myStrTokens)):
+    print("%d: %s" % (i, myStrTokens[i]))
+```
+
+The `while` loop is used when you're not sure how many times you need to loop.
+TO BE ADDED
+TO BE ADDED
+TO BE ADDED
+
+### Object Wrapping/Unwrapping
 To be added
 
-#### Macros!
-
-#### Object Wrapping/Unwrapping
+### Macros!
 To be added
 
 #### Generics
