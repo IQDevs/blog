@@ -433,10 +433,12 @@ impl Debug for Vector {
 
 fn main () {
   let v1 = Vector {
-    a: 1, b: 2
+    a: 1,
+    b: 2
   };
   let v2 = Vector {
-    a: 5, b: 7
+    a: 5,
+    b: 7
   };
   let v3 = v1 + v2;
   println!("{:?}", v3);
@@ -507,12 +509,16 @@ fn sub(a: i32, b: i32) -> {
 From this point on, I will be using expressions whenever possible.
 
 ### Our Journey into the Specifics
+We're now going to dive into the basics of Rust.
+
+#### Conditionals
 To be added
 
-### Conditionals
-To be added
+##### Code Path Redirectors
 
-### pseudo-Switch-Case Statements
+###### Setters
+
+#### pseudo-Switch-Case Statements
 To be added
 
 #### Loops
