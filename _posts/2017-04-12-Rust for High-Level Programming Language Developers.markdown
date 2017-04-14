@@ -509,11 +509,16 @@ From this point on, I will be using expressions whenever possible.
 ### Our Journey into the Specifics
 To be added
 
+### Conditionals
+To be added
+
 ### pseudo-Switch-Case Statements
 To be added
 
 #### Loops
 To be added
+
+#### Macros!
 
 #### Object Wrapping/Unwrapping
 To be added
