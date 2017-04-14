@@ -507,7 +507,46 @@ fn sub(a: i32, b: i32) -> {
 From this point on, I will be using expressions whenever possible.
 
 ### Our Journey into the Specifics
-To be added
+We're now going to dive into the basics of Rust.
+
+### Functions
+Function decleration are pretty intuative and starightforward. Say you want to write a `greeting` function that prints out the test `"hello there!"` over `stdio`. You'd write your function as follows:
+
+```rust
+fn greeting () {
+    println!("hello there!");
+}
+```
+
+What if you want to pass the string to the function instead of hard-coding a specefic value? Then, you'd write it like this:
+
+```rust
+fn greeting (message: String) {
+    // TODO: Implement
+}
+```
+
+Multiple function arguments? Sure! Here's how:
+
+```rust
+fn greeting (name: String, message: String) {
+    // TODO: Implement
+}
+```
+
+Functions with return values? Here's how:
+
+```rust
+fn add (a: i32, b: i32) -> i32 {
+ a + b
+}
+```
+
+> i32 is a 32-bit integer variable in Rust. You can read more about Rust's support for numeric types [here](https://doc.rust-lang.org/book/primitive-types.html#numeric-types)
+
+Remember that we're using an `expression` in the code snippet above. If you wanted to replace it with a statement `return a + b;` will do.
+
+### Closures
 
 ### Conditionals
 To be added
