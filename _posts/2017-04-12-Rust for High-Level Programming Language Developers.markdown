@@ -502,7 +502,7 @@ So, basically statements that don't end with a semi-colon (`;`) return something
 So, let's say you have a function that takes two `i32` arguments and returns the sum of the two values. You could have your function written like this:
 
 ```rust
-fn sum(a: i32, b: i32) -> i32 {
+fn sum (a: i32, b: i32) -> i32 {
   return a + b;
 }
 ```
@@ -510,7 +510,7 @@ fn sum(a: i32, b: i32) -> i32 {
 or you could have the shorthand notation of the function by using an expression instead of a statement:
 
 ```rust
-fn sub(a: i32, b: i32) -> {
+fn sum (a: i32, b: i32) -> {
   a + b
 }
 ```
@@ -520,15 +520,15 @@ From this point on, I will be using expressions whenever possible.
 ### Our Journey into the Specifics
 We're now going to dive into the basics of Rust.
 
-### Variable/Object Decleration
+### Variable/Object Declaration
 To be added
 
-#### Mutibility
+#### Mutability
 To be added
 
 ### Type Aliases
 Rust has a keyword called `type` used to declare aliases of other types.
-Say you want to use `i32` across a whole `class`, `module` or even across your whole application, and for clarity's sake you'd rather use `Int` insteat of `i32` to reference 32-bit integers. You could define your `Int` type as follows:
+Say you want to use `i32` across a whole `class`, `module` or even across your whole application, and for clarity's sake you'd rather use `Int` instead of `i32` to reference 32-bit integers. You could define your `Int` type as follows:
 
 ```rust
 type Int = i32;
@@ -544,7 +544,7 @@ let var2: Int = 20;
 And so on.
 
 ### Functions
-Function decleration are pretty intuative and starightforward. Say you want to write a `greeting` function that prints out the test `"hello there!"` over `stdio`. You'd write your function as follows:
+Function declaration are pretty intuitive and straightforward. Say you want to write a `greeting` function that prints out the test `"hello there!"` over `stdio`. You'd write your function as follows:
 
 ```rust
 fn greeting () {
@@ -552,7 +552,7 @@ fn greeting () {
 }
 ```
 
-What if you want to pass the string to the function instead of hard-coding a specefic value? Then, you'd write it like this:
+What if you want to pass the string to the function instead of hard-coding a specific value? Then, you'd write it like this:
 
 ```rust
 fn greeting (message: String) {
@@ -584,7 +584,88 @@ Remember that we're using an `expression` in the code snippet above. If you want
 To be added
 
 ### Function Pointers
-To be added
+If you're coming from a solid background in languages like C and C++, chances are you've worked with function pointers a lot. You've probably even worked with function pointers in languages like JavaScript and Python without ever coming across the name.
+At their core, a function pointer is a variable holding access to a specific memory location representing the beginning of function. In JavaScript, if you were to have the following:
+
+```js
+function callee () {
+  // TODO: Implement me
+}
+
+function caller (callback) {
+  // TODO: Implement a task
+  callback();
+}
+
+caller(callback);
+```
+
+It can be said that "`caller` if a function that takes an argument of type function pointer (which in this case is our `callee` function)".
+
+Rust isn't that flexible when it comes to function pointers. If you were to pass a function pointer to a function, the calling function needs to have a somewhat hard set on callback function specifications; your calling function needs to specify the arguments and the return type of the callee function. Let's discuss a use case where you may want to use a function pointer.
+
+Say you're creating a struct called `CommandInterface` that will contain two fields: (1) a command string, and (2) a function pointer pointing to the function to be executed with the specified command. Let's start by defining the outer skeleton of our interface `struct`:
+
+```rust
+struct CommandInterface {
+	str: String,
+	exec: fn() -> i8
+}
+```
+
+Here we're telling the compiler to expect our function pointer to have no arguments and return an 8-bit integer value. Let's now define a function according to these specifications:
+
+fn ls () -> i8 {
+	// TODO: Implement me
+	return 0;
+}
+
+> Our function needs not have a specific name. I'm only naming it after the command you're about to see below to maintain a convention.
+
+Let's now define our function, set the function pointer, and see how we could use the function pointer in calling our function.
+
+```rust
+let cmd = CommandInterface {
+	str: "ls".to_string(),
+	exec: ls // points to the ls function declared above
+};
+
+(cmd.exec)();
+```
+
+> The parenthesis (`()`) around `cmd.exec` are a syntax requirement. If you forget to add them, the compiler will throw an error at you.
+
+But what about functions with arguments? Say we want to pass some command arguments to our function, how would we do that? Well, this is pretty easy and it'll require very slight changes. You could replace:
+
+```rust
+exec: fn() -> i8
+```
+
+with:
+
+```rust
+exec: fn(arg1: String, arg2: String) -> i8
+```
+
+and:
+
+```rust
+fn ls (arg1: String, arg2: String) -> i8
+```
+
+with:
+
+```rust
+(cmd.exec)();
+```
+
+with something like this:
+
+```rust
+(cmd.exec)("-a".to_string(), "-l".to_string());
+```
+
+> In a practical world, it'd be better to pass a vector of arguments but I intentionally ignored vectors just to keep things looking more clean.
 
 ### Passing Functions/Closures to Functions/Closures
 To be added
@@ -596,7 +677,7 @@ To be added
 To be added
 
 ### Loops
-Loops are a very interesting subject in Rust. The langauge currently has three approaches to any kind of iterative activity. These three approaches use three separate keywords: `for`, `while`, and `loop`.
+Loops are a very interesting subject in Rust. The language currently has three approaches to any kind of iterative activity. These three approaches use three separate keywords: `for`, `while`, and `loop`.
 
 The `for` loop is used when you've already decided the number of times you'd like to iterate. For example, the following will loop 9 times and print the values `0` through `9`:
 
@@ -621,14 +702,14 @@ for i in &[10, 20, 30] {
 }
 ```
 
-This is equivelent to the following python code:
+This is equivalent to the following python code:
 
 ```python
 for i in [10, 20, 30]:
     print("%d" % i)
 ```
 
-`for` loops can also preform some sophisticated tasks. For instance, if you have the string `"hello\nworld\nmy\nname\nis\nFadi"` and you want it up split it up using the linefeeed (`\n`) delimiter, you can use the `lines()` function. This function returns an enumerator containing both the substring and the line number. So something like the following:
+`for` loops can also preform some sophisticated tasks. For instance, if you have the string `"hello\nworld\nmy\nname\nis\nFadi"` and you want it up split it up using the linefeed (`\n`) delimiter, you can use the `lines()` function. This function returns an enumerator containing both the substring and the line number. So something like the following:
 
 ```rust
 let my_str_tokens = "hello\nworld\nmy\nname\nis\nFadi".lines();
@@ -648,7 +729,7 @@ Results in this:
 5: Fadi
 ```
 
-The above example is equivilent to the following python code:
+The above example is equivalent to the following python code:
 
 ```python
 myStrTokens = "hello\nworld\nmy\nname\nis\nFadi".split("\n")
