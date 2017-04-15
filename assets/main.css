@@ -430,14 +430,15 @@ pre > code {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     border: 0;
     padding: 15px 25px;
+    tab-size: 4;
 }
 .highlight .c {
     color: #676e95;
     font-style: italic;
 }
 .highlight .err {
-    color: #a61717;
-    background-color: #e3d2d2;
+    color: #a2aace;
+    background-color: #292d3e;
 }
 .highlight .k {
     color: #F48FB1;
@@ -454,7 +455,7 @@ pre > code {
     font-weight: bold;
 }
 .highlight .c1 {
-    color: #998;
+    color: #626a8a;
     font-style: italic;
 }
 .highlight .cs {
