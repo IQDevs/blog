@@ -543,7 +543,7 @@ And you know for sure that your variable is stored as an 8-bit integer value.
 
 Read more about Primitive Types and Object Declaration [here](https://doc.rust-lang.org/book/primitive-types.html)
 
-###### Mutability
+#### Mutability
 By default, objects and variables in Rust are immutable (not modifiable after they've been declared). Something like the following won't work:
 
 ```rust
