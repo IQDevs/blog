@@ -8,7 +8,7 @@ author: alexcorvi
 
 I was introduced to TypeScript when it first came with angular 2. However, I tried to avoid it as much as possible. This was actually the main reason of why I left angular in favor of Vue. "A new quirky front-end language is the last thing I would need," I thought.
 
-That was true until I was deep into my [NLP](https://github.com/finnlp/) project in late 2016. The code base was relatively large, so many modules and functions. A friend of mine, recommended TypeScript, and I tried it. I've been working with it for the last 4 months, and here's my thoughts.
+That was true until I was deep into my [NLP](https://github.com/finnlp/) project in late 2016. The code base was relatively large, so many modules and functions. A friend of mine, recommended TypeScript, and I tried it. I've been working with it for the last 4 months, and here are my thoughts.
 
 
 ## Type checking is more important than what you think
@@ -38,6 +38,8 @@ The TL:DR; answer is:
 
 As for time and energy, developers usually spend more time reading code than writing it. TypeScript is clean and well-designed (a Microsoft product by Anders Hejlsberg the author of C#, Turbo Pascal and Delphi). So while you're going to spend a little bit extra time writing code, but with better tooling you'll be reading less. Especially when working in a team.
 
+As you import the module, you'll have inline documentation, code completion and you can jump to definition. Those are limited, or sometimes, not even possible with a dynamic language such as JavaScript.
+
 ### Reduced bugs and compile time errors
 
 Take the previous example for instance:
@@ -56,7 +58,7 @@ A wise man once said:
 
 And I can't emphasize enough how true this statement is.
 
-You might argue that "no one would pass a string to a function called `add`, that's too obvious". I agree, however, imagine for a second a larger code base, many functions, classes, abstractions, on multiple modules. Things can get out of hands in JavaScript pretty quickly.
+You might argue that "no one would pass a string to a function called `add`, that's too obvious". I agree, however, think of a larger code base, many functions, classes, abstractions, on multiple modules. Things can get out of hands in JavaScript pretty quickly.
 
 Have a look at this code for instance:
 
@@ -66,22 +68,17 @@ function getAuthorLines(text) {
 	return text.match(/^author: (.*)$/gmi);
 }
 
-function getAuthorNames(line) {
+function getAuthorNames(lines) {
 	return lines.map((line)=>line.substr(8))
 }
 
-let text = `
-Paper title: TypeScript for the Win
-Author: Alex Corvi
-Author: John Doe
-Author: Jane Doe
-`;
+let text = "Paper title: TypeScript for the Win\nAuthor: Alex Corvi\nAuthor: John Doe\nAuthor: Jane Doe\n";
 
 console.log(getAuthorNames(getAuthorLines(text)));
 
 ```
 
-What do you expect the result? You guessed it, it's:
+What do you expect the result to be? You guessed it, it's:
 
 ```javascript
 [
@@ -277,11 +274,11 @@ And while you're at it, you'll notice 2 things:
 - TypeScript compiler is really fast!
 - You can compile your ES6/ES7 code all the way down to ES3. No Babel required.
 
-> You won't have to use Babel, buble anymore. TypeScript bridges the gap between the recent versions of JavaScript and what's available on every modern browser, by compiling your code down to even ES3. However, you still have the option to compile to any ES version you like.
+> You won't have to use Babel/buble anymore. TypeScript bridges the gap between the recent versions of JavaScript and what's available on every modern browser, by compiling your code down to even ES3. However, you still have the option to compile to any ES version you like.
 
 ## Type inference
 
-One of the killer features of TypeScript, is a really good type inference. Meaning that sometimes you don't even have to declare the type of the variable.
+One of the killer features of TypeScript, is a really good type inference. Meaning that sometimes you won't even have to declare some of the types.
 
 For example:
 
@@ -331,7 +328,7 @@ string | Array<string|number> | {a: number;}
 
 ## Node and TypeScript
 
-Node.JS support was a priority when developing TypeScript. Your TypeScript code can be distributed as a node module, consumed in JavaScript just like any JavaScript module, and consumed in TypeScript with type definitions included, all while writing only once.
+Node.JS support was a priority when developing TypeScript. Your TypeScript code can be distributed as a node module, consumed in JavaScript just like any JavaScript module, and consumed in TypeScript with type declarations included, all while writing only once.
 
 ### Authoring and distributing TypeScript Node Modules
 
@@ -392,7 +389,7 @@ Just like you're going to rename your `.js` files to `.ts`, your `.jsx` files sh
 
 ## Closing statement
 
-I've been developing with JavaScript for at least 5 years. However, After trying TypeScript for mere 4 months, working with JavaScript feels like walking on thin ice, you may make it for 10 meters or so, but you shouldn't go any longer.
+I've been developing with JavaScript for at least 5 years. However, After trying TypeScript for merly 4 months, working with JavaScript feels like walking on thin ice, you may make it for 10 meters or so, but you shouldn't go any longer.
 
 I can now understand why there are so many well-educated developers disliking the dynamic nature of JavaScript.
 
