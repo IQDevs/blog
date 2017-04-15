@@ -520,7 +520,7 @@ From this point on, I will be using expressions whenever possible.
 ### Our Journey into the Specifics
 We're now going to dive into the basics of Rust.
 
-### Variable/Object Declaration
+#### Variable/Object Declaration
 We've been declaring objects and variables all over the place already, but perhaps there's more to them than what's been covered already. If you want to declare an integer `x` and assign the value `2` to it, you could do so as follows:
 
 ```rust
@@ -543,7 +543,7 @@ And you know for sure that your variable is stored as an 8-bit integer value.
 
 Read more about Primitive Types and Object Declaration [here](https://doc.rust-lang.org/book/primitive-types.html)
 
-#### Mutability
+###### Mutability
 By default, objects and variables in Rust are immutable (not modifiable after they've been declared). Something like the following won't work:
 
 ```rust
@@ -563,7 +563,7 @@ And now the following will work like a charm!
 x = 3;
 ```
 
-### Type Aliases
+#### Type Aliases
 Rust has a keyword called `type` used to declare aliases of other types.
 Say you want to use `i32` across a whole `class`, `module` or even across your whole application, and for clarity's sake you'd rather use `Int` instead of `i32` to reference 32-bit integers. You could define your `Int` type as follows:
 
@@ -580,7 +580,7 @@ let var2: Int = 20;
 
 And so on.
 
-### Functions
+#### Functions
 Function declaration are pretty intuitive and straightforward. Say you want to write a `greeting` function that prints out the test `"hello there!"` over `stdio`. You'd write your function as follows:
 
 ```rust
@@ -617,7 +617,7 @@ fn add (a: i32, b: i32) -> i32 {
 
 Remember that we're using an `expression` in the code snippet above. If you wanted to replace it with a statement `return a + b;` will do.
 
-### Closures
+#### Closures
 The easiest definition of a `closure` I can give is that a `closure` is a function with untyped arguments. If you were to write a function that multiplies two numbers together and return the product, you'd do so as follows:
 
 ```rust
@@ -638,7 +638,7 @@ And then you can call it the exact same way you'd call a function, i.e.:
 println!("{}", mul(10, 20));
 ```
 
-If you, for whatever reason, want to strongly-type your closure arguments, you can do so by defining their types the same way you'd define function argeuments, e.g.:
+If you, for whatever reason, want to strongly-type your closure arguments, you can do so by defining their types the same way you'd define function arguments, e.g.:
 
 ```rust
 let mul = |a: i32, b: i32| a * b;
@@ -654,7 +654,7 @@ But that'll require you to wrap your closure content within two curly brackets (
 
 You can read more about most of the cool stuff you can do with `closure`s [here](https://doc.rust-lang.org/book/closures.html).
 
-### Function Pointers
+#### Function Pointers
 If you're coming from a solid background in languages like C and C++, chances are you've worked with function pointers a lot. You've probably even worked with function pointers in languages like JavaScript and Python without ever coming across the name.
 At their core, a function pointer is a variable holding access to a specific memory location representing the beginning of function. In JavaScript, if you were to have the following:
 
@@ -740,16 +740,16 @@ with something like this:
 
 > In a practical world, it'd be better to pass a vector of arguments but I intentionally ignored vectors just to keep things looking more clean.
 
-### Passing Functions/Closures to Functions/Closures
+#### Passing Functions/Closures to Functions/Closures
 To be added
 
-### Conditionals
+#### Conditionals
 To be added
 
-### Pattern Matching (aka pseudo-Switch-Case Statements)
+#### Pattern Matching (aka pseudo-Switch-Case Statements)
 To be added
 
-### Loops
+#### Loops
 Loops are a very interesting subject in Rust. The language currently has three approaches to any kind of iterative activity. These three approaches use three separate keywords: `for`, `while`, and `loop`.
 
 The `for` loop is used when you've already decided the number of times you'd like to iterate. For example, the following will loop 9 times and print the values `0` through `9`:
@@ -813,10 +813,10 @@ for i in range(0, len(myStrTokens)):
 The `while` loop is used when you're not sure how many times you need to loop.
 TO BE ADDED
 
-### Object Wrapping/Unwrapping
+#### Object Wrapping/Unwrapping
 To be added
 
-### Macros!
+#### Macros!
 To be added
 
 #### Generics
