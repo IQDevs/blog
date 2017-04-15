@@ -524,19 +524,19 @@ We're now going to dive into the basics of Rust.
 We've been declaring objects and variables all over the place already, but perhaps there's more to them than what's been covered already. If you want to declare an integer `x` and assign the value `2` to it, you could do so as follows:
 
 ```rust
-var x = 2;
+let x = 2;
 ```
 
 But if you were to write an operating system, a kernel module, and/or an application that runs on an embedded system, the size of your object really matters, and chances are you'll need to control these sizes. Unless you dive into the specifics of the design of the compiler of Rust, you really have no idea how many bits are used to store your variable. There must be a better way to carry this out, and here's how. Rust allows you to specify the type of your object with a slight edit to your statement. Instead of writing your variable declaration like this:
 
 ```rust
-var x = 2;
+let x = 2;
 ```
 
 You could write it like this:
 
 ```rust
-var x: i8 = 2;
+let x: i8 = 2;
 ```
 
 And you know for sure that your variable is stored as an 8-bit integer value.
@@ -545,14 +545,14 @@ And you know for sure that your variable is stored as an 8-bit integer value.
 By default, objects and variables in Rust are immutable (not modifiable after they've been declared). Something like the following won't work:
 
 ```rust
-var x: i8 = 2;
+let x: i8 = 2;
 x = 3;
 ```
 
 To be able to change the value of `x`, we need to tell the compiler to mark our variable as mutable (able to change value after it's been declared). This introduces a slight change to our declaration that's pretty intuitive; you simply add the keyword `mut` on the left side of your object declaration statement like this:
 
 ```rust
-var mut x: i8 = 2;
+let mut x: i8 = 2;
 ```
 
 And now the following will work like a charm!
