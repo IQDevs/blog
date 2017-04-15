@@ -437,8 +437,8 @@ pre > code {
     font-style: italic;
 }
 .highlight .err {
-    color: #a61717;
-    background-color: #e3d2d2;
+    color: #a2aace;
+    background-color: #292d3e;
 }
 .highlight .k {
     color: #F48FB1;
@@ -455,7 +455,7 @@ pre > code {
     font-weight: bold;
 }
 .highlight .c1 {
-    color: #998;
+    color: #626a8a;
     font-style: italic;
 }
 .highlight .cs {
