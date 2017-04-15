@@ -447,10 +447,10 @@ impl Debug for Vector {
 }
 
 fn main () {
-    let v1 = Vector::new(1, 2);
-   let v2 = Vector::new(5, 7);
-   let v3 = v1 + v2;
-   println!("{:?}", v3);
+  let v1 = Vector::new(1, 2);
+  let v2 = Vector::new(5, 7);
+  let v3 = v1 + v2;
+  println!("{:?}", v3);
 }
 ```
 
@@ -541,6 +541,8 @@ let x: i8 = 2;
 
 And you know for sure that your variable is stored as an 8-bit integer value.
 
+Read more about Primitive Types and Object Declaration [here](https://doc.rust-lang.org/book/primitive-types.html)
+
 #### Mutability
 By default, objects and variables in Rust are immutable (not modifiable after they've been declared). Something like the following won't work:
 
@@ -616,7 +618,41 @@ fn add (a: i32, b: i32) -> i32 {
 Remember that we're using an `expression` in the code snippet above. If you wanted to replace it with a statement `return a + b;` will do.
 
 ### Closures
-To be added
+The easiest definition of a `closure` I can give is that a `closure` is a function with untyped arguments. If you were to write a function that multiplies two numbers together and return the product, you'd do so as follows:
+
+```rust
+fn mul (a: i32, b: i32) -> i32 {
+	a * b
+}
+```
+
+This function can be written as a closure as follows:
+
+```rust
+let mul = |a, b| a * b;
+```
+
+And then you can call it the exact same way you'd call a function, i.e.:
+
+```
+println!("{}", mul(10, 20));
+```
+
+If you, for whatever reason, want to strongly-type your closure arguments, you can do so by defining their types the same way you'd define function argeuments, e.g.:
+
+```rust
+let mul = |a: i32, b: i32| a * b;
+```
+
+And you can even strongly-type your closure return type as follows:
+
+```rust
+let mul = |a: i32, b: i32| -> i32 {a * b};
+```
+
+But that'll require you to wrap your closure content within two curly brackets (`{` and `}`)
+
+You can read more about most of the cool stuff you can do with `closure`s [here](https://doc.rust-lang.org/book/closures.html).
 
 ### Function Pointers
 If you're coming from a solid background in languages like C and C++, chances are you've worked with function pointers a lot. You've probably even worked with function pointers in languages like JavaScript and Python without ever coming across the name.
