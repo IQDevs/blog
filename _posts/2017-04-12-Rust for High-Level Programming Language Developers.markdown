@@ -615,10 +615,12 @@ struct CommandInterface {
 
 Here we're telling the compiler to expect our function pointer to have no arguments and return an 8-bit integer value. Let's now define a function according to these specifications:
 
+```rust
 fn ls () -> i8 {
 	// TODO: Implement me
 	return 0;
 }
+```
 
 > Our function needs not have a specific name. I'm only naming it after the command you're about to see below to maintain a convention.
 
