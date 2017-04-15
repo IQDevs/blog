@@ -581,7 +581,7 @@ let var2: Int = 20;
 And so on.
 
 #### Functions
-Function declaration are pretty intuitive and straightforward. Say you want to write a `greeting` function that prints out the test `"hello there!"` over `stdio`. You'd write your function as follows:
+Function declarations are pretty intuitive and straightforward. Say you want to write a `greeting` function that prints out the test `"hello there!"` over `stdio`. You'd write your function as follows:
 
 ```rust
 fn greeting () {
