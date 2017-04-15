@@ -740,11 +740,60 @@ with something like this:
 
 > In a practical world, it'd be better to pass a vector of arguments but I intentionally ignored vectors just to keep things looking more clean.
 
+### Reference and Borrowing
+To be added
+
+### Lifetime
+
 #### Passing Functions/Closures to Functions/Closures
 To be added
 
 #### Conditionals
-To be added
+When it comes to code path redirection, rust has the three keywords you'll likely find in most programming languages out there: `if`, `else`, and `else if`. If you've worked with languages like `C`, `C++`, `C#`, `Java`, and `JavaScript`, then you already know how to work with conditional expressions in Rust. Here's the trick: conditional expressions in Rust are done exactly the way they're done in the languages I just mentioned, except without the wrapping parenthesis, e.g.:
+
+The following JavaScript code:
+
+```js
+if (x == 0 || x == 2) {
+	// TODO: Implement me
+}
+else if (x == 1) {
+	// TODO: Implement me
+}
+else {
+	// TODO: Implement me
+}
+```
+
+is written in Rust as follows:
+
+```rust
+if x == 0 || x == 2 {
+	// TODO: Implement me
+}
+else if x == 1 {
+	// TODO: Implement me
+}
+else {
+	// TODO: Implement me
+}
+```
+
+And that's really all there is to it when it comes to code path redirection.
+
+You might, however, be used to using the `?` operator for quick things like "if `x` is even do this and if `x` is odd do that", e.g.:
+
+```js
+// The following JavaScript statement sets `res` to 'even' if `x` is an even value, and 'odd' if `x` is an odd value
+
+var res = x % 2 == 0 ? 'even' : 'odd';
+```
+
+In Rust, the same can be written as follows:
+
+```rust
+let res = if x % 2 == 0 {"even"} else {"odd"};
+```
 
 #### Pattern Matching (aka pseudo-Switch-Case Statements)
 To be added
@@ -821,3 +870,6 @@ To be added
 
 #### Generics
 To be added
+
+#### Efficiency
+##### Stack vs. Heap
