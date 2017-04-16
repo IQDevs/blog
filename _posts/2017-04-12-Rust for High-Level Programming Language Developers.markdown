@@ -198,7 +198,7 @@ Our output is looking pretty verbose already, and you may not like that. Is ther
 Up until now, we've only been working with `struct`s and `enum`s. You've probably already noticed that we used them to store data, but no logic (constructors, function, destructors, etc) was added to them. That's because that's not where the functions go. before I further explain this, let's look at a tiny Python class and discuss how its alternative can be written in Rust.
 Say you have a `Person` `class` with a constructor that takes a `first_name` and a `last_name` and provides two separate getter functions that give you these two string values whenever you need them. You'd write your class something as follows:
 
-```Python
+```python
 class Person:
   def __init__(self, firstName, lastName):
     self.firstName = firstName
@@ -309,7 +309,7 @@ I ran out of scope. I'm about to be destroyed
 Let's look at another example.
 If you've ever done any scientific computation in Python, chances are you've overloaded some of the arithmetic operations (`+`, `-`, `*`, `/`, `%`, etc). A vector class with `+` overloaded would look something like the following:
 
-```Python
+```python
 class Vector:
   def __init__(self, a, b):
     self.a = a
@@ -322,7 +322,7 @@ class Vector:
 
 And if you were to add two `Vector` objects, you'd so something like the following:
 
-```Python
+```python
 v1 = Vector(1, 2)
 v2 = Vector(5, 7)
 v3 = v1 + v2
@@ -330,13 +330,13 @@ v3 = v1 + v2
 
 And print the result as follows:
 
-```Python
+```python
 print(v3)
 ```
 
 This will print the following:
 
-```Python
+```python
 Vector(6, 9)
 ```
 
@@ -856,7 +856,7 @@ for i in 0..10 {
 
 This interprets to the following Python code:
 
-```Python
+```python
 for i in range(0, 10):
     print("%d" % i)
 ```
@@ -871,7 +871,7 @@ for i in &[10, 20, 30] {
 
 This is equivalent to the following Python code:
 
-```Python
+```python
 for i in [10, 20, 30]:
     print("%d" % i)
 ```
@@ -898,7 +898,7 @@ Results in this:
 
 The above example is equivalent to the following Python code:
 
-```Python
+```python
 myStrTokens = "hello\nworld\nmy\nname\nis\nFadi".split("\n")
 for i in range(0, len(myStrTokens)):
     print("%d: %s" % (i, myStrTokens[i]))
