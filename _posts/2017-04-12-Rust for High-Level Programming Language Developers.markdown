@@ -198,7 +198,7 @@ Our output is looking pretty verbose already, and you may not like that. Is ther
 Up until now, we've only been working with `struct`s and `enum`s. You've probably already noticed that we used them to store data, but no logic (constructors, function, destructors, etc) was added to them. That's because that's not where the functions go. before I further explain this, let's look at a tiny Python class and discuss how its alternative can be written in Rust.
 Say you have a `Person` `class` with a constructor that takes a `first_name` and a `last_name` and provides two separate getter functions that give you these two string values whenever you need them. You'd write your class something as follows:
 
-```python
+```Python
 class Person:
   def __init__(self, firstName, lastName):
     self.firstName = firstName
@@ -309,7 +309,7 @@ I ran out of scope. I'm about to be destroyed
 Let's look at another example.
 If you've ever done any scientific computation in Python, chances are you've overloaded some of the arithmetic operations (`+`, `-`, `*`, `/`, `%`, etc). A vector class with `+` overloaded would look something like the following:
 
-```python
+```Python
 class Vector:
   def __init__(self, a, b):
     self.a = a
@@ -322,7 +322,7 @@ class Vector:
 
 And if you were to add two `Vector` objects, you'd so something like the following:
 
-```python
+```Python
 v1 = Vector(1, 2)
 v2 = Vector(5, 7)
 v3 = v1 + v2
@@ -330,13 +330,13 @@ v3 = v1 + v2
 
 And print the result as follows:
 
-```python
+```Python
 print(v3)
 ```
 
 This will print the following:
 
-```python
+```Python
 Vector(6, 9)
 ```
 
@@ -541,7 +541,7 @@ let x: i8 = 2;
 
 And you know for sure that your variable is stored as an 8-bit integer.
 
-Read more about Primitive Types and Object Declaration [here](https://doc.rust-lang.org/book/primitive-types.html)
+Read more about Primitive Types and Object Declaration [here](https://doc.Rust-lang.org/book/primitive-types.html)
 
 #### Mutability
 By default, objects and variables in Rust are immutable (not modifiable after they've been declared). Something like the following won't work:
@@ -613,7 +613,7 @@ fn add (a: i32, b: i32) -> i32 {
 }
 ```
 
-> i32 is a 32-bit integer type in Rust. You can read more about Rust's support for numeric types [here](https://doc.rust-lang.org/book/primitive-types.html#numeric-types)
+> i32 is a 32-bit integer type in Rust. You can read more about Rust's support for numeric types [here](https://doc.Rust-lang.org/book/primitive-types.html#numeric-types)
 
 Remember that we're using an `expression` in the code snippet above. If you wanted to replace it with a statement `return a + b;` will do.
 
@@ -652,7 +652,7 @@ let mul = |a: i32, b: i32| -> i32 {a * b};
 
 But that'll require you to wrap your closure content within two curly brackets (`{` and `}`)
 
-You can read more about most of the cool stuff you can do with `closure`s [here](https://doc.rust-lang.org/book/closures.html).
+You can read more about most of the cool stuff you can do with `closure`s [here](https://doc.Rust-lang.org/book/closures.html).
 
 #### Function Pointers
 If you're coming from a solid background in languages like C and C++, chances are you've worked with function pointers a lot. You've probably even worked with function pointers in languages like JavaScript and Python without ever coming across the name.
@@ -738,18 +738,10 @@ with something like this:
 (cmd.exec)("-a".to_string(), "-l".to_string());
 ```
 
-> In a practical world, it'd be better to pass a vector of arguments but I intentionally ignored vectors just to keep things looking more clean.
-
-### Reference and Borrowing
-To be added
-
-### Lifetime
-
-#### Passing Functions/Closures to Functions/Closures
-To be added
+> In a practical world, it'd be better to pass a vector of arguments but I intentionally ignored vectors just to keep things clean.
 
 #### Conditionals
-When it comes to code path redirection, rust has the three keywords you'll likely find in most programming languages out there: `if`, `else`, and `else if`. If you've worked with languages like `C`, `C++`, `C#`, `Java`, and `JavaScript`, then you already know how to work with conditional expressions in Rust. Here's the trick: conditional expressions in Rust are done exactly the way they're done in the languages I just mentioned, except without the wrapping parenthesis, e.g.:
+When it comes to code path redirection, Rust has the three keywords you'll likely find in most programming languages out there: `if`, `else`, and `else if`. If you've worked with languages like `C`, `C++`, `C#`, `Java`, and `JavaScript`, then you already know how to work with conditional expressions in Rust. Here's the trick: conditional expressions in Rust are done exactly the way they're done in the languages I just mentioned, except without the wrapping parenthesis, e.g.:
 
 The following JavaScript code:
 
@@ -796,7 +788,60 @@ let res = if x % 2 == 0 {"even"} else {"odd"};
 ```
 
 #### Matching (aka pseudo-Switch-Case Statements)
-To be added
+Matching is your typical `switch` case code block plus the ability to return something. If you were to compare integer `x` against a number of different values, using classical `if - else -- else if` gets pretty tedious really quickly, so developers tend to resort to `switch` case statements. Referring back to our `x` example, the following JavaScript compares `x` against 5 different values (cases):
+
+```js
+switch (x) {
+  case 1:
+    console.log('x is 1');
+    break;
+  case 2:
+    console.log('x is 2');
+    break;
+  case 3:
+    console.log('x is 3');
+    break;
+  case 4:
+    console.log('x is 4');
+    break;
+  default:
+    console.log('x is something else');
+    break;
+}
+```
+
+The snipper above can be written in Rust as follows:
+
+```rust
+match x {
+    1 => println!("x is 1"),
+    2 => println!("x is 2"),
+    3 => println!("x is 3"),
+    4 => println!("x is 4"),
+    5 => println!("x is 5"),
+    _ => println!("x is something else")
+  };
+```
+
+> _ is how you handle `default` cases
+
+But things don't end here; there's more to `match` statements. Like I mentioned above, you can actually return a value or an object from a `match` statement. Let's do some refactoring to our code snippet above and make it return the actual string instead of printing it to screen:
+
+```rust
+let res = match x {
+    1 => "x is 1",
+    2 => "x is 2",
+    3 => "x is 3",
+    4 => "x is 4",
+    5 => "x is 5",
+    _ => "x is something else"
+  };
+  println!("{}", res);
+```
+
+That will print the exact same thing except it handed you back the string instead of printing it, and you printed it.
+
+`match` can work with sophisticated objects and patterns. Read more about it [here](https://doc.rust-lang.org/book/match.html).
 
 #### Loops
 Loops are a very interesting subject in Rust. The language currently has three approaches to any kind of iterative activity. These three approaches use three separate keywords: `for`, `while`, and `loop`.
@@ -811,7 +856,7 @@ for i in 0..10 {
 
 This interprets to the following Python code:
 
-```python
+```Python
 for i in range(0, 10):
     print("%d" % i)
 ```
@@ -824,9 +869,9 @@ for i in &[10, 20, 30] {
 }
 ```
 
-This is equivalent to the following python code:
+This is equivalent to the following Python code:
 
-```python
+```Python
 for i in [10, 20, 30]:
     print("%d" % i)
 ```
@@ -851,22 +896,74 @@ Results in this:
 5: Fadi
 ```
 
-The above example is equivalent to the following python code:
+The above example is equivalent to the following Python code:
 
-```python
+```Python
 myStrTokens = "hello\nworld\nmy\nname\nis\nFadi".split("\n")
 for i in range(0, len(myStrTokens)):
     print("%d: %s" % (i, myStrTokens[i]))
 ```
 
-The `while` loop is used when you're not sure how many times you need to loop.
-TO BE ADDED
+The `while` loop is used when you're not sure how many times you need to loop. It works the exact same way a `while` loop works in languages like C, C++, C#, Java, JavaScript, and Python. Here's a JavaScript example:
 
-#### Object Wrapping/Unwrapping
-To be added
+```js
+bool status = true;
+while (status) {
+  // add some case that can set `status` to false
+}
+```
 
-#### Macros!
-To be added
+The snippet above can be translated into Rust and look like the following:
 
-#### Generics
-To be added
+```rust
+let status: bool = true;
+while status {
+  // add some case that can set `status` to false
+}
+```
+
+The `loop` loop is used when you want to run your loop indefinitely until a terminating statement is reached. An example of when this would come in handy is when you have a web server with request handlers each assigned a thread. In a case like this you wouldn't want to have this:
+
+```rust
+let status: bool = true;
+
+while true {
+  // add some case that can set `status` to false
+}
+```
+
+When you could actually have this:
+
+```rust
+loop {
+  // add some case that can break out of the loop
+}
+```
+
+> "Rust’s control-flow analysis treats this construct differently than a while true, since we know that it will always loop. In general, the more information we can give to the compiler, the better it can do with safety and code generation, so you should always prefer loop when you plan to loop infinitely" - Quoted from https://doc.rust-lang.org/book/loops.html
+
+Here's one more thing you'd probably like about loops in Rust. Loops can have labels. Labels are extremely useful when working with nested loops. Here's a JavaScript example:
+
+```rust
+var status1 = true;
+var status2 = true;
+
+while (status1) {
+  while (status2) {
+    status1 = false;
+    status2 = false;
+  }
+}
+```
+
+The snippet above can be written with labels as follows:
+
+```rust
+'outer_loop: loop {
+  'inner_loop: loop {
+    break 'outer_loop;
+  }
+}
+```
+
+Read more about loops [here](https://doc.rust-lang.org/book/loops.html).
