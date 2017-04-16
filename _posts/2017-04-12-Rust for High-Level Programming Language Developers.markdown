@@ -593,7 +593,7 @@ What if you want to pass the string to the function instead of hard-coding a spe
 
 ```rust
 fn greeting (message: String) {
-    // TODO: Implement
+    // TODO: Implement me
 }
 ```
 
@@ -601,7 +601,7 @@ Multiple function arguments? Sure! Here's how:
 
 ```rust
 fn greeting (name: String, message: String) {
-    // TODO: Implement
+    // TODO: Implement me
 }
 ```
 
@@ -795,7 +795,7 @@ In Rust, the same can be written as follows:
 let res = if x % 2 == 0 {"even"} else {"odd"};
 ```
 
-#### Pattern Matching (aka pseudo-Switch-Case Statements)
+#### Matching (aka pseudo-Switch-Case Statements)
 To be added
 
 #### Loops
@@ -870,6 +870,3 @@ To be added
 
 #### Generics
 To be added
-
-#### Efficiency
-##### Stack vs. Heap
