@@ -510,7 +510,7 @@ fn sum (a: i32, b: i32) -> i32 {
 or you could have the shorthand notation of the function by using an expression instead of a statement:
 
 ```rust
-fn sum (a: i32, b: i32) -> {
+fn sum (a: i32, b: i32) -> i32 {
   a + b
 }
 ```
@@ -539,7 +539,7 @@ You could write it like this:
 let x: i8 = 2;
 ```
 
-And you know for sure that your variable is stored as an 8-bit integer value.
+And you know for sure that your variable is stored as an 8-bit integer.
 
 Read more about Primitive Types and Object Declaration [here](https://doc.rust-lang.org/book/primitive-types.html)
 
@@ -684,7 +684,7 @@ struct CommandInterface {
 }
 ```
 
-Here we're telling the compiler to expect our function pointer to have no arguments and return an 8-bit integer value. Let's now define a function according to these specifications:
+Here we're telling the compiler to expect our function pointer to have no arguments and return an 8-bit integer. Let's now define a function according to these specifications:
 
 ```rust
 fn ls () -> i8 {
