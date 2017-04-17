@@ -656,7 +656,7 @@ You can read more about most of the cool stuff you can do with `closure`s [here]
 
 #### Function Pointers
 If you're coming from a solid background in languages like C and C++, chances are you've worked with function pointers a lot. You've probably even worked with function pointers in languages like JavaScript and Python without ever coming across the name.
-At their core, a function pointer is a variable holding access to a specific memory location representing the beginning of function. In JavaScript, if you were to have the following:
+At its core, a function pointer is a variable holding access to a specific memory location representing the beginning of function. In JavaScript, if you were to have the following:
 
 ```js
 function callee () {
@@ -671,9 +671,9 @@ function caller (callback) {
 caller(callback);
 ```
 
-It can be said that "`caller` if a function that takes an argument of type function pointer (which in this case is our `callee` function)".
+It can be said that "`caller` is a function that takes an argument of type function pointer (which in this case is our `callee` function)".
 
-Rust isn't that flexible when it comes to function pointers. If you were to pass a function pointer to a function, the calling function needs to have a somewhat hard set on callback function specifications; your calling function needs to specify the arguments and the return type of the callee function. Let's discuss a use case where you may want to use a function pointer.
+Rust isn't that flexible when it comes to function pointers though. If you were to pass a function pointer to a function, the calling function needs to have a somewhat hard set on callback function specifications; your calling function needs to specify the arguments and the return type of the callee function. Let's discuss a use case where you may want to use a function pointer.
 
 Say you're creating a struct called `CommandInterface` that will contain two fields: (1) a command string, and (2) a function pointer pointing to the function to be executed with the specified command. Let's start by defining the outer skeleton of our interface `struct`:
 
