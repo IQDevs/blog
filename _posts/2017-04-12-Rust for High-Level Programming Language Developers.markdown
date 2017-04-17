@@ -968,4 +968,4 @@ The snippet above can be written with labels as follows:
 
 Read more about loops [here](https://doc.rust-lang.org/book/loops.html).
 
-I think I've covered enough in this post and will stop right here.
+I think I've covered enough in this post and will stop right here. More stuff is coming in upcoming posts though, so stay tuned.
