@@ -454,7 +454,7 @@ fn main () {
 }
 ```
 
-Oh, and you know how I said `"{}"` is used to communicate output to the user while `"{:?}"` is usually used for debugging purposes? Well, it turns out you can overload the `Display` trail (available under `std::fmt` as well) to print your object using `{}` instead of `"{:?}"`.
+Oh, and you know how I said `{}` is used to communicate output to the user while `{:?}` is usually used for debugging purposes? Well, it turns out you can overload the `Display` trail (available under `std::fmt` as well) to print your object using `{}` instead of `{:?}`.
 
 So, simply replace:
 
