@@ -6,7 +6,7 @@ categories: Rust
 author: alkass
 ---
 
-So you've been doing high-level programming all your life, and you've been eyeing Rust for some time now, and you're not sure where to start (or how to start). Well, this walk-through-like post will guide you through some of the common tasks you preform in high-level languages like JavaScript, Python, or even C#. I'll try to stay away from C++ for reasons I won't get to discuss here. Just know that this is a C++-free post.
+So you've been doing high-level programming all your life, and you've been eyeing Rust for some time now, and you're not sure where to start (or how to start). Well, this walk-through-like post will guide you through some of the common tasks you preform in high-level languages like JavaScript, Python, or even C#.
 
 ### So, JSON in Rust?
 #### The short answer is 'no built-in support for JSON but...'
