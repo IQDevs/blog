@@ -137,7 +137,7 @@ FullName { first_name: "Fadi", last_name: "Hanna Al-Kass" }
 
 Cool, isn't it? Well, it gets even cooler in a bit.
 
-But hang on a second, why did I have to replace `"{}"` with `"{:?}"` in my `println` statement? Or an even more proper question to ask is: what is the difference between the two?
+But hang on a second, why did I have to replace `{}` with `{:?}` in my `println` statement? Or an even more proper question to ask is: what is the difference between the two?
 Well, so Rust has two ways of printing out stuff (or maybe more than two that I still haven't discovered yet!): a (1) `Display` and a `Debug`. `Display` is what you'd probably want to use to allow the program to communicate some meaningful output to your user, and `Debug` is what you could use during the development process. Each one of these two is a separate `trait` that can co-exist without overlapping each other. By that I mean, you can allow your object to print something with `{}` and something entirely different with `{:?}`, but that's to be covered when we get down to writing our own `trait`s.
 
 So is it possible to use `#[derive(Debug)]` to print out nested objects? Yes, it is, and following is how. Simply add `#[derive(Debug)]` right on top of your main object and every object that's part of it and then print the object as a whole by passing it to a  `println` function using the `{:?}` notation, i.e.:
