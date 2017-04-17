@@ -43,7 +43,7 @@ fn main () {
 
 You've probably already noticed two differences between the two code snippets:
 
-1. We had to define a skeleton for our pseudo-JSON object
+1. We had to define a skeleton for our pseudo-JSON object.
 2. We used lowerCamelCase with JavaScript and snake_case with our Rust code snippet. This is really nothing more than a naming convention that the Rust compiler will throw a bunch of warnings at you if you don't follow, but it shouldn't have an effect on the execution of your program if you so choose not to follow.
 
 Now back to the first (and perhaps, more obvious) difference. Rust is a very (and I mean very) strongly typed programming language. That said, it needs to own as much information about your object types during the compilation process as possible. Of course, `struct`s are no exception, and you can really consider two ways (or more, depending on how imaginational you are) of looking at this: it is either (1) `limiting` or (2) `validating`. I wouldn't be putting this post together had I considered strong-typing limiting.
@@ -613,7 +613,7 @@ fn add (a: i32, b: i32) -> i32 {
 }
 ```
 
-> i32 is a 32-bit integer type in Rust. You can read more about Rust's support for numeric types [here](https://doc.Rust-lang.org/book/primitive-types.html#numeric-types)
+> i32 is a 32-bit integer type in Rust. You can read more about Rust's support for numeric types [here](https://doc.Rust-lang.org/book/primitive-types.html#numeric-types).
 
 Remember that we're using an `expression` in the code snippet above. If you wanted to replace it with a statement `return a + b;` will do.
 
@@ -650,7 +650,7 @@ And you can even strongly-type your closure return type as follows:
 let mul = |a: i32, b: i32| -> i32 {a * b};
 ```
 
-But that'll require you to wrap your closure content within two curly brackets (`{` and `}`)
+But that'll require you to wrap your closure content within two curly brackets (`{` and `}`).
 
 You can read more about most of the cool stuff you can do with `closure`s [here](https://doc.Rust-lang.org/book/closures.html).
 
