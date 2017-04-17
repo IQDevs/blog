@@ -656,7 +656,7 @@ You can read more about most of the cool stuff you can do with `closure`s [here]
 
 #### Function Pointers
 If you're coming from a solid background in languages like C and C++, chances are you've worked with function pointers a lot. You've probably even worked with function pointers in languages like JavaScript and Python without ever coming across the name.
-At its core, a function pointer is a variable holding access to a specific memory location representing the beginning of function. In JavaScript, if you were to have the following:
+At its core, a function pointer is a variable holding access to a specific memory location representing the beginning of the function. In JavaScript, if you were to have the following:
 
 ```js
 function callee () {
