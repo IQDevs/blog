@@ -48,7 +48,7 @@ You've probably already noticed two differences between the two code snippets:
 
 Now back to the first (and perhaps, more obvious) difference. Rust is a very (and I mean very) strongly typed programming language. That said, it needs to own as much information about your object types during the compilation process as possible. Of course, `struct`s are no exception, and you can really consider two ways (or more, depending on how imaginational you are) of looking at this: it is either (1) `limiting` or (2) `validating`. I wouldn't be putting this post together had I considered strong-typing limiting.
 
-> You can always replace a strongly typed pseudo-JSON object with a `HashMap` to get around the static typing issue, but I'd advice against that, and I believe I can convince you to stick to the `struct` approach. You may, at this point, still don't think so, but wait until we get to these magical little thingies called `traits` and then we'll see ;-)
+> You can always replace a strongly typed pseudo-JSON object with a `HashMap` to get around the static typing issue, but I'd advice against that, and I believe I can convince you to stick to the `struct` approach. You may, at this point, still not think so, but wait until we get to these magical little thingies called `traits` and then we'll see ;-)
 
 ### Nested pseudo-JSON Objects?
 #### Sure, forward we go
@@ -95,7 +95,7 @@ fn main () {
 }
 ```
 
-Our pseudo-JSON object is now looking much cleaner and even easier to utilize. Speaking of utilization, how do we reference our fields? Well, you've probably guessed it already. Yes, it's the dot operator. If you're interested in, say, printing the full name of your person object. Here's how you'd do that:
+Our pseudo-JSON object is now looking much cleaner and even easier to utilize. Speaking of utilization, how do we reference our fields? Well, you've probably guessed it already. Yes, it's the dot operator. If you're interested in, say, printing the full name of your Person object, here's how you'd do that:
 
 ```rust
 // The following line of code goes inside your main function right after
@@ -105,7 +105,7 @@ Our pseudo-JSON object is now looking much cleaner and even easier to utilize. S
 println!("{} {}", person.full_name.first_name, person.full_name.last_name);
 ```
 
-and you're probably seeing a problem here already. It would absolutely be tedious to use this approach to print out the full name of a person especially if you were to do this from multiple places in your program let alone the fact the way the print is done looks really primitive. There must be a different (perhaps, even, better) way you say. You bet there is. In fact, there not only is but are many ways you can go about handling this issue, which one of which would be the use of `traits`. A trait is a programmatical way of telling the compiler how to carry out specific functionalities during the build process. We're going to use one here and learn how to write our own further below. The trait we're about to use in a moment is called the `Debug` trait which basically sets out a specific printing layout for your defined `enum`, `struct` or what have you.
+and you're probably seeing a problem here already. It would be absolutely tedious to use this approach to print out the full name of a person especially if you were to do this from multiple places in your program let alone the fact the way the print is done looks really primitive. There must be a different (perhaps, even, better) way you say. You bet there is. In fact, there not only is but are many ways you can go about handling this issue, which one of which would be the use of `traits`. A trait is a programmatical way of telling the compiler how to carry out specific functionalities during the build process. We're going to use one here and learn how to write our own further below. The trait we're about to use in a moment is called the `Debug` trait which basically sets out a specific printing layout for your defined `enum`, `struct` or what have you.
 
 If you simply add `#[derive(Debug)]` right on top of your `FullName` `struct` definition: i.e.:
 
@@ -138,7 +138,7 @@ FullName { first_name: "Fadi", last_name: "Hanna Al-Kass" }
 Cool, isn't it? Well, it gets even cooler in a bit.
 
 But hang on a second, why did I have to replace `{}` with `{:?}` in my `println` statement? Or an even more proper question to ask is: what is the difference between the two?
-Well, so Rust has two ways of printing out stuff (or maybe more than two that I still haven't discovered yet!): a (1) `Display` and a `Debug`. `Display` is what you'd probably want to use to allow the program to communicate some meaningful output to your user, and `Debug` is what you could use during the development process. Each one of these two is a separate `trait` that can co-exist without overlapping each other. By that I mean, you can allow your object to print something with `{}` and something entirely different with `{:?}`, but that's to be covered when we get down to writing our own `trait`s.
+Well, so Rust has two ways of printing out stuff (there might be even more ways I am yet to discover!): a (1) `Display` and a `Debug`. `Display` is what you'd probably want to use to allow the program to communicate some meaningful output to your user, and `Debug` is what you could use during the development process. These two `traits` can co-exist without overlapping each other. By that I mean you can allow your object to print something with `{}` and something entirely different with `{:?}`, but that's to be covered when we get down to writing our own `trait`s.
 
 So is it possible to use `#[derive(Debug)]` to print out nested objects? Yes, it is, and following is how. Simply add `#[derive(Debug)]` right on top of your main object and every object that's part of it and then print the object as a whole by passing it to a  `println` function using the `{:?}` notation, i.e.:
 
@@ -195,7 +195,7 @@ Person { full_name: FullName { first_name: "Fadi", last_name: "Hanna Al-Kass" },
 
 Our output is looking pretty verbose already, and you may not like that. Is there a way to manipulate this output in terms of re-arranging its layout or limiting the amount of information being displayed? You bet there is, and it's through writing our own `Debug` `trait` instead of using a `derive`d one. I think it's better to introduce one more thing right before we get down to business with `trait`s, and that is Rust's `OOP`-like paradigm. I call it `OOP`-like because Rust doesn't consider itself an Object-Oriented Programming Language, but sure that in no way means we can't do `OOP` in Rust. It just means `OOP` is done differently. To be more precise, `OOP` in Rust is done in a way Rust wouldn't consider `OOP`.
 
-Up until now, we've only been working with `struct`s and `enum`s. You've probably already noticed that we used them to store data, but no logic (constructors, function, destructors, etc) was added to them. That's because that's not where the functions go. before I further explain this, let's look at a tiny Python class and discuss how its alternative can be written in Rust.
+Up until now, we've only been working with `struct`s and `enum`s. You've probably already noticed that we used them to store data, but no logic (constructors, functions, destructors, etc) was added to them. That's because that's not where the functions go. before I further explain this, let's look at a tiny Python class and discuss how its alternative can be written in Rust.
 Say you have a `Person` `class` with a constructor that takes a `first_name` and a `last_name` and provides two separate getter functions that give you these two string values whenever you need them. You'd write your class something as follows:
 
 ```python
@@ -250,7 +250,7 @@ You've probably already looked at the code and thought to yourself "aha, `Person
 
 A `trait` is nothing but a language feature that tells the compiler about a type-specific functionality. The definition of a `trait` may be confusing as heck to you, but it'll all settle for you with the first example or two.
 
-Remember how we were talking about classes with constructors, functions, and destructors? Well, we've already discussed how constructors and functions are done in Rust. Let's talk a little about destructors. A `destructor` is normally a class function that invokes itself once the class is out of scope. In some low-level programming languages like C++, a class destructor is normally used to deallocate all allocated memory and preform some house cleaning. Rust has an `impl` destruction functionality (`trait`) called `Drop`. Let's look at how this trait can be implemented and invoked:
+Remember how we were talking about classes with constructors, functions, and destructors? Well, we've already discussed how constructors and functions are done in Rust. Let's talk a little about destructors. A `destructor` is a class function that invokes itself once the class is out of scope. In some low-level programming languages like C++, a class destructor is normally used to deallocate all allocated memory and preform some house cleaning. Rust has an `impl` destruction functionality (`trait`) called `Drop`. Let's look at how this trait can be implemented and invoked:
 
 Let's say you have a `Response` object you return to a HTTP validation layer that sends it to an end-client. Once this operation is complete, you have no business in maintaining this `Response` object, so it'll delete itself once it's out of scope. Let's start by defining this structure:
 
@@ -320,7 +320,7 @@ class Vector:
     return "Vector(%s, %s)" % (self.a, self.b)
 ```
 
-And if you were to add two `Vector` objects, you'd so something like the following:
+And if you were to add two `Vector` objects together, you'd so something like the following:
 
 ```python
 v1 = Vector(1, 2)
