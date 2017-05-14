@@ -1,7 +1,6 @@
 branch=`git branch | tail -n 1 | awk '{printf $1}'`
 
-if [ $branch == "master" ]
-then
+if [ $branch == "master" ]; then
   gem install jekyll
   bundle install
   git clone https://$1:$2@github.com/iqdevs/iqdevs.github.io.git
