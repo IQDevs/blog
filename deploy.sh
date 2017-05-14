@@ -1,5 +1,4 @@
 branch=`git branch | tail -n 1 | awk '{printf $1}'`
-echo "branch is $branch"
 
 if [ $branch == "master" ]
 then
@@ -7,6 +6,10 @@ then
   bundle install
   git clone https://$1:$2@github.com/iqdevs/iqdevs.github.io.git
   jekyll build --destination iqdevs.github.io
+  cd iqdevs.github.io
+  git add --all
+  git commit -m "Updated on `date`"
+  git push origin HEAD:master
 else
-  echo not master
+  echo "branch is $branch. Nothing to be done here."
 fi
