@@ -53,19 +53,3 @@
    Anything you don't want to provide you can replace with a single underscore (`_`)
 
 5. Submit a pull request
-
-## Checking Out the Code
-```bash
-$ git clone --recursive https://github.com/IQDevs/blog.git
-```
-
-## Production Build & Deployment
-
-```bash
-$ jekyll build --destination iqdevs.github.io
-$ cd iqdevs.github.io
-$ git add --all
-$ git commit -m "Updated on `date`"
-$ git push origin HEAD:master 
-$ cd ..
-```
