@@ -6,9 +6,9 @@ if [ $branch == "master" ]; then
   git clone https://$1:$2@github.com/iqdevs/iqdevs.github.io.git
   jekyll build --destination iqdevs.github.io
   cd iqdevs.github.io
-  ls -al
-  #git config --global user.email "$4"
-  #git config --global user.name "$3"
+  git config --global user.email "$4"
+  git config --global user.name "$3"
+  git status
   #git add --all
   #git commit -m "Updated on `date`"
   #git push origin HEAD:master
