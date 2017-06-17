@@ -10,72 +10,70 @@ author: alkass
 
   ```rust
   enum PersonGender {
-      MALE,
-      FEMALE,
-      UNDISCLOSED,
+    MALE,
+    FEMALE,
+    UNDISCLOSED,
   }
 
   struct Person {
-      name: String,
-      age: i8,
-      gender: PersonGender,
+    name: String,
+    age: i8,
+    gender: PersonGender,
   }
 
   fn main() {
-      let person = Person {
-          name: "Fadi Hanna Al-Kass".to_string(),
-          age: 27,
-          gender: PersonGender::MALE,
-      };
+    let person = Person {
+      name: "Fadi Hanna Al-Kass".to_string(),
+      age: 27,
+      gender: PersonGender::MALE,
+    };
   }
-
   ```
 
-   Now what if a person so chooses to identify as something else? In that case, you could add a 4th option (`Other`) and attach a value of type `String` to it. Here's what your end result would look like:
+  Now what if a person so chooses to identify as something else? In that case, you could add a 4th option (`Other`) and attach a value of type `String` to it. Here's what your end result would look like:
 
   ```rust
   enum PersonGender {
-      MALE,
-      FEMALE,
-      UNDISCLOSED,
-      OTHER(String),
+    MALE,
+    FEMALE,
+    UNDISCLOSED,
+    OTHER(String),
   }
 
   struct Person {
-      name: String,
-      age: i8,
-      gender: PersonGender,
+    name: String,
+    age: i8,
+    gender: PersonGender,
   }
 
   fn main() {
-      let person = Person {
-          name: "Jake Smith".to_string(),
-          age: 27,
-          gender: PersonGender::OTHER("Agender".to_string()),
-      };
+    let person = Person {
+      name: "Jake Smith".to_string(),
+      age: 27,
+      gender: PersonGender::OTHER("Agender".to_string()),
+    };
   }
-
   ```
 
   Now, of course `enums` don't have to be part of a struct, and `enum` values don't have to be primitives either. An enum value can point to a `struct` or even another `enum` and so on. For instance, you can write a function that returns a status that's either `PASS` or `FAILURE`. `PASS` can include a string while `FAILURE` can contain more information about the severity of the failure. This functionality can be achieved as so:
 
   ```rust
   enum SeverityStatus {
-      BENIGN(String),
-      FATAL(String),
+    BENIGN(String),
+    FATAL(String),
   }
 
   enum FunctionStatus {
-      PASS(String),
-      FAILURE(SeverityStatus),
+    PASS(String),
+    FAILURE(SeverityStatus),
   }
 
   fn compute_results() -> FunctionStatus {
-      // Successful execution would look like the following:
-      // return FunctionStatus::PASS("Everything looks good".to_string());
+    // Successful execution would look like the following:
+    // return FunctionStatus::PASS("Everything looks good".to_string());
 
-      // While a failure would be indicated as follows:
-      return FunctionStatus::FAILURE(SeverityStatus::FATAL("Continuing beyond this point will cause more damage to the hardware".to_string()));
+    // While a failure would be indicated as follows:
+    return FunctionStatus::FAILURE(SeverityStatus::FATAL("Continuing beyond this point will cause more damage to the hardware".to_string()));
   }
   ```
 
@@ -83,26 +81,26 @@ author: alkass
 
   ```rust
   fn main() {
-      let res = compute_results();
-      match res {
-          FunctionStatus::PASS(x) => {
-              // Handling a PASS response
-              println!("PASS: {}", x);
+    let res = compute_results();
+    match res {
+      FunctionStatus::PASS(x) => {
+        // Handling a PASS response
+        println!("PASS: {}", x);
+      }
+      FunctionStatus::FAILURE(x) => {
+        // Handling a FAILURE response
+        match x {
+          SeverityStatus::BENIGN(y) => {
+            // Handling a BENIGN FAILURE response
+            println!("BENIGN: {}", y);
           }
-          FunctionStatus::FAILURE(x) => {
-              // Handling a FAILURE response
-              match x {
-                  SeverityStatus::BENIGN(y) => {
-                      // Handling a BENIGN FAILURE response
-                      println!("BENIGN: {}", y);
-                  }
-                  SeverityStatus::FATAL(y) => {
-                      // Handling a FATAL FAILURE response
-                      println!("FATAL: {}", y);
-                  }
-              };
+          SeverityStatus::FATAL(y) => {
+            // Handling a FATAL FAILURE response
+            println!("FATAL: {}", y);
           }
-      };
+        };
+      }
+    };
   }
   ```
 
@@ -112,22 +110,22 @@ author: alkass
 
   ```rust
   fn main() {
-      let res = compute_results();
-      match res {
-          FunctionStatus::FAILURE(severity) => {
-              match severity {
-                  SeverityStatus::FATAL(message) => {
-                      println!("FATAL: {}", message);
-                  }
-                  SeverityStatus::BENIGN(message) => {
-                      println!("BENIGN: {}", message);
-                  }
-              };
+    let res = compute_results();
+    match res {
+      FunctionStatus::FAILURE(severity) => {
+        match severity {
+          SeverityStatus::FATAL(message) => {
+            println!("FATAL: {}", message);
           }
-          _ => {
-              // Here goes the handling of "everything else", or it can be left out completely
+          SeverityStatus::BENIGN(message) => {
+            println!("BENIGN: {}", message);
           }
-      };
+        };
+      }
+      _ => {
+        // Here goes the handling of "everything else", or it can be left out completely
+      }
+    };
   }
   ```
 
@@ -137,24 +135,24 @@ author: alkass
 
   ```rust
   fn main() {
-      let res = compute_results();
-      match res {
-          FunctionStatus::FAILURE(severity) => {
-              match severity {
-                  SeverityStatus::FATAL(message) => {
-                      println!("FATAL: {}", message);
-                  }
-                  SeverityStatus::BENIGN(_) => {
-                      // Leaving this case unhandled
-                      // NOTE: you can't print _. If you change your mind and decide to
-                      // actually handle this case, replace `_` with a valid variable name.
-                  }
-              };
+    let res = compute_results();
+    match res {
+      FunctionStatus::FAILURE(severity) => {
+        match severity {
+          SeverityStatus::FATAL(message) => {
+            println!("FATAL: {}", message);
           }
-          FunctionStatus::PASS(_) => {
-              // Leaving this case unhandled
+          SeverityStatus::BENIGN(_) => {
+            // Leaving this case unhandled
+            // NOTE: you can't print _. If you change your mind and decide to
+            // actually handle this case, replace `_` with a valid variable name.
           }
-      };
+        };
+      }
+      FunctionStatus::PASS(_) => {
+        // Leaving this case unhandled
+      }
+    };
   }
   ```
 
@@ -164,31 +162,31 @@ author: alkass
 
   ```rust
   fn main() {
-      let person = Person {
-          name: "Fadi Hanna Al-Kass".to_string(),
-          age: 27,
-          gender: PersonGender::MALE,
-      };
+    let person = Person {
+      name: "Fadi Hanna Al-Kass".to_string(),
+      age: 27,
+      gender: PersonGender::MALE,
+    };
 
-      match person {
-          Person { age, gender, .. } => {
-              println!("age: {}", age);
-              match gender {
-                  PersonGender::MALE => {
-                      println!("gender is male");
-                  }
-                  PersonGender::FEMALE => {
-                      println!("gender is female");
-                  }
-                  PersonGender::UNDISCLOSED => {
-                      println!("gender Undisclosed");
-                  }
-                  PersonGender::OTHER(g) => {
-                      println!("gender: {}", g);
-                  }
-              };
+    match person {
+      Person { age, gender, .. } => {
+        println!("age: {}", age);
+        match gender {
+          PersonGender::MALE => {
+            println!("gender is male");
           }
+          PersonGender::FEMALE => {
+            println!("gender is female");
+          }
+          PersonGender::UNDISCLOSED => {
+            println!("gender Undisclosed");
+          }
+          PersonGender::OTHER(g) => {
+            println!("gender: {}", g);
+          }
+        };
       }
+    }
   }
   ```
 
