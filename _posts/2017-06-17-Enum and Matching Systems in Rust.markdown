@@ -55,7 +55,7 @@ author: alkass
   }
   ```
 
-  Now, of course `enums` don't have to be part of a struct, and `enum` values don't have to be primitives either. An enum value can point to a `struct` or even another `enum` and so on. For instance, you can write a function that returns a status that's either `PASS` or `FAILURE`. `PASS` can include a string while `FAILURE` can contain more information about the severity of the failure. This functionality can be achieved as so:
+  Now, of course `enums` don't have to be part of a struct, and `enum` values don't have to be primitives either. An `enum` value can point to a `struct` or even another `enum` and so on. For instance, you can write a function that returns a status that's either `PASS` or `FAILURE`. `PASS` can include a string while `FAILURE` can contain more information about the severity of the failure. This functionality can be achieved as so:
 
   ```rust
   enum SeverityStatus {
@@ -77,7 +77,7 @@ author: alkass
   }
   ```
 
-  Now onto `match`. One of the things I love the most about `match` is its ability to unstructure objects. Let's take a second look at our last code snippet and see how we can probably handle the response coming back to us from `compute_results()`. For this, i'd definitely use a set of `match` statements, e.g.:
+  Now onto `match`. One of the things I love the most about `match` is its ability to unstructure objects. Let's take a second look at our last code snippet and see how we can possibly handle the response coming back to us from `compute_results()`. For this, i'd definitely use a set of `match` statements, e.g.:
 
   ```rust
   fn main() {
