@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Enum and Matching Systems in Rust
+title:  Enum and Match Systems in Rust
 date:   2017-06-17 00:00:00 -0500
 categories: Rust
 author: alkass
@@ -77,7 +77,7 @@ author: alkass
   }
   ```
 
-  Now onto `match`. One of the things I love the most about `match` is its ability to unstructure objects. Let's take a second look at our last code snippet and see how we can possibly handle the response coming back to us from `compute_results()`. For this, i'd definitely use a set of `match` statements, e.g.:
+  Now onto `match`. One of the things I love the most about `match` is its ability to unstructure objects. Let's take a second look at our last code snippet and see how we can possibly handle the response coming back to us from `compute_results()`. For this, I'd definitely use a set of `match` statements, e.g.:
 
   ```rust
   fn main() {
