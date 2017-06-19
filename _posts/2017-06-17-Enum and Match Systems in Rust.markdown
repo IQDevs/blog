@@ -104,7 +104,7 @@ author: alkass
   }
   ```
 
-  Now, if you happen to add more options to any of the two `enums` (say, a `WARN` option to `FunctionStatus` or `UNCATEGORIZED` to `SeverityStatus`), the compiler will refuse to compile your code until all possible cases are handled.
+  Now, if you happen to add more options to any of the two `enums` (say, a `WARN` option to `FunctionStatus` or `UNCATEGORIZED` to `SeverityStatus`), the compiler will refuse to compile your code until all possible cases are handled. This is definitely a plus as it forces you to think about all the paths your code could take.
 
   However, there will be times when you really only want to handle specific cases and not the rest. For instance, we may only be interested in handling the case of failure of `compute_results()` and ignore all passes. For that you could use the `_` case. `_` in the case of a `match` statement or expression means "everything else". So, to write our `FunctionStatus` handling functionality in a way when only failures are handled, we could do the following:
 
