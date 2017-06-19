@@ -131,7 +131,7 @@ author: alkass
 
   The same thing can be applied to `SeverityStatus`. If you want to ignore benign failures, you can replace that specific case with `_`.
 
-  The only drawback to using `_` is that "everything else" will include any options you include in future instances, so I'd personally strongly advocate against the use of `_`. If you want to leave some cases unhandled, you could still include them and point them to an emply block of code, e.g.:
+  The only drawback to using `_` is that "everything else" will include any options you include in future instances, so I'd personally strongly advocate against the use of `_`. If you want to leave some cases unhandled, you could still include them and let them point to an empty block of code, e.g.:
 
   ```rust
   fn main() {
@@ -158,7 +158,7 @@ author: alkass
 
   One last thing I wanted to touch on before I wrap up with this post. When using `match` to unstructure objects, you'll come across projects with multiple fields, or even worse, nested object structures. Our `Person` structure can be used as an example here. How would we match this object? following's how.
 
-  Say you're interested in only structuring the gender and the age of a person object. You'd do this as follows:
+  Say you're interested in only unstructuring the gender and the age of a person object. You'd do this as follows:
 
   ```rust
   fn main() {
