@@ -6,7 +6,7 @@ categories: Rust
 author: alkass
 ---
 
-  You've probably worked with `enums` before, but if you haven't, they're basically a way to have a selection out of a number of different options. A `Person` struct could contain a `gender` field that points to an enum of 3 options (`Male`, `Female`, and `Undisclosed`), i.e.:
+  You've probably worked with `enums` before, but if you haven't, they're basically a way to have a selection out of a number of different options. A `Person` struct could contain a `gender` field that points to an enum of three options (`Male`, `Female`, and `Undisclosed`), i.e.:
 
   ```rust
   enum PersonGender {
