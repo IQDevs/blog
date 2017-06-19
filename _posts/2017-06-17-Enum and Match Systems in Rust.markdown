@@ -6,7 +6,7 @@ categories: Rust
 author: alkass
 ---
 
-  You've probably worked with `enums` before, but if you haven't, they're basically a way to have a selection out of a number of different options. A `Person` struct could contain a `gender` field that points to an enum with 3 options (`Male`, `Female`, and `Undisclosed`), i.e.:
+  You've probably worked with `enums` before, but if you haven't, they're basically a way to have a selection out of a number of different options. A `Person` struct could contain a `gender` field that points to an enum of 3 options (`Male`, `Female`, and `Undisclosed`), i.e.:
 
   ```rust
   enum PersonGender {
@@ -30,7 +30,7 @@ author: alkass
   }
   ```
 
-  Now what if a person so chooses to identify as something else? In that case, you could add a 4th option (`Other`) and attach a value of type `String` to it. Here's what your end result would look like:
+  Now, what if a person so chooses to identify as something else? In that case, you could add a 4th option (`Other`) and attach a value of type `String` to it. Here's what your end result would look like:
 
   ```rust
   enum PersonGender {
@@ -55,7 +55,7 @@ author: alkass
   }
   ```
 
-  Now, of course `enums` don't have to be part of a struct, and `enum` values don't have to be primitives either. An `enum` value can point to a `struct` or even another `enum` and so on. For instance, you can write a function that returns a status that's either `PASS` or `FAILURE`. `PASS` can include a string while `FAILURE` can contain more information about the severity of the failure. This functionality can be achieved as so:
+ Of course `enums` don't have to be part of a struct, and `enum` values don't have to be primitives either. An `enum` value can point to a `struct` or even another `enum` and so on. For instance, you can write a function that returns a status that's either `PASS` or `FAILURE`. `PASS` can include a string while `FAILURE` can contain more information about the severity of the failure. This functionality can be achieved as so:
 
   ```rust
   enum SeverityStatus {
