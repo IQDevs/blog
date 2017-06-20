@@ -133,6 +133,6 @@ There's still more room for improvement, but you get the point.
 
 So, "why should I consider a passthrough design?", you may wonder! Here are some reasons why:
 
-* Passthroughs allow you to completely maintain your own code when working with a team of developers. That is to say your code needs not be scattered around, nor will anyone need direct access to any of your functions; you make your inner functions private, provide a `passthrough` function and you roll!
+* Passthroughs allow you to completely maintain your own code when working with a team of developers. That is to say your code needs not be scattered around, nor will anyone need direct access to any of your functions; you make your inner functions private, provide a `passthrough` function and there you roll ^_^.
 
-* Documentation becomes a breeze. Think about. Instead of having to document every single function and provide snippets and use cases, you can keep all these functions private and worry about 
+* Documentation becomes a breeze. Think about. Instead of having to document every single function and provide snippets and use cases, you can keep all these functions private and only worry about documenting one: your `passthrough()` function. This can save you lots and lots of time.
