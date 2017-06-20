@@ -6,7 +6,7 @@ categories: Rust
 author: alkass
 ---
 
-When writing Libraries, APIs, and SDKs, the less stuff you ask your user to memorize the better it looks to you and feels to them. For instance, if you were to write a Math library that performs some arithmetic operations, you could write your library functions ass so:
+When writing libraries, APIs, and SDKs, the less stuff you ask your user to memorize the better it looks to you and feels to them. For instance, if you were to write a Math library that performs some arithmetic operations, you could write your library functions as so:
 
 ```rust
 fn add(op1: f32, op2: f32) -> f32 {
@@ -52,7 +52,7 @@ Instead of this:
 let res = add(32.4, 12 as f32);
 ```
 
-But there's more we could do here. So, for instance, instead of specifiny the operation as a string and expose our code to all sorts of correctness bugs (afterall, our `passthrough()` function won't warn us about an invalid operation), we could do something like this:
+But there's more we could do here. So, for instance, instead of specifying the operation as a string and expose our code to all sorts of correctness bugs (afterall, our `passthrough()` function won't warn us about an invalid operation), we could do something like this:
 
 ```rust
 enum OperationType {
@@ -74,7 +74,7 @@ fn passthrough(operation: OperationType, op1: f32, op2: f32) -> f32 {
 
 That will at least force the user to select one of many options, and anything that's not on the list won't slide. But that's not all either. There's still more that can be done to tweak our code.
 
-Notice how `passthrough` will always take two operands, no more or less parameters. What if, in the future, you decide to add an operation that requires only one operand (a square root function for example). You may be able to get away with something as easy as ```passthrough(OperationType::SQRT, 25, 0)```, but neither looks clean not is something a team of professional developers would approve of. Perhaps we could turn our operands into a flexible object, and for the sake of simplicity we shall call our object `Request` and have it implemented as follows:
+Notice how `passthrough` will always take two operands, no more or less parameters. What if, in the future, you decide to add an operation that requires only one operand (a square root function for example). You may be able to get away with something as easy as ```passthrough(OperationType::SQRT, 25, 0)```, but that neither looks clean nor is something a team of professional developers would approve of. Perhaps we could turn our operands into a flexible object, and for the sake of simplicity we shall call our object `Request` and have it implemented as follows:
 
 ```rust
 enum Request {
