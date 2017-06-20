@@ -26,7 +26,7 @@ fn div(op1: f32, op2: f32) -> f32 {
 }
 ```
 
-And that'll require the user to import his/her desired function or set of functions when needed. This is fine, but wouldn't it be better if you could provide only one function that does all these operations? We're going to call this function a common interface, but this procedure is called a passthrough in the professional field. A passthrough function is a multi-purpose entry point to a set of different classes or functions. In the case of our Math library, we could have our passthrough function written as follows:
+And that'll require the user to import his/her desired function or set of functions as needed. This is fine, but wouldn't it be better if you could provide only one function that does all these operations? We're going to call this function a common interface, but this procedure is called a passthrough in the professional field. A passthrough function is a multi-purpose entry point to a set of different classes or functions. In the case of our Math library, we could have our passthrough function written as follows:
 
 ```rust
 fn passthrough(operation: &'static str, op1: f32, op2: f32) -> f32 {
@@ -35,7 +35,7 @@ fn passthrough(operation: &'static str, op1: f32, op2: f32) -> f32 {
     "-" => sub(op1, op2),
     "*" => mul(op1, op2),
     "/" => div(op1, op2),
-    _ => 0 as f32, // Everything else causes the function to return 0. Near future bug alert!!!
+    _ => 0 as f32, //Return 0 if unknown operation. Near future bug alert!!!
   };
 }
 ```
