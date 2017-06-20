@@ -35,7 +35,7 @@ fn passthrough(operation: &'static str, op1: f32, op2: f32) -> f32 {
     "-" => sub(op1, op2),
     "*" => mul(op1, op2),
     "/" => div(op1, op2),
-    _ => 0 as f32,
+    _ => 0 as f32, // Everything else causes the function to return 0. Near future bug alert!!!
   };
 }
 ```
