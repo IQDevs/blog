@@ -3,7 +3,7 @@ email: ceo@skaykeapp.com
 description: Some things are too good to contain in a little box
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  iqdevs
+github_username:  IQDevs
 
 # Build settings
 markdown: kramdown
