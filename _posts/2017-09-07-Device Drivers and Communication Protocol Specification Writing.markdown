@@ -90,7 +90,8 @@ Our specification will cover both the HLD and the LLD sides of the project.
 What would you like your device to do? This is the type of question an HLD can answer. Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely. This can be formly written as follows:
 
 ```
-The device driver will allow access to all input and output pins (both analog and digital) on the following Arduino modules:
+The device driver will allow access to all input and output pins (both analog and digital) on the following modules:
+* ESP8266
 * Arduino Uno
 * Arduino Mega
 * .
