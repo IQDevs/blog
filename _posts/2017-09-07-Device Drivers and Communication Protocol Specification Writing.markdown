@@ -8,7 +8,11 @@ author: alkass
 
 Device drivers and protocol design are two areas where one could get really technical and dive into very complex topics, though this guide doesn't need to be. We're going to write a device driver that processes incomming commands and returns responses conforming to a standard specification that we're going to write first.
 
-What device are we targetting? We could design a USB device and write a Linux Kernel module, but that'd be too heaftly of a task for a single blog post, so instead, we're going to stick a device that doesn't require an OS or even a Kernel. I decided to go Arduino, but everything discussed here works just fine with ESP8266 or any boards that allow you to flash Arduino-compiled code. I'm also going to use [Platformio](http://platformio.org/) to ease up the build and deployment process. If you don't have `Platformio` installed, the following command should take care of that part for you:
+What device are we targetting? We could design a USB device and write a Linux Kernel module, but that'd be too heaftly of a task for a single blog post, so instead, we're going to stick a device that doesn't require an OS or even a Kernel. I decided to go Arduino, but everything discussed here works just fine with ESP8266 or any boards that allow you to flash Arduino-compiled code.
+
+## Project Setup
+
+I'm also going to use [Platformio](http://platformio.org/) to ease up the build and deployment process. If you don't have `Platformio` installed, the following command should take care of that part for you:
 
 ```bash
 $ pip install platformio
@@ -78,6 +82,11 @@ $ pio device monitor # Or sudo pio device monitor
 
 You should be seeing an endless stream of the "Hello, Device Driver!" string. This is a clear indicator that everything (project setup, build chain, USB connection, and serial communication) is good to go.
 
+## Specification Writing
+Our communication protocol specification design will consist of two parts: High-Level Design (HLD) and Low-Level Design (LLD).
+
+### HLD
+
 Now onto designing our communication protocol specification. What would you like your device to do? Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely.
 
 Our specification looks like the following:
@@ -85,3 +94,8 @@ Our specification looks like the following:
 * Basically, we are interested in panipulating our board with 5 main functions: `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`.
 
 * Every command we send MUST start with an agreed-upon hard-coded acknowledgment byte. The purpose of having this byte it so make sure we have a valid command to work with. If, for instance, your last command read less or more bytes that it was supposed to, all upcoming commands coming from thatpoint onward will be messed up. Not having the expeceted acknowledgment byte in place will draw our attention to a stagerring bug if the boards misbehaviour is, for any reason, not obvious.
+
+### LLD
+
+## Implementing the Driver
+
