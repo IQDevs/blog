@@ -14,4 +14,13 @@ What device are we targetting? We could design a USB device and write a Linux Ke
 $ pip install platformio
 ```
 
-Now onto designing our communication protocol specification. What would you like your device to do? Since I'm the one writing this blog post, I have decided to stick
+> The techniques discussed here are by no means Arduino-specific. They are applicable to any device with serial or any type of connection for that matter.
+
+Now onto designing our communication protocol specification. What would you like your device to do? Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely.
+
+Our specification looks like the following:
+
+* Basically, we are interested in panipulating our board with 5 main functions: `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite.
+
+* Every command we send MUST start with an agreed-upon hard-coded acknowledgment byte. The purpose of having this byte it so make sure we have a valid command to work with. If, for instance, your last command read less or more bytes that it was supposed to, all upcoming commands will be messed up. Not having the expeceted acknowledgment byte in place will draw our attention to a stagerring bug if the boards misbehaviour is by any means not obvious.
+
