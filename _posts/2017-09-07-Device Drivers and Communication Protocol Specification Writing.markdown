@@ -114,14 +114,49 @@ Now let's talk a little about our inputs (requests) and outputs (responses).
 Every request sent to and every response retrieved from the board must start with an agreed-upon hard-coded acknowledgment byte. For the same of conformity across all possible future interfaces, we have decided that our acknowledgment byte is 0xA.
 ```
 
-* Whoever is sending the commands to the board may not be reading the responses right away. It would be extremely useful to allow them to attach an ID to every request that we return as part of the response so they don't confused as to which is a response to which. We can decide that this field is going to occupy one byte of our input and output stream:
+* Whoever is sending the requests to the board may not be reading the responses right away. It would be extremely useful to allow them to attach an ID to every request that we return as part of the response so they're not confused as to which is a response to which request. We can decide that this field is going to occupy one byte of our input and output stream:
 
 ```
 Every request sent to the board is expected to contain an identifying byte. This byte is useful in cases when the requesting end is queuing the responses instead of treating them instantly. This identifier must not be more than one byte long, and it won't be varified by the board; the board will simply copy this field from the request object into the response object without verifying its uniqueness.
 ```
 
-* To achieve a smooth experience, we need to decide on an upper byte limit for both requests and responses, that way we don't have to calculate offsets on the fly which will require more processing power. For something as little as an Arduino board, you definitely need to consider solutions that require as little memory and processing power as possible. If you do the math correctly, you'll need one byte for your `acknolwdgment` field, one for the `id`, one for the `pin`, one for the `type` of the pin, one for the `mode` (in the case of setting a pin mode), and one for the `value` (in the case of setting a pin value). Since `mode` and `value` can't coexist, we can safely assume that the maximum size needed for each command is 5 bytes:
+* We need 
 
+* To achieve a smooth experience, we need to decide on an upper byte limit for both requests and responses, that way we don't have to calculate offsets on the fly which will require more processing power. For something as little as an Arduino board, you definitely need to consider solutions that require as little memory and processing power as possible. If you do the math correctly, you'll need one byte for your `acknolwdgment` field, one for the `id`, one for the `operation`, one for the `pin`, one for the `type` of the pin, one for the `mode` (in the case of setting a pin mode), and one for the `value` (in the case of setting a pin value). Since `mode` and `value` can't coexist, we can safely assume that the maximum size needed for each command is six bytes:
+
+```c
+typedef struct {
+  char ack;     // Our acknowledgment byte
+  char id;      // Unique identifier
+  char op;      // Operation (MODE, READ or WRITE)
+  char args[3]; // These args are different for different operations, so we maintain
+                // them in a byte array until we find out what the operation
+                // operation is so we can typecast them into the proper structure
+} Request;
+
+typedef struct {
+  char pin;
+  char pin_type;
+  char mode;
+} ModeRequest;
+
+typedef struct {
+  char pin;
+  char pin_type;
+  char value;
+} WriteRequest;
+
+typedef struct {
+  char pin;
+  char pin_type;
+} ReadRequest;
+
+typedef struct {
+  char id;     // The same unique identifier we recieved in the request
+  char status; // TRUE (1) or FALSE (0)
+  char value;  // To be populated when a value if needed
+} Response;
+```
 
 ## Driver Implementation
 
