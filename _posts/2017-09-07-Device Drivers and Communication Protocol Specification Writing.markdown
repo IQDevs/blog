@@ -83,11 +83,20 @@ $ pio device monitor # Or sudo pio device monitor
 You should be seeing an endless stream of the "Hello, Device Driver!" string. This is a clear indicator that everything (project setup, build chain, USB connection, and serial communication) is good to go.
 
 ## Specification Writing
-Our communication protocol specification design will consist of two parts: High-Level Design (HLD) and Low-Level Design (LLD).
+Now onto designing our communication protocol specification. Specification documents are written to outline what needs to be done (HLD - short for High-Level Design) in all cases, <b>and how to be done</b> (LLD - short for Low-Level Design) in some cases.
+Our specification will cover both the HLD and the LLD sides of the project.
 
 ### HLD
+What would you like your device to do? This is the type of question an HLD can answer. Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely. This can be formly written as follows:
 
-Now onto designing our communication protocol specification. What would you like your device to do? Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely.
+```
+The device driver will allow access to all input and output pins (both analog and digital) on the following Arduino modules:
+* Arduino Uno
+* Arduino Mega
+* .
+* . 
+* etc
+```
 
 Our specification looks like the following:
 
