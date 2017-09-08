@@ -100,7 +100,7 @@ The device driver will allow serial access to all input and output pins (both an
 ### LLD
 Now that we've defined our expected bevaiour in our HLD, we can go ahead and decide how to go about having it all done. This is where LLD comes into place.
 
-We've decided that our end goal is to allow access to all pins over serial. We know the best way to maniuplate the pins is to use these functions: `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`. So, we can write our LLD specification to limt our use of the pins to these five functions only. This could be formly done as so:
+* We've decided that our end goal is to allow access to all pins over serial. We know the best way to maniuplate the pins is to use these functions: `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`. So, we can write our LLD specification to limt our use of the pins to these five functions only. This could be formly done as so:
 
 ```
 All pin manipulation must be limitted to using `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`. No bit togolling is allowed.
@@ -108,15 +108,16 @@ All pin manipulation must be limitted to using `pinMode`, `digitalRead`, `analog
 
 Now let's talk a little about our inputs (requests) and outputs (responses).
 
-Every command we send to or recieve from the board MUST start with an agreed-upon hard-coded acknowledgment byte. The purpose of having this byte it so make sure we have a valid command to work with. If, for instance, your last command read less or more bytes that it was supposed to, all upcoming commands coming from thatpoint onward will be messed up. Not having the expeceted acknowledgment byte in place will draw our attention to a stagerring bug if the boards misbehaviour is, for any reason, not obvious. Because 0 is the natural result you get when you zero out a block of memory, making our acknowledgment zero will make our deiver implementation prone to all sorts of defects. So, we could specifically prohibit the use of zero as a valid acknowledgment byte:
+* Every command we send to or recieve from the board MUST start with an agreed-upon hard-coded acknowledgment byte. The purpose of having this byte it so make sure we have a valid command to work with. If, for instance, your last command read less or more bytes that it was supposed to, all upcoming commands coming from thatpoint onward will be messed up. Not having the expeceted acknowledgment byte in place will draw our attention to a stagerring bug if the boards misbehaviour is, for any reason, not obvious. Because 0 is the natural result you get when you zero out a block of memory, making our acknowledgment zero will make our deiver implementation prone to all sorts of defects. So, we could specifically prohibit the use of zero as a valid acknowledgment byte:
 
 ```
-Every request sent to the board and every response retrieved from the board must start with an agreed-upon hard-coded acknowledgment byte. For the same of conformity, we have decided that our acknowledgment byte is 0xA.
+Every request sent to the board and every response retrieved from the board must start with an agreed-upon hard-coded acknowledgment byte. For the same of conformity across all possible future interfaces, we have decided that our acknowledgment byte is 0xA.
 ```
 
+* 
 
+* To achieve a smooth experience, we need to decide on an upper byte limit for both requests and responses, that way we don't have to calculate offsets on the fly which will require more processing power. For something as little as an Arduino board, you definitely need to consider solutions that require as little memory and processing power as possible. If you do the math correctly, you'll need one byte for your `acknolwdgment` field, one for the `id`, one for the `pin`, one for the `type` of the pin, one for the `mode` (in the case of setting a pin mode), and one for the `value` (in the case of setting a pin value). Since `mode` and `value` can't coexist, we can safely assume that the maximum size needed for each command is 5 bytes:
 
-To achieve a smooth experience, we need to decide on an upper byte limit for both requests and responses, that way we don't have to calculate offsets on the fly which will require more processing power. For something as little as an Arduino board, you definitely need to consider solutions that require as little memory and processing power as possible. If you do the math correctly, you'll need one byte for your `acknolwdgment` field, one for the `id`, one for the `pin`, one for the `type` of the pin, one for the `mode` (in the case of setting a pin mode), and one for the `value` (in the case of setting a pin value). Since `mode` and `value` can't coexist, we can safely assume that the maximum size needed for each command is 5 bytes.
 
 ## Driver Implementation
 
