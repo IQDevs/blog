@@ -20,7 +20,7 @@ Now onto designing our communication protocol specification. What would you like
 
 Our specification looks like the following:
 
-* Basically, we are interested in panipulating our board with 5 main functions: `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite.
+* Basically, we are interested in panipulating our board with 5 main functions: `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`.
 
 * Every command we send MUST start with an agreed-upon hard-coded acknowledgment byte. The purpose of having this byte it so make sure we have a valid command to work with. If, for instance, your last command read less or more bytes that it was supposed to, all upcoming commands will be messed up. Not having the expeceted acknowledgment byte in place will draw our attention to a stagerring bug if the boards misbehaviour is by any means not obvious.
 
