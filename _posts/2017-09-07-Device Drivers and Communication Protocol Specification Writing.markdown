@@ -41,7 +41,7 @@ touch src/main.ino
 
 Open `src/main.ino` in your preferred code editor and add the following lines of code to it:
 
-```bash
+```c
 void setup()
 {
   Serial.begin(9600);
@@ -70,6 +70,13 @@ $ pio run --target upload
 ```bash
 $ sudo pio run --target upload
 ```
+
+Now if you run the following:
+```bash
+$ pio device monitor # Or sudo pio device monitor
+```
+
+You should be seeing an endless stream of the "Hello, Device Driver!" string. This is a clear indicator that everything (project setup, build chain, USB connection, and serial communication) is good to go.
 
 Now onto designing our communication protocol specification. What would you like your device to do? Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely.
 
