@@ -19,7 +19,8 @@ $ pip install platformio
 Start a `Platformio` project as follows:
 
 ```bash
-$ mkdir my_device_driver && cd my_device_driver && pip init .
+$ mkdir my_device_driver && cd my_device_driver
+$ pip init .
 ```
 
 Add your board to the project:
@@ -30,6 +31,44 @@ $ pio init --board XXX
 
 # Or the following if you're adding an ESP8266 board
 $ pio init --board YYY
+```
+
+Add a source file to your project:
+
+```bash
+touch src/main.ino
+```
+
+Open `src/main.ino` in your preferred code editor and add the following lines of code to it:
+
+```bash
+void setup()
+{
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  Serial.println("Hello, Device Driver!");
+}
+```
+
+Now build your code and make sure everything completes successfully:
+
+```bash
+$ pio build
+```
+
+Connect your board to your computer over a USB cable and run the following command:
+
+```bash
+$ pio run --target upload
+```
+
+> The command above may fail due to lack of permission to access the device files. If you happen to be following along on a `Linux` machine (which is what I'd highly recommend), the following should fix your problem:
+
+```bash
+$ sudo pio run --target upload
 ```
 
 Now onto designing our communication protocol specification. What would you like your device to do? Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely.
