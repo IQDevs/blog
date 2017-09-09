@@ -1,14 +1,14 @@
 ---
 layout: post
-title:  Device Drivers and Communication Protocol Specification Writing
+title:  Device Drivers and Communication Protocol Specification Design
 date:   2017-09-07 00:00:00 -0500
 categories: C
 author: alkass
 ---
 
-Device drivers and protocol design are two areas where one could get really technical and dive into very complex topics, though this guide doesn't need to be. We're going to write a device driver that processes incomming commands and returns responses conforming to a standard specification that we're going to write first.
+Device drivers and protocol design are two areas where one could get really technical and dive into very complex topics, though this guide doesn't need to be. We're going to write a device driver that processes incoming commands and returns responses conforming to a standard specification that we're going to write first.
 
-What device are we targetting? We could design a USB device and write a Linux Kernel module, but that'd be too heaftly of a task for a single blog post, so instead, we're going to stick a device that doesn't require an OS or even a Kernel. I decided to go Arduino, but everything discussed here works just fine with ESP8266 or any boards that allow you to flash Arduino-compiled code.
+What device are we targeting? We could design a USB device and write a Linux Kernel module, but that'd be too hefty of a task for a single blog post, so instead, we're going to stick a device that doesn't require an OS or even a Kernel. I decided to go Arduino, but everything discussed here works just fine with ESP8266 or any boards that allow you to flash Arduino-compiled code.
 
 ## Project Setup
 
@@ -87,7 +87,7 @@ Now onto designing our communication protocol specification. Specification docum
 Our specification will cover both the HLD and the LLD sides of the project.
 
 ### HLD
-What would you like your device to do? This is the type of question an HLD can answer. Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely. This can be formly written as follows:
+What would you like your device to do? This is the type of question an HLD can answer. Since I'm the one writing this blog post, I have decided to stick to writing the shortest specification possible. We're going to allow the control of all digital and analog pins remotely. This can be formally written as follows:
 
 ```
 The device driver will allow serial access to all input and output pins (both analog and digital) on the following boards:
@@ -98,17 +98,17 @@ The device driver will allow serial access to all input and output pins (both an
 ```
 
 ### LLD
-Now that we've defined our expected bevaiour in our HLD, we can go ahead and decide how to go about having it all done. This is where LLD comes into place.
+Now that we've defined our expected behavior in our HLD, we can go ahead and decide how to go about having it all done. This is where LLD comes into place.
 
-* We've decided that our end goal is to allow access to all pins over serial. We know the best way to maniuplate the pins is to use these functions: `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`. So, we can write our LLD specification to limt our use of the pins to these five functions only. This could be formly done as so:
+* We've decided that our end goal is to allow access to all pins over serial. We know the best way to maniuplate the pins is to use these functions: `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`. So, we can write our LLD specification to limt our use of the pins to these five functions only. This could be formerly done as so:
 
 ```
-All pin manipulation must be limitted to using `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`. No bit togolling is allowed.
+All pin manipulation must be limited to using `pinMode`, `digitalRead`, `analogRead`, `digitalWrite`, and `analogWrite`. No bit toggling is allowed.
 ```
 
 Now let's talk a little about our inputs (requests) and outputs (responses).
 
-* Every command we send to or recieve from the board MUST start with an agreed-upon hard-coded acknowledgment byte. The purpose of having this byte it so make sure we have a valid command to work with. If, for instance, your last command read less or more bytes that it was supposed to, all upcoming commands coming from thatpoint onward will be messed up. Not having the expeceted acknowledgment byte in place will draw our attention to a stagerring bug if the boards misbehaviour is, for any reason, not obvious. Because 0 is the natural result you get when you zero out a block of memory, making our acknowledgment zero will make our deiver implementation prone to all sorts of defects. So, we could specifically prohibit the use of zero as a valid acknowledgment byte:
+* Every command we send to or receive from the board MUST start with an agreed-upon hard-coded acknowledgment byte. The purpose of having this byte it so make sure we have a valid command to work with. If, for instance, your last command read less or more bytes that it was supposed to, all upcoming commands coming from that point onward will be messed up. Not having the expected acknowledgment byte in place will draw our attention to a staggering bug if the boards misbehavior is, for any reason, not obvious. Because 0 is the natural result you get when you zero out a block of memory, making our acknowledgment zero will make our driver implementation prone to all sorts of defects. So, we could specifically prohibit the use of zero as a valid acknowledgment byte:
 
 ```
 Every request sent to and every response retrieved from the board must start with an agreed-upon hard-coded acknowledgment byte. For the same of conformity across all possible future interfaces, we have decided that our acknowledgment byte is 0xA.
@@ -117,12 +117,12 @@ Every request sent to and every response retrieved from the board must start wit
 * Whoever is sending the requests to the board may not be reading the responses right away. It would be extremely useful to allow them to attach an ID to every request that we return as part of the response so they're not confused as to which is a response to which request. We can decide that this field is going to occupy one byte of our input and output stream:
 
 ```
-Every request sent to the board is expected to contain an identifying byte. This byte is useful in cases when the requesting end is queuing the responses instead of treating them instantly. This identifier must not be more than one byte long, and it won't be varified by the board; the board will simply copy this field from the request object into the response object without verifying its uniqueness.
+Every request sent to the board is expected to contain an identifying byte. This byte is useful in cases when the requesting end is queuing the responses instead of treating them instantly. This identifier must not be more than one byte long, and it won't be verified by the board; the board will simply copy this field from the request object into the response object without verifying its uniqueness.
 ```
 
-* We need 
+* We need
 
-* To achieve a smooth experience, we need to decide on an upper byte limit for both requests and responses, that way we don't have to calculate offsets on the fly which will require more processing power. For something as little as an Arduino board, you definitely need to consider solutions that require as little memory and processing power as possible. If you do the math correctly, you'll need one byte for your `acknolwdgment` field, one for the `id`, one for the `operation`, one for the `pin`, one for the `type` of the pin, one for the `mode` (in the case of setting a pin mode), and one for the `value` (in the case of setting a pin value). Since `mode` and `value` can't coexist, we can safely assume that the maximum size needed for each command is six bytes:
+* To achieve a smooth experience, we need to decide on an upper byte limit for both requests and responses, that way we don't have to calculate offsets on the fly which will require more processing power. For something as little as an Arduino board, you definitely need to consider solutions that require as little memory and processing power as possible. If you do the math correctly, you'll need one byte for your `acknowledgment` field, one for the `id`, one for the `operation`, one for the `pin`, one for the `type` of the pin, one for the `mode` (in the case of setting a pin mode), and one for the `value` (in the case of setting a pin value). Since `mode` and `value` can't coexist, we can safely assume that the maximum size needed for each command is six bytes:
 
 ```c
 typedef struct {
@@ -152,11 +152,10 @@ typedef struct {
 } ReadRequest;
 
 typedef struct {
-  char id;     // The same unique identifier we recieved in the request
+  char id;     // The same unique identifier we received in the request
   char status; // TRUE (1) or FALSE (0)
   char value;  // To be populated when a value if needed
 } Response;
 ```
 
 ## Driver Implementation
-
