@@ -30,11 +30,16 @@ $ pip init .
 Add your board to the project:
 
 ```bash
-# If you're adding an Arduino board run the following
+# If you're adding an Arduino board run the following command
+# This will give you a list of all supported Arduino modules.
+$ pio boards arduino
+
+# Find your Arduino module from the list resulting from running the
+# command above, and replace it with the XXX in the following command
 $ pio init --board XXX
 
 # Or the following if you're adding an ESP8266 board
-$ pio init --board YYY
+$ pio init --board huzzah
 ```
 
 Add a source file to your project:
