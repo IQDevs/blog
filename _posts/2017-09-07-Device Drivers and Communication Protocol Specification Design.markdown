@@ -136,19 +136,18 @@ typedef struct {
 
 typedef struct {
   char pin;
-  char pin_type;
   char mode;
 } ModeRequest;
 
 typedef struct {
   char pin;
-  char pin_type;
+  char type;
   char value;
 } WriteRequest;
 
 typedef struct {
   char pin;
-  char pin_type;
+  char type;
 } ReadRequest;
 
 typedef struct {
