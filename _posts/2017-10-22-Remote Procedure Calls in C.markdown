@@ -206,3 +206,5 @@ write(comm_fd, (byte*)&res, sizeof(Response));
 ```
 
 And there we have a fully functional RPC server implementation capable of performing just about anything when expanded.
+
+> The demo I referred to at the beginning of this post can be found [here](https://github.com/Alkass/cRPC)
