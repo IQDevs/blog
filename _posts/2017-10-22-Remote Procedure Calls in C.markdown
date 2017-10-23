@@ -18,7 +18,7 @@ If you've ever written TCP-based projects in your life, chances are you've seria
 
 What I'd suggest as a better alternative is communicating through a stream of bytes that conform to a set of standards.
 
-Say you're building a remote controller calculator with the most four basic operations (addition, subtraction, multiplication, and division). Now to be honest, I don't know why you'd ever want to build this calculator. That'd be stupid. But for the sake of clarity, I couldn't have thought of an easier example.
+Say you're building a remote controlled calculator with the most four basic operations (addition, subtraction, multiplication, and division). Now to be honest, I don't know why you'd ever want to build this calculator. That'd be stupid. But for the sake of clarity, I couldn't have thought of an easier example.
 
 To properly send a request to your server, you'll need to have an agreement on a request standard. Our request standard can be implemented as a `C` `struct` with a pre-determined number of bytes. All requests sent to the server must be fit within this number of byte count so the server will always know how many bytes to read at a time that make up a single request.
 
