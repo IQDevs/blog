@@ -6,7 +6,7 @@ categories: C
 author: alkass
 ---
 
-> Everything discussed here is a feature brought to you by the `[GCC](https://gcc.gnu.org/)` compiler. If you happen to be using a different compiler, I'm not sure all or any of this would apply given the fact that these features aren't part of the `C` programming language per se.
+> Everything discussed here is a feature brought to you by the [`GCC`](https://gcc.gnu.org/) compiler. If you happen to be using a different compiler, I'm not sure all or any of this would apply given the fact that these features aren't part of the `C` programming language per se.
 
 When writing programs of considerable size and complexity, we tend to modularize our code. That is, we try to think of all different components as objects that can be easily moved around and fit within existing and future code. In C, it's common practice for developers to divide code into libraries and header files that can be included as needed. When working with someone else's library, you'd normally rather have a getting-started document that's as short and as concise as possible.
 
