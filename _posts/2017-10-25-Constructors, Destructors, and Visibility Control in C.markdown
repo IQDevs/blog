@@ -75,7 +75,7 @@ You've probably already noticed that `stack` and `stack_ptr` are left uninitiali
 __attribute__((constructor)) void start() {
    printf("Inside Constructor\n");
    stack_ptr = 0;
-   stack = calloc(STACK_CAP, sizeof(int));
+   stack = (int*)calloc(STACK_CAP, sizeof(int));
 }
 ```
 
@@ -120,6 +120,7 @@ We've used `__attribute__((constructor))` to introduce a constructor into our co
 __attribute__((destructor)) void finish() {
    printf("Inside Destructor\n");
    free(stack);
+   stack = NULL;
 }
 ```
 
