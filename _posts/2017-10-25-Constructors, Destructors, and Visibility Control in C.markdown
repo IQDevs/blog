@@ -75,7 +75,7 @@ You've probably already noticed that `stack` and `stack_ptr` are left uninitiali
 __attribute__((constructor)) void start() {
    printf("Inside Constructor\n");
    stack_ptr = 0;
-   stack = calloc(STACK_CAP, sizeof(void));
+   stack = calloc(STACK_CAP, sizeof(int));
 }
 ```
 
