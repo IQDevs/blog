@@ -21,8 +21,8 @@ Let's assume we have a header file named 'stack.h':
 #define STACK_H
 
 #include <stdio.h>
-#include <stdlib.h> // calloc
-#include <stdbool.h>
+#include <stdlib.h>  // calloc & free
+#include <stdbool.h> // true & false
 
 #define STACK_CAP 12
 
