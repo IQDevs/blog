@@ -64,7 +64,7 @@ bool pop(int* ref) {
 #endif
 ```
 
-You've probably already noticed that `stack` and `stack_ptr` are left uninitialized, so if you were to blindly use `push`, `peek`, or `pull`, you're going to run into a segmentation fault as `stack` is a `NULL` pointer, and `stack_ptr` is likely to contain some gibberish that was left behind on the stack. The proper way to use these functions would be to allocate memory for the `stack` pointer and `free` it when you're done. An even better way to do this would be to have this task automatically preformed at the time of including this header file. This is done through a library constructor, and it's done as follows:
+You've probably already noticed that `stack` and `stack_ptr` are left uninitialized, so if you were to blindly use `push`, `peek`, or `pop`, you're going to run into a segmentation fault as `stack` is a `NULL` pointer, and `stack_ptr` is likely to contain some gibberish that was left behind on the stack. The proper way to use these functions would be to allocate memory for the `stack` pointer and `free` it when you're done. An even better way to do this would be to have this task automatically preformed at the time of including this header file. This is done through a library constructor, and it's done as follows:
 
 ```c
 /*  Library Constructor
@@ -102,7 +102,7 @@ Inside Constructor
 Inside Main
 ```
 
-And exit peacefully... Well not really peacefully. At least not in every sense of the word as your program has left some heap-allocated memory un-deallocated. You're not likely going to see your program crash or anything, but you've still introduced a bug to your system that the OS may or may not be able to resolve depending on what OS you happen to be using. The proper way to to about programmatically solve this problem is to use a destructor in your application. A destructor is another function that gets called automatically once you're done with the library. Read ahead to find out how this is done.
+And exit peacefully... Well not really peacefully. At least not in every sense of the word as your program has left some heap-allocated memory un-deallocated. You're not likely going to see your program crash or anything, but you've still introduced a bug to your system that the OS may or may not be able to resolve depending on what OS you happen to be using. The proper way to go about programmatically solve this problem is to use a destructor in your application. A destructor is another function that gets called automatically once you're done with the library. Read ahead to find out how this is done.
 
 ## Destructors
 
