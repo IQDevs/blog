@@ -109,7 +109,7 @@ And exit peacefully... Well not really peacefully. At least not in every sense o
 
 You're going to like this part.
 
-We've used `__attribute__((constructor))` to introduce a constructor into our code, so you're probably already thinking a `__attribute__((destructor))` is what we'd use to add a destructor, in which case you'd be absolutely right. Here's our destructor function implementing for our stack library:
+We've used `__attribute__((constructor))` to introduce a constructor into our code, so you're probably already thinking a `__attribute__((destructor))` is what we'd use to add a destructor, in which case you'd be absolutely right. Here's our destructor function implementation for our stack library:
 
 ```c
 /*  Library Destructor
