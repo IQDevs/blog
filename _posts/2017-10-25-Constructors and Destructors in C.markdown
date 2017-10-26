@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Constructors, Destructors, and Visibility Control in C
+title:  Constructors and Destructors in C
 date:   2017-10-25 00:00:00 -0500
 categories: C
 author: alkass
@@ -27,8 +27,8 @@ Let's assume we have a header file named 'stack.h':
 
 #define STACK_CAP 12
 
-static int* stack;
-static unsigned int stack_ptr;
+int* stack;
+unsigned int stack_ptr;
 
 bool isEmpty() {
   return stack_ptr == 0;
@@ -133,7 +133,3 @@ Inside Destructor
 ```
 
 And there we've achieved a library implementation that takes care of all necessary memory management for us.
-
-## Visibility Control
-
-TO BE COMPLETED
