@@ -20,7 +20,7 @@ Let's assume we have a header file named 'stack.h':
 #ifndef STACK_H
 #define STACK_H
 
-#include <stdio.h>
+#include <stdio.h>   // printf
 #include <stdlib.h>  // calloc & free
 #include <stdbool.h> // true & false
 
