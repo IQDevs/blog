@@ -11,7 +11,7 @@ layout: default
   <ul class="post-list">
     {% for post in site.posts %}
       <li>
-        <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="{{ page.handle }}">{{ page.author }}</a></span></span>
+        <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="{{ post.handle }}">{{ post.author }}</a></span></span>
         on
         <h2>
           <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
