@@ -13,6 +13,10 @@ layout: default
       <li>
         <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="{{ post.handle }}">{{ post.author }}</a></span></span>
         on
+        <time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">
+          {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
+          {{ post.date | date: date_format }}
+        </time>
         <h2>
           <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
         </h2>
