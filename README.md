@@ -26,7 +26,8 @@
        title:  TITLE
        date:   YYYY-MM-DD 00:00:00 -0500
        categories: CATEGORY
-       author: AUTHOR
+       author: YOUR FULL NAME
+       handle: URL TO A PERSONAL SITE (PREFERABLY PERSONAL GITHUB ACCOUNT)
        ---
       ```
      

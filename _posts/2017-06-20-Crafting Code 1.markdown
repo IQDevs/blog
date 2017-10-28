@@ -3,7 +3,8 @@ layout: post
 title:  Crafting Code - Building Common Interfaces
 date:   2017-06-20 00:00:00 -0500
 categories: Rust
-author: alkass
+author: Fadi Hanna Al-Kass
+handle: https://github.com/alkass
 ---
 
 When writing libraries, APIs, and SDKs, the less stuff you ask your user to memorize the better it looks to you and feels to them. For instance, if you were to write a Math library that performs some arithmetic operations, you could write your library functions as so:

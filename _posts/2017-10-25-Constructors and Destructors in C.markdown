@@ -3,7 +3,7 @@ layout: post
 title:  Constructors and Destructors in C
 date:   2017-10-25 00:00:00 -0500
 categories: C
-author: Fadi hanna Al-Kass
+author: Fadi Hanna Al-Kass
 handle: https://github.com/alkass
 ---
 

@@ -3,7 +3,8 @@ layout: post
 title:  Remote Procedure Calls in C
 date:   2017-10-22 00:00:00 -0500
 categories: C
-author: alkass
+author: Fadi Hanna Al-Kass
+handle: https://github.com/alkass
 ---
 
 I have recently put together a quick Remote Procedure Call (RPC) demo in C and checked it into [my Github account](https://github.com/Alkass/cRPC), then I realized I still have a couple of minutes left on my hands, so I decided to write a walk-through blog post.

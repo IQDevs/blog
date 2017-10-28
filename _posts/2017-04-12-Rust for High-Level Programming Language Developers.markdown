@@ -3,7 +3,8 @@ layout: post
 title:  Rust for High-Level Programming Language Developers
 date:   2017-04-12 00:00:00 -0500
 categories: Rust
-author: alkass
+author: Fadi Hanna Al-Kass
+handle: https://github.com/alkass
 ---
 
 So you've been doing high-level programming all your life, and you've been eyeing Rust for some time now, and you're not sure where to start (or how to start). Well, this walk-through-like post will guide you through some of the common tasks you preform in high-level languages like JavaScript, Python, or even C#.

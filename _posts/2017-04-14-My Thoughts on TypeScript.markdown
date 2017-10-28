@@ -4,6 +4,7 @@ title:  My Thoughts on TypeScript
 date:   2017-04-14 00:00:00 -0500
 categories: TypeScript
 author: alexcorvi
+handle: https://github.com/alexcorvi
 ---
 
 I was introduced to TypeScript when it first came with angular 2. However, I tried to avoid it as much as possible. This was actually the main reason of why I left angular in favor of Vue. "A new quirky front-end language is the last thing I would need," I thought.

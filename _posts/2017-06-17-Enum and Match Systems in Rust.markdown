@@ -3,7 +3,8 @@ layout: post
 title:  Enum and Match Systems in Rust
 date:   2017-06-17 00:00:00 -0500
 categories: Rust
-author: alkass
+author: Fadi Hanna Al-Kass
+handle: https://github.com/alkass
 ---
 
   You've probably worked with `enums` before, but if you haven't, they're basically a way to have a selection out of a number of different options. A `Person` struct could contain a `gender` field that points to an enum of three options (`Male`, `Female`, and `Undisclosed`), i.e.:
