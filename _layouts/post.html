@@ -10,9 +10,7 @@ layout: default
         {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
         {{ page.date | date: date_format }}
       </time>
-      {% if page.author %}
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="https://github.com/{{ page.author }}">{{ page.author }}</a></span></span>
-      {% endif %}</p>
+      • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="{{ page.handle }}">{{ page.author }}</a></span></span>
   </header>
 
   <div class="post-content" itemprop="articleBody">
