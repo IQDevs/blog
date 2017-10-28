@@ -37,19 +37,4 @@
      
     * The rest of your file is where your blog post goes. Your blog post needs to be written in [`markdown`](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) format.
 
-4. Open `_data/authors.yml` and add the following piece of information to it
-
-    ```
-    authors:
-     alkass:
-       display_name: Fadi Hanna Al-Kass
-       gravatar: _
-       email: _
-       web: _
-       twitter: f_alkass
-       facebook: fadi.alkass1
-       github: alkass
-    ```
-   Anything you don't want to provide you can replace with a single underscore (`_`)
-
 5. Submit a pull request
