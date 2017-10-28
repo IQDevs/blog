@@ -9,6 +9,7 @@ github_username:  IQDevs
 markdown: kramdown
 theme: minima
 gems:
+  - jekyll-feed
 exclude:
   - Gemfile
   - Gemfile.lock
