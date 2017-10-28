@@ -3,7 +3,7 @@ layout: post
 title:  My Thoughts on TypeScript
 date:   2017-04-14 00:00:00 -0500
 categories: TypeScript
-author: alexcorvi
+author: Alex Corvi
 handle: https://github.com/alexcorvi
 ---
 
