@@ -5,7 +5,6 @@ date:   2017-10-25 00:00:00 -0500
 categories: C
 author: Fadi Hanna Al-Kass
 handle: https://github.com/alkass
-comments: true
 ---
 
 > Everything discussed here is a feature brought to you by the [`GCC`](https://gcc.gnu.org/) compiler. If you happen to be using a different compiler, I'm not sure all or any of this would apply given the fact that these features aren't part of the `C` programming language per se.
