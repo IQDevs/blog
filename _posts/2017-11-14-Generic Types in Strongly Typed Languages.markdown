@@ -248,7 +248,7 @@ copyAndModify(doc, { content: 0 })
 
 copyAndModify(doc, { author: "Some one" })
 // Compile Error!
-// Because we did have the property author on the original document
+// Because we did not have the property author on the original document
 
 ```
 
