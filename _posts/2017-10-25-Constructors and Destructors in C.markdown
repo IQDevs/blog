@@ -81,7 +81,7 @@ __attribute__((constructor)) void start() {
 
 The function above needs to be located inside your header file and will be automatically called once you've included the header file somewhere in your code.
 
-> In case you didn't know, `#ifndef STACK_H`, `#define STACK_H` and `#endif` are needed to prevent multiple or recursive includes that'll cause the compiler to run into redefinition issue.
+> In case you didn't know, `#ifndef STACK_H`, `#define STACK_H` and `#endif` are needed to prevent multiple or recursive includes that'll cause the compiler to run into redefinition issues.
 
 Now the following program:
 
