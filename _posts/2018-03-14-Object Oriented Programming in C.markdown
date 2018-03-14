@@ -6,3 +6,5 @@ categories: C
 author: Fadi Hanna Al-Kass
 handle: https://github.com/alkass
 ---
+
+C++ is no small language... But there's a reason why large systems tend to prefer C over C++.
