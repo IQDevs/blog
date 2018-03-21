@@ -23,7 +23,7 @@ typedef struct {
 } Baby;
 ```
 
-> I write `typedef struct {...} Baby;` instead of `struct Baby {...};` so I can use `Baby baby;` declare a `Baby` object instead of `struct Baby baby;`. I find the first cleaner than the latter.
+> I write `typedef struct {...} Baby;` instead of `struct Baby {...};` so I can use `Baby baby;` to declare a `Baby` object instead of `struct Baby baby;`. I find the first form cleaner than the latter.
 
 You might be used to implementing a toString function that takes stringifies an object for you, e.g.:
 
@@ -52,3 +52,7 @@ int main() {
   printf("%s\n", toString(&baby));
 }
 ```
+
+A problem arises when your `Baby` object is part of a system (say, a Hospital) where `Doctor` and `Nurse` objects not only exist, but also want to have a stringify mechanism implemented. You'd normally end up writing a seperate `toString` function for each object, e.g.: `babyToString`, `doctorToString`, and `nurseToString`.
+
+Another option that's also available is a generic function; one that takes a generic object of any type and finds a way to deal with it. The bost basic form of a generic object in `C` is a `void*` object. Functions that take `void*` as a parameter can essentially recieve an object of any type. Things aren't that clean in `C` though.
