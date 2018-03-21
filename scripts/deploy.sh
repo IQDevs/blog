@@ -1,7 +1,5 @@
 branch=`git branch | tail -n 1 | awk '{printf $1}'`
 
-echo Branch is $branch
-
 if [ $branch == "master" ]; then
   gem install jekyll
   bundle install
