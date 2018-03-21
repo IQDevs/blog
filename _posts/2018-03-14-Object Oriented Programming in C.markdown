@@ -55,4 +55,18 @@ int main() {
 
 A problem arises when your `Baby` object is part of a system (say, a Hospital) where `Doctor` and `Nurse` objects not only exist, but also want to have a stringify mechanism implemented. You'd normally end up writing a seperate `toString` function for each object, e.g.: `babyToString`, `doctorToString`, and `nurseToString`.
 
-Another option that's also available is a generic function; one that takes a generic object of any type and finds a way to deal with it. The bost basic form of a generic object in `C` is a `void*` object. Functions that take `void*` as a parameter can essentially recieve an object of any type. Things aren't that clean in `C` though.
+Another option that's also available is a generic `toString` function; one that takes a generic object of any type and finds a way to deal with it. The most basic form of a generic object in `C` is a `void*` object. Functions that take `void*` as a parameter can essentially recieve an object of any type. What you'd then do is pass a second parameter whose job is to help the `toString` function identify the `void*` object to the best of its ability. Your `toString` function would look something like this:
+
+```c
+char* toString(void* obj, int obj_type) {
+    switch (obj_type) {
+        default:
+            return "Unable to identify object";
+        case BABY_OBJECT:
+            char* str = (char*)calloc(1, sizeof(Baby));
+            sprintf(str, "{ %s, %s, %2lf, %s }", baby->name, baby->date_of_birth, baby->weight, baby->blood_type);
+            return str;
+        // More object checks can be added here
+    }
+}
+```
