@@ -7,7 +7,7 @@ author: Fadi Hanna Al-Kass
 handle: https://github.com/alkass
 ---
 
-Before C++ was called C++, it was called "[C with Classes](http://www.cplusplus.com/info/history/)" for reasons that will be obvious to anyone familiar with both C and C++. Yet, C still not only widely used but is also the preferred language to many. Why that is the case is not what I'm here to address today. That might be the topic to another blog post.
+Before C++ was officially called C++, it was called "[C with Classes](http://www.cplusplus.com/info/history/)" for reasons obvious to anyone who has dealt with both languages. Yet, C still not only widely used but is also the preferred language to many. Why that is the case is not what I'm here to address today. That might be the topic to another blog post.
 
 What I'm here to discuss today, however, are a few ways to have some of the features and characteristics of C++ in C, and we shall begin with the OOP model. After you will have read this blog post, you will be able to mimic ...........
 
@@ -65,14 +65,12 @@ typedef enum {
 } ObjectType;
 
 char* toString(Baby* baby, ObjectType obj_type) {
-  char* str;
+  char* str = (char*)calloc(512, sizeof(char)); // Allows up to 512 characters/bytes
   switch (obj_type) {
     default:
-      str = (char*)calloc(1, sizeof("Unable to identify object"));
       strcpy(str, "Unable to identify object");
       break;
     case BABY:
-      str = (char*)calloc(1, sizeof(Baby));
       sprintf(str, "{ %s, %s, %.1lf, %s }", baby->name, baby->date_of_birth, baby->weight, baby->blood_type);
       break;
     // More cases can be added here
