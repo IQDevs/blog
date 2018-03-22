@@ -17,7 +17,7 @@ Structs in C take the most basic form of an objects. They can contain a group of
 ```c
 typedef struct {
   char name[128];
-  char date_of_birth[16]; // format: MIN:HR-MM:DD:YYYY
+  char date_of_birth[16]; // format: MIN:HR MM-DD-YYYY
   float weight;
   char blood_type[2];
 } Baby;
@@ -38,8 +38,8 @@ char* toString(Baby* baby) {
 And now, to stringify our `Baby` object, we'd need the do to the following:
 
 ```c
-#include <stdio.h>  // needed for printf
-#include <stdlib.h> // needed for sprintf
+#include <stdio.h>  // Needed for printf
+#include <stdlib.h> // Needed for sprintf
 
 char* toString(Baby* baby) {
   char* str = (char*)calloc(1, sizeof(Baby));
@@ -48,25 +48,35 @@ char* toString(Baby* baby) {
 }
 
 int main() {
-  Baby baby = {"John Smith", "47:12-01:12:2017", 3, "O+"};
+  Baby baby = {"John Smith", "47:12 01-12-2017", 3, "O+"};
   printf("%s\n", toString(&baby));
 }
 ```
 
-A problem arises when your `Baby` object is part of a system (say, a Hospital) where `Doctor` and `Nurse` objects not only exist, but also want to have a stringify mechanism implemented. You'd normally end up writing a seperate `toString` function for each object, e.g.: `babyToString`, `doctorToString`, and `nurseToString`.
+A problem arises when your `Baby` object is part of a system (say, a Hospital) where `Doctor` and `Nurse` objects not only exist, but also want to have a stringify mechanism implemented. You'd normally end up writing a separate `toString` function for each object, e.g.: `babyToString`, `doctorToString`, and `nurseToString`.
 
-Another option that's also available is a generic `toString` function; one that takes a generic object of any type and finds a way to deal with it. The most basic form of a generic object in `C` is a `void*` object. Functions that take `void*` as a parameter can essentially recieve an object of any type. What you'd then do is pass a second parameter whose job is to help the `toString` function identify the `void*` object to the best of its ability. Your `toString` function would look something like this:
+Another option that's also available is a generic `toString` function; one that takes a generic object of any type and finds a way to deal with it. The most basic form of a generic object in `C` is a `void*` object. Functions that take `void*` as a parameter can essentially receive an object of any type. What you'd then do is pass a second parameter whose job is to help the `toString` function identify the `void*` object to the best of its ability. Your `toString` function would look something like this:
 
 ```c
-char* toString(void* obj, int obj_type) {
-    switch (obj_type) {
-        default:
-            return "Unable to identify object";
-        case BABY_OBJECT:
-            char* str = (char*)calloc(1, sizeof(Baby));
-            sprintf(str, "{ %s, %s, %2lf, %s }", baby->name, baby->date_of_birth, baby->weight, baby->blood_type);
-            return str;
-        // More object checks can be added here
-    }
+#include <string.h> // Needed for strcpy
+
+typedef enum {
+  BABY = 0,
+} ObjectType;
+
+char* toString(Baby* baby, ObjectType obj_type) {
+  char* str;
+  switch (obj_type) {
+    default:
+      str = (char*)calloc(1, sizeof("Unable to identify object"));
+      strcpy(str, "Unable to identify object");
+      break;
+    case BABY:
+      str = (char*)calloc(1, sizeof(Baby));
+      sprintf(str, "{ %s, %s, %.1lf, %s }", baby->name, baby->date_of_birth, baby->weight, baby->blood_type);
+      break;
+    // More cases can be added here
+  }
+  return str;
 }
 ```
