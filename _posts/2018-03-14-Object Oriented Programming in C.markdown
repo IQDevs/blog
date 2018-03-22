@@ -73,7 +73,7 @@ char* toString(Baby* baby, ObjectType obj_type) {
       strcpy(str, DEFAULT_MESSAGE);
       break;
     case BABY:
-      str = (char*)calloc(1, sizeof(Baby));
+      str = (char*)calloc(1, sizeof(Baby) + 7); // NOTE: +7 is for the spaces and the curly braces
       sprintf(str, "{ %s, %s, %.1lf, %s }", baby->name, baby->date_of_birth, baby->weight, baby->blood_type);
       break;
     // More cases can be added here
