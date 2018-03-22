@@ -65,15 +65,13 @@ typedef enum {
 } ObjectType;
 
 char* toString(Baby* baby, ObjectType obj_type) {
-  char* str;
+  char* str = (char*)calloc(1024, sizeof(char));
+  memset(str, 0, sizeof(char) * 1024);
   switch (obj_type) {
     default:
-      #define DEFAULT_MESSAGE "Unable to identify object"
-      str = (char*)calloc(1, sizeof(DEFAULT_MESSAGE));
-      strcpy(str, DEFAULT_MESSAGE);
+      strcpy(str, "Unable to identify object");
       break;
     case BABY:
-      str = (char*)calloc(1, sizeof(Baby) + 7); // NOTE: +7 is for the spaces and the curly braces
       sprintf(str, "{ %s, %s, %.1lf, %s }", baby->name, baby->date_of_birth, baby->weight, baby->blood_type);
       break;
     // More cases can be added here
