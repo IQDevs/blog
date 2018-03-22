@@ -68,8 +68,9 @@ char* toString(Baby* baby, ObjectType obj_type) {
   char* str;
   switch (obj_type) {
     default:
-      str = (char*)calloc(1, sizeof("Unable to identify object"));
-      strcpy(str, "Unable to identify object");
+      #define DEFAULT_MESSAGE "Unable to identify object"
+      str = (char*)calloc(1, sizeof(DEFAULT_MESSAGE));
+      strcpy(str, DEFAULT_MESSAGE);
       break;
     case BABY:
       str = (char*)calloc(1, sizeof(Baby));
