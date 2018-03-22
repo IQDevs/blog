@@ -65,8 +65,7 @@ typedef enum {
 } ObjectType;
 
 char* toString(Baby* baby, ObjectType obj_type) {
-  char* str = (char*)calloc(1024, sizeof(char));
-  memset(str, 0, sizeof(char) * 1024);
+  char* str = (char*)calloc(512, sizeof(char)); // Allows up to 512 characters/bytes
   switch (obj_type) {
     default:
       strcpy(str, "Unable to identify object");
