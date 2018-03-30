@@ -7,6 +7,8 @@ author: Fadi Hanna Al-Kass
 handle: https://github.com/alkass
 ---
 
+> THIS POST IS A WORK IN PROGRESS
+
 Before C++ was officially called C++, it was called "[C with Classes](http://www.cplusplus.com/info/history/)" for reasons obvious to anyone who has dealt with both languages. Yet, C still not only widely used but is also the preferred language to many. Why that is the case is not what I'm here to address today. That might be the topic to another blog post.
 
 What I'm here to discuss today, however, are a few ways to have some of the features and characteristics of C++ in C, and we shall begin with the OOP model. After you will have read this blog post, you will be able to mimic ...........
