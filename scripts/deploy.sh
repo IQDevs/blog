@@ -11,7 +11,7 @@ if [ $branch == "master" ]; then
   git status
   git add --all
   git status
-  git commit -m "Updated on `date`"
+  git commit -m "Automatically updated on `date` by $3"
   git push origin HEAD:master
 else
   echo "branch is $branch. Nothing to be done here."
