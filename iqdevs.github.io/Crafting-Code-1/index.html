@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Crafting Code - Building Common Interfaces – IQDevs – Technology Excellence Redefined</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="When writing libraries, APIs, and SDKs, the less stuff you ask your user to memorize the better it looks to you and feels to them. For instance, if you were to write a Math library that performs some arithmetic operations, you could write your library functions as so:
+
+" />
+    <meta property="og:description" content="When writing libraries, APIs, and SDKs, the less stuff you ask your user to memorize the better it looks to you and feels to them. For instance, if you were to write a Math library that performs some arithmetic operations, you could write your library functions as so:
+
+" />
+    
+    <meta name="author" content="IQDevs" />
+
+    
+    <meta property="og:title" content="Crafting Code - Building Common Interfaces" />
+    <meta property="twitter:title" content="Crafting Code - Building Common Interfaces" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="IQDevs - Technology Excellence Redefined" href="/feed.xml" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+  </head>
+
+  <body>
+
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+            <h1>Crafting Code - Building Common Interfaces</h1>
+            <span class="meta">Posted by <a href="https://github.com/alkass"> Fadi Hanna Al-Kass
+            </a> on June 20, 2017
+            </span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+ <div class="space-extra-small">
+ </div>
+
+  <div class="entry">
+    <p>When writing libraries, APIs, and SDKs, the less stuff you ask your user to memorize the better it looks to you and feels to them. For instance, if you were to write a Math library that performs some arithmetic operations, you could write your library functions as so:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">add</span><span class="p">(</span><span class="n">op1</span><span class="p">:</span> <span class="nb">f32</span><span class="p">,</span> <span class="n">op2</span><span class="p">:</span> <span class="nb">f32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f32</span> <span class="p">{</span>
+  <span class="n">op1</span> <span class="o">+</span> <span class="n">op2</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">sub</span><span class="p">(</span><span class="n">op1</span><span class="p">:</span> <span class="nb">f32</span><span class="p">,</span> <span class="n">op2</span><span class="p">:</span> <span class="nb">f32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f32</span> <span class="p">{</span>
+  <span class="n">op1</span> <span class="o">-</span> <span class="n">op2</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">mul</span><span class="p">(</span><span class="n">op1</span><span class="p">:</span> <span class="nb">f32</span><span class="p">,</span> <span class="n">op2</span><span class="p">:</span> <span class="nb">f32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f32</span> <span class="p">{</span>
+  <span class="n">op1</span> <span class="o">*</span> <span class="n">op2</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">div</span><span class="p">(</span><span class="n">op1</span><span class="p">:</span> <span class="nb">f32</span><span class="p">,</span> <span class="n">op2</span><span class="p">:</span> <span class="nb">f32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f32</span> <span class="p">{</span>
+  <span class="n">op1</span> <span class="err">/</span> <span class="n">op2</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And that’ll require the user to import his/her desired function or set of functions as needed. This is fine, but wouldn’t it be better if you could provide only one function that does all these operations? We’re going to call this function a common interface, but this procedure is called a passthrough in the professional field. A passthrough function is a multi-purpose entry point to a set of different classes or functions. In the case of our Math library, we could have our passthrough function written as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">passthrough</span><span class="p">(</span><span class="n">operation</span><span class="p">:</span> <span class="o">&amp;</span><span class="err">'</span><span class="k">static</span> <span class="nb">str</span><span class="p">,</span> <span class="n">op1</span><span class="p">:</span> <span class="nb">f32</span><span class="p">,</span> <span class="n">op2</span><span class="p">:</span> <span class="nb">f32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f32</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">match</span> <span class="n">operation</span> <span class="p">{</span>
+    <span class="s">"+"</span> <span class="k">=&gt;</span> <span class="nf">add</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">),</span>
+    <span class="s">"-"</span> <span class="k">=&gt;</span> <span class="nf">sub</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">),</span>
+    <span class="s">"*"</span> <span class="k">=&gt;</span> <span class="nf">mul</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">),</span>
+    <span class="s">"/"</span> <span class="k">=&gt;</span> <span class="nf">div</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">),</span>
+    <span class="n">_</span> <span class="k">=&gt;</span> <span class="mi">0</span> <span class="k">as</span> <span class="nb">f32</span><span class="p">,</span> <span class="c">//Return 0 if unknown operation. Near future bug alert!!!</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>That allows us to do something like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="nf">passthrough</span><span class="p">(</span><span class="s">"+"</span><span class="p">,</span> <span class="mi">10</span> <span class="k">as</span> <span class="nb">f32</span><span class="p">,</span> <span class="mf">12.3</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Instead of this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="nf">add</span><span class="p">(</span><span class="mf">32.4</span><span class="p">,</span> <span class="mi">12</span> <span class="k">as</span> <span class="nb">f32</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>But there’s more we could do here. So, for instance, instead of specifying the operation as a string and expose our code to all sorts of correctness bugs (afterall, our <code class="highlighter-rouge">passthrough()</code> function won’t warn us about an invalid operation), we could do something like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">enum</span> <span class="n">OperationType</span> <span class="p">{</span>
+    <span class="n">ADD</span><span class="p">,</span>
+    <span class="n">SUB</span><span class="p">,</span>
+    <span class="n">MUL</span><span class="p">,</span>
+    <span class="n">DIV</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">passthrough</span><span class="p">(</span><span class="n">operation</span><span class="p">:</span> <span class="n">OperationType</span><span class="p">,</span> <span class="n">op1</span><span class="p">:</span> <span class="nb">f32</span><span class="p">,</span> <span class="n">op2</span><span class="p">:</span> <span class="nb">f32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f32</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">match</span> <span class="n">operation</span> <span class="p">{</span>
+    <span class="nn">OperationType</span><span class="p">::</span><span class="n">ADD</span> <span class="k">=&gt;</span> <span class="nf">add</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">),</span>
+    <span class="nn">OperationType</span><span class="p">::</span><span class="n">SUB</span> <span class="k">=&gt;</span> <span class="nf">sub</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">),</span>
+    <span class="nn">OperationType</span><span class="p">::</span><span class="n">MUL</span> <span class="k">=&gt;</span> <span class="nf">mul</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">),</span>
+    <span class="nn">OperationType</span><span class="p">::</span><span class="n">DIV</span> <span class="k">=&gt;</span> <span class="nf">div</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">),</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>That will at least force the user to select one of many options, and anything that’s not on the list won’t slide. But that’s not all either. There’s still more that can be done to tweak our code.</p>
+
+<p>Notice how <code class="highlighter-rouge">passthrough</code> will always take two operands, no more or less parameters. What if, in the future, you decide to add an operation that requires only one operand (a square root function for example). You may be able to get away with something as easy as <code class="highlighter-rouge">passthrough(OperationType::SQRT, 25, 0)</code>, but that neither looks clean nor is something a team of professional developers would approve of. Perhaps we could turn our operands into a flexible object, and for the sake of simplicity we shall call our object <code class="highlighter-rouge">Request</code> and have it implemented as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">enum</span> <span class="n">Request</span> <span class="p">{</span>
+    <span class="n">NoOps</span><span class="p">,</span>
+    <span class="nf">OneOp</span><span class="p">(</span><span class="nb">f32</span><span class="p">),</span>
+    <span class="nf">TwoOps</span><span class="p">(</span><span class="nb">f32</span><span class="p">,</span> <span class="nb">f32</span><span class="p">),</span>
+    <span class="nf">ThreeOps</span><span class="p">(</span><span class="nb">f32</span><span class="p">,</span> <span class="nb">f32</span><span class="p">,</span> <span class="nb">f32</span><span class="p">),</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And re-implement our <code class="highlighter-rouge">passthrough()</code> function to work with a <code class="highlighter-rouge">Request</code> object as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">passthrough</span><span class="p">(</span><span class="n">operation</span><span class="p">:</span> <span class="n">OperationType</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f32</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">match</span> <span class="n">operation</span> <span class="p">{</span>
+    <span class="nn">OperationType</span><span class="p">::</span><span class="n">ADD</span> <span class="k">=&gt;</span> <span class="nf">add</span><span class="p">(</span><span class="n">req</span><span class="p">),</span>
+    <span class="nn">OperationType</span><span class="p">::</span><span class="n">SUB</span> <span class="k">=&gt;</span> <span class="nf">sub</span><span class="p">(</span><span class="n">req</span><span class="p">),</span>
+    <span class="nn">OperationType</span><span class="p">::</span><span class="n">MUL</span> <span class="k">=&gt;</span> <span class="nf">mul</span><span class="p">(</span><span class="n">req</span><span class="p">),</span>
+    <span class="nn">OperationType</span><span class="p">::</span><span class="n">DIV</span> <span class="k">=&gt;</span> <span class="nf">div</span><span class="p">(</span><span class="n">req</span><span class="p">),</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And re-implement our arithmetic functions to use our <code class="highlighter-rouge">Request</code> object instead of straight operands:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">add</span><span class="p">(</span><span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f32</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">match</span> <span class="n">req</span> <span class="p">{</span>
+    <span class="nn">Request</span><span class="p">::</span><span class="n">NoOps</span> <span class="k">=&gt;</span> <span class="mi">0</span> <span class="k">as</span> <span class="nb">f32</span><span class="p">,</span>
+    <span class="nn">Request</span><span class="p">::</span><span class="nf">OneOp</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">=&gt;</span> <span class="n">a</span><span class="p">,</span><span class="n">w</span>
+    <span class="nn">Request</span><span class="p">::</span><span class="nf">TwoOps</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">=&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span>
+    <span class="nn">Request</span><span class="p">::</span><span class="nf">ThreeOps</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">=&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And the resulting code will then allow us to do something like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="nf">passthrough</span><span class="p">(</span><span class="nn">OperationType</span><span class="p">::</span><span class="n">ADD</span><span class="p">,</span> <span class="nn">Request</span><span class="p">::</span><span class="n">NoOps</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Or this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="nf">passthrough</span><span class="p">(</span><span class="nn">OperationType</span><span class="p">::</span><span class="n">ADD</span><span class="p">,</span> <span class="nn">Request</span><span class="p">::</span><span class="nf">TwoOps</span><span class="p">(</span><span class="mf">10.1</span><span class="p">,</span> <span class="mf">40.5</span><span class="p">));</span>
+</code></pre>
+</div>
+
+<p>Or this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="nf">passthrough</span><span class="p">(</span><span class="nn">OperationType</span><span class="p">::</span><span class="n">ADD</span><span class="p">,</span> <span class="nn">Request</span><span class="p">::</span><span class="nf">ThreeOps</span><span class="p">(</span><span class="mf">10.1</span><span class="p">,</span> <span class="mf">40.5</span><span class="p">));</span>
+</code></pre>
+</div>
+
+<p>There’s still more room for improvement, but you get the point.</p>
+
+<p>So, “why should I consider a passthrough design?”, you may wonder! Here are some reasons why:</p>
+
+<ul>
+  <li>
+    <p>Passthroughs allow you to completely maintain your own code when working with a team of developers. That is to say your code needs not be scattered around, nor will anyone need direct access to any of your functions; you make your inner functions private, provide a <code class="highlighter-rouge">passthrough</code> function and there you roll ^_^.</p>
+  </li>
+  <li>
+    <p>Documentation becomes a breeze. Think about it. Instead of having to document every single function and provide snippets and use cases, you can keep all these functions private and only worry about documenting one: your <code class="highlighter-rouge">passthrough()</code> function. This can save you lots and lots of time.</p>
+  </li>
+</ul>
+
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'iqdevs';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+            <div class="svg-icon">
+          
+
+
+
+<a href="https://github.com/iqdevs"><i class="icon-github icon-2x"></i></a>
+
+
+
+
+
+
+
+
+
+            </div>
+        </footer>
+      </div>
+    </div>
+
+
+    
+
+  </body>
+</html>

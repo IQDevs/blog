@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Thoughts on TypeScript – IQDevs – Technology Excellence Redefined</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="I was introduced to TypeScript when it first came with angular 2. However, I tried to avoid it as much as possible. This was actually the main reason of why I left angular in favor of Vue. “A new quirky front-end language is the last thing I would need,” I thought.
+
+" />
+    <meta property="og:description" content="I was introduced to TypeScript when it first came with angular 2. However, I tried to avoid it as much as possible. This was actually the main reason of why I left angular in favor of Vue. “A new quirky front-end language is the last thing I would need,” I thought.
+
+" />
+    
+    <meta name="author" content="IQDevs" />
+
+    
+    <meta property="og:title" content="My Thoughts on TypeScript" />
+    <meta property="twitter:title" content="My Thoughts on TypeScript" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="IQDevs - Technology Excellence Redefined" href="/feed.xml" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+  </head>
+
+  <body>
+
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+            <h1>My Thoughts on TypeScript</h1>
+            <span class="meta">Posted by <a href="https://github.com/alexcorvi"> Alex Corvi
+            </a> on April 14, 2017
+            </span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+ <div class="space-extra-small">
+ </div>
+
+  <div class="entry">
+    <p>I was introduced to TypeScript when it first came with angular 2. However, I tried to avoid it as much as possible. This was actually the main reason of why I left angular in favor of Vue. “A new quirky front-end language is the last thing I would need,” I thought.</p>
+
+<p>That was true until I was deep into my <a href="https://github.com/finnlp/">NLP</a> project in late 2016. The code base was relatively large, so many modules and functions. A friend of mine, recommended TypeScript, and I tried it. I’ve been working with it for the last 4 months, and here are my thoughts.</p>
+
+<h2 id="type-checking-is-more-important-than-what-you-think">Type checking is more important than what you think</h2>
+
+<p>You might ask: why would anyone spend their time and energy writing:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">add</span> <span class="p">(</span><span class="nx">a</span><span class="err">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">b</span><span class="err">:</span> <span class="kr">number</span><span class="p">)</span><span class="err">:</span> <span class="kr">number</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Instead of:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">add</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The TL:DR; answer is:</p>
+
+<ul>
+  <li>Reduced bugs.</li>
+  <li>Compile time errors instead of runtime errors.</li>
+  <li>Better tooling.</li>
+  <li>Code completion.</li>
+</ul>
+
+<p>As for time and energy, developers usually spend more time reading code than writing it. TypeScript is clean and well-designed (a Microsoft product by Anders Hejlsberg the author of C#, Turbo Pascal and Delphi). So while you’re going to spend a little bit extra time writing code, but with better tooling you’ll be reading less. Especially when working in a team.</p>
+
+<p>As you import the module, you’ll have inline documentation, code completion and you can jump to definition. Those are limited, or sometimes, not even possible with a dynamic language such as JavaScript.</p>
+
+<h3 id="reduced-bugs-and-compile-time-errors">Reduced bugs and compile time errors</h3>
+
+<p>Take the previous example for instance:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">;</span>
+<span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>In javascript, the aforementioned code will act like nothing is wrong and would just return <code class="highlighter-rouge">"1string"</code>, i.e. It will fail silently, not even a runtime error will be produced. Which is the last thing you would want.</p>
+
+<p>A wise man once said:</p>
+
+<blockquote>
+  <p>Well engineered solutions fails early, fails fast, fails often.</p>
+</blockquote>
+
+<p>And I can’t emphasize enough how true this statement is.</p>
+
+<p>You might argue that “no one would pass a string to a function called <code class="highlighter-rouge">add</code>, that’s too obvious”. I agree, however, think of a larger code base, many functions, classes, abstractions, on multiple modules. Things can get out of hands in JavaScript pretty quickly.</p>
+
+<p>Have a look at this code for instance:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">function</span> <span class="nx">getAuthorLines</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">text</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/^author: </span><span class="se">(</span><span class="sr">.*</span><span class="se">)</span><span class="sr">$/gmi</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">getAuthorNames</span><span class="p">(</span><span class="nx">lines</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">lines</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">line</span><span class="p">)</span><span class="o">=&gt;</span><span class="nx">line</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">text</span> <span class="o">=</span> <span class="s2">"Paper title: TypeScript for the Win\nAuthor: Alex Corvi\nAuthor: John Doe\nAuthor: Jane Doe\n"</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getAuthorNames</span><span class="p">(</span><span class="nx">getAuthorLines</span><span class="p">(</span><span class="nx">text</span><span class="p">)));</span>
+
+</code></pre>
+</div>
+
+<p>What do you expect the result to be? You guessed it, it’s:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">[</span>
+	<span class="s2">"Alex Corvi"</span><span class="p">,</span>
+	<span class="s2">"John Doe"</span><span class="p">,</span>
+	<span class="s2">"Jane Doe"</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Now add the following line:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getAuthorNames</span><span class="p">(</span><span class="nx">getAuthorLines</span><span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">))));</span>
+</code></pre>
+</div>
+
+<p>Ouch! That’s a runtime error! That’s because <code class="highlighter-rouge">String.match</code> doesn’t always return an array, it might return <code class="highlighter-rouge">null</code>.</p>
+
+<p>Here’s another code, can you spot what’s wrong?</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">theThing</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">replaceThing</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">priorThing</span> <span class="o">=</span> <span class="nx">theThing</span><span class="p">;</span>
+	<span class="kd">var</span> <span class="nx">unused</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">priorThing</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"hi"</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+	<span class="nx">theThing</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="na">longStr</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">1000000</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">'*'</span><span class="p">),</span>
+		<span class="na">someMethod</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"abc"</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+<span class="p">};</span>
+<span class="nx">setInterval</span><span class="p">(</span><span class="nx">replaceThing</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>That was a classic example of how you can cause memory leaks in JavaScript. This one leaks 1 MegaByte per second. In TypeScript, You can’t reassign the <code class="highlighter-rouge">theThing</code> variable from <code class="highlighter-rouge">null</code> to <code class="highlighter-rouge">Object</code>.</p>
+
+<p>That doesn’t mean your applications will be bug-free. That’s never true, for any language. But surely, using TypeScript you can avoid a whole class of bugs.</p>
+
+<p>One might argue, that being an experienced developer will help to avoid such bugs. Again, I agree, but:</p>
+
+<ul>
+  <li>TypeScript (or static typing in general) is like a seat belt, not matter how good driver you are, you should always wear one.</li>
+  <li>The JavaScript community, is heavily reliant on modules (node modules) and those have a huge variance in quality.</li>
+</ul>
+
+<blockquote>
+  <p>Static typing is like a seat belt, no matter how good driver you are, you should always wear one.</p>
+</blockquote>
+
+<h3 id="better-tooling-and-code-completion">Better tooling and code completion</h3>
+
+<p>Code analysis, like abstract syntax trees, helps a lot with tooling. Code analysis is what makes code completion, linting, debugging tools, tree shaking tools possible. However, the dynamic nature of JavaScript makes it really hard for such tools to truly understand your code.</p>
+
+<p>Take for example <a href="https://github.com/rollup/rollup">rollup</a>, a bundling tool, have been recently integrated into Vue.js and React, that is supposed to tree-shake your bundles making them lighter by removing inaccessible and dead code. The author of which, Rich Harris, <a href="https://github.com/rollup/rollup/wiki/Troubleshooting#tree-shaking-doesnt-seem-to-be-working">mentions</a>:</p>
+
+<blockquote>
+  <p>Because static analysis in a dynamic language like JavaScript is hard, there will occasionally be false positives […] Rollup’s static analysis will improve over time, but it will never be perfect in all cases – that’s just JavaScript.</p>
+</blockquote>
+
+<p>So there’s really a limit to what can be achieved in JavaScript tooling.</p>
+
+<p>One of TypeScript’s goals was to remove such limits, and they sure did.</p>
+
+<p>Here are my favorites:</p>
+
+<ul>
+  <li>Great code completion, with <strong>Intellisense</strong>.</li>
+  <li>Goto symbol and show all symbols.</li>
+  <li>Better code reformatting.</li>
+  <li>A bunch of features that are provided with TSLint but not in ESLint.</li>
+  <li><a href="https://johnpapa.net/refactoring-with-visual-studio-code/">Easy refactoring (e.g. renaming a symbol).</a></li>
+</ul>
+
+<blockquote>
+  <p><strong>IntelliSense</strong> is the general term for a number of features: List Members, Parameter Info, Quick Info, and Complete Word. These features help you to learn more about the code you are using, keep track of the parameters you are typing, and add calls to properties and methods with only a few keystrokes.
+Microsoft Developer Network</p>
+</blockquote>
+
+<h2 id="the-syntax">The Syntax</h2>
+
+<h3 id="but-i-like-es6">But I like ES6…</h3>
+
+<p>I hope I’ve convinced you enough to try out TypeScript. The syntax shouldn’t be alien to a JavaScript programmer. Especially those who have tried ES6/ES7.</p>
+
+<p>TypeScript brands itself as a <em>“JavaScript Superset”</em>, so all valid JavaScript (ES3, ES5, ES6, ES7 …etc) is valid TypeScript. Everything you’ve been accustomed to, from flow controls to assignments.</p>
+
+<p>So instead of having a totally new syntax (like PureScript, Elm and Dart), TypeScript builds on top of JavaScript syntax. Yet, it adds it’s own flavor on top.</p>
+
+<h3 id="enough-talk-show-me-the-code">Enough talk, show me the code</h3>
+
+<p>I can easily bet that all javascript developers will be able to understand the following piece of code:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">let</span> <span class="nx">x</span><span class="err">:</span> <span class="kr">number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">y</span><span class="err">:</span> <span class="kr">number</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">getRand</span> <span class="p">(</span><span class="nx">min</span><span class="err">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">max</span><span class="err">:</span> <span class="kr">number</span><span class="p">)</span><span class="err">:</span> <span class="kr">number</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">))</span> <span class="o">+</span> <span class="nx">min</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getRand</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">));</span>
+
+</code></pre>
+</div>
+
+<p>So is this:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code>
+<span class="kr">class</span> <span class="nx">House</span> <span class="p">{</span>
+	<span class="nl">address</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+	<span class="nl">bedrooms</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+	<span class="nl">area</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+	<span class="nl">safeNeighborhood</span><span class="p">:</span><span class="kr">boolean</span><span class="p">;</span>
+	<span class="nl">goodCondition</span><span class="p">:</span><span class="kr">boolean</span><span class="p">;</span>
+	<span class="k">private</span> <span class="nx">priceCoefficient</span><span class="err">:</span> <span class="kr">number</span> <span class="o">=</span> <span class="mi">65</span><span class="p">;</span>
+	<span class="nx">get</span> <span class="nx">price</span><span class="p">()</span><span class="err">:</span> <span class="kr">number</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="p">((</span><span class="k">this</span><span class="p">.</span><span class="nx">bedrooms</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">area</span><span class="p">)</span> <span class="o">+</span>
+			<span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">safeNeighborhood</span> <span class="p">?</span> <span class="mi">1000</span> <span class="p">:</span> <span class="mi">0</span> <span class="p">)</span> <span class="o">+</span>
+			<span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">goodCondition</span> <span class="p">?</span> <span class="mi">1000</span> <span class="p">:</span> <span class="mi">0</span> <span class="p">))</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">priceCoefficient</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">myHouse</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">House</span><span class="p">();</span>
+<span class="nx">myHouse</span><span class="p">.</span><span class="nx">bedrooms</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="nx">myHouse</span><span class="p">.</span><span class="nx">area</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
+<span class="nx">myHouse</span><span class="p">.</span><span class="nx">safeNeighborhood</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="nx">myHouse</span><span class="p">.</span><span class="nx">goodCondition</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myHouse</span><span class="p">.</span><span class="nx">price</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<p>That was a major portion of what you’ll find in a TypeScript project.</p>
+
+<h3 id="interfaces">Interfaces</h3>
+
+<p>Interfaces, simply put, is a way to declare JSON object types.</p>
+
+<p>You can write your object type definition like this:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">myObj</span><span class="err">:</span> <span class="p">{</span> <span class="nl">a</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="nl">str</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="na">a</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+	<span class="na">str</span><span class="p">:</span> <span class="s2">"my string"</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Or you can declare a re-usable interface:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">MyObj</span> <span class="p">{</span>
+	<span class="nl">a</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+	<span class="nl">str</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">myObj1</span><span class="err">:</span> <span class="nx">MyObj</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="na">a</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+	<span class="na">str</span><span class="p">:</span> <span class="s2">"string"</span>
+<span class="p">}</span>
+
+
+<span class="kd">let</span> <span class="nx">myObj2</span><span class="err">:</span> <span class="nx">MyObj</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="na">a</span><span class="p">:</span> <span class="mi">456</span><span class="p">,</span>
+	<span class="na">str</span><span class="p">:</span> <span class="s2">"another string"</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="compilation">Compilation</h3>
+
+<p>To be able to work in the browser &amp; node, TypeScript compiles to JavaScript. Now you may have this preconceived notion of the compiled code being unreadable and uglified, but reality is exactly the opposite.</p>
+
+<p>After type-checking, the compiler will emit very clean and readable code. So this:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">x</span><span class="err">:</span> <span class="kr">number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">y</span><span class="err">:</span> <span class="kr">number</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">getRand</span> <span class="p">(</span><span class="nx">min</span><span class="err">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">max</span><span class="err">:</span> <span class="kr">number</span><span class="p">)</span><span class="err">:</span> <span class="kr">number</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">))</span> <span class="o">+</span> <span class="nx">min</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getRand</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">));</span>
+</code></pre>
+</div>
+
+<p>Will compile to this:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">getRand</span><span class="p">(</span><span class="nx">min</span><span class="p">,</span> <span class="nx">max</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">))</span> <span class="o">+</span> <span class="nx">min</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getRand</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">));</span>
+</code></pre>
+</div>
+
+<p>Have a look at the <a href="http://www.typescriptlang.org/play/">TypeScript Playground</a> where you can compile TypeScript immediately in your browser. Yes, it’s being compiled in the browser. This is possible since the TypeScript compiler is written in TypeScript.</p>
+
+<p>And while you’re at it, you’ll notice 2 things:</p>
+
+<ul>
+  <li>TypeScript compiler is really fast!</li>
+  <li>You can compile your ES6/ES7 code all the way down to ES3. No Babel required.</li>
+</ul>
+
+<blockquote>
+  <p>You won’t have to use Babel/buble anymore. TypeScript bridges the gap between the recent versions of JavaScript and what’s available on every modern browser, by compiling your code down to even ES3. However, you still have the option to compile to any ES version you like.</p>
+</blockquote>
+
+<h2 id="type-inference">Type inference</h2>
+
+<p>One of the killer features of TypeScript, is a really good type inference. Meaning that sometimes you won’t even have to declare some of the types.</p>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// inferred as a number</span>
+<span class="kd">let</span> <span class="nx">str</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">;</span> <span class="c1">// inferred as a string</span>
+
+<span class="c1">// function return type will also be inferred</span>
+<span class="kd">function</span> <span class="nx">add</span> <span class="p">(</span><span class="nx">a</span><span class="err">:</span><span class="kr">number</span><span class="p">,</span> <span class="nx">b</span><span class="err">:</span><span class="kr">number</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// type inferred as a number</span>
+<span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">b</span><span class="p">);</span> <span class="c1">// compiler will produce an error</span>
+</code></pre>
+</div>
+
+<p>Another advanced example:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="c1">// Notice how we won't declare any types:</span>
+<span class="kd">function</span> <span class="nx">myFunc</span> <span class="p">(</span><span class="nx">param</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">{</span>
+		<span class="na">n</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+		<span class="na">str</span><span class="p">:</span> <span class="s2">"myString"</span><span class="p">,</span>
+		<span class="na">obj</span><span class="p">:</span> <span class="p">{</span>
+			<span class="na">obj</span><span class="p">:</span> <span class="p">{</span>
+				<span class="na">obj</span><span class="p">:</span> <span class="p">{</span>
+					<span class="na">someVal</span><span class="p">:</span> <span class="nx">param</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="p">?</span> <span class="s2">"myString"</span> <span class="p">:</span> <span class="nx">param</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="p">?</span> <span class="p">{</span><span class="na">a</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span> <span class="p">:</span> <span class="p">[</span><span class="s2">"myString"</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// hover over someVal</span>
+<span class="nx">myFunc</span><span class="p">(</span><span class="mi">10</span><span class="p">).</span><span class="nx">obj</span><span class="p">.</span><span class="nx">obj</span><span class="p">.</span><span class="nx">obj</span><span class="p">.</span><span class="nx">someVal</span>
+</code></pre>
+</div>
+
+<p>Now when hovering over <code class="highlighter-rouge">someVal</code> you’ll notice that it’s type is declared as:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>string | Array&lt;string|number&gt; | {a: number;}
+</code></pre>
+</div>
+
+<p><a href="https://goo.gl/Zw11Yv">Try it</a></p>
+
+<h2 id="node-and-typescript">Node and TypeScript</h2>
+
+<p>Node.JS support was a priority when developing TypeScript. Your TypeScript code can be distributed as a node module, consumed in JavaScript just like any JavaScript module, and consumed in TypeScript with type declarations included, all while writing only once.</p>
+
+<h3 id="authoring-and-distributing-typescript-node-modules">Authoring and distributing TypeScript Node Modules</h3>
+
+<p>When compiling your javascript you can tell the compiler to emit type definitions (only type definitions, no logic) in a separate file that can be discoverable by TypeScript, yet does not affect your module when consumed in a JavaScript project (unless your editor wanted to be smart about it).</p>
+
+<p>All that you have to do is include the <code class="highlighter-rouge">declaration:true</code> in your <code class="highlighter-rouge">tsconfig.json</code> file:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+	<span class="s2">"declarations"</span><span class="err">:</span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>then refer to this file in your <code class="highlighter-rouge">package.json</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+	<span class="s2">"types"</span><span class="err">:</span><span class="s2">"./dist/index.d.ts"</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="consuming-javascript-node-modules-in-typescript">Consuming JavaScript Node Modules In TypeScript</h3>
+
+<p>What if you wanted to consume a module that was written in JavaScript? Express for example. Your editor (e.g. VSCode) can only try to have an idea about the imported module, but as we’ve discussed above, tools are actually limited by the dynamic nature of JavaScript.</p>
+
+<p>So your best bet is head to <a href="https://github.com/DefinitelyTyped/DefinitelyTyped">the DefinitelyTyped repository</a> and find if a there’s a type definition for the module you’re consuming.</p>
+
+<p>The good news is that <a href="https://github.com/DefinitelyTyped/DefinitelyTyped">the DefinitelyTyped repository</a> have over 3000 modules. Chances are you’re going to find the module you’re about to use.</p>
+
+<h4 id="example-consuming-express-in-typescript">Example: Consuming Express in TypeScript</h4>
+
+<p>Install the types:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm i --save-dev @types/express
+</code></pre>
+</div>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="c1">// import</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Request</span><span class="p">,</span> <span class="nx">Response</span><span class="p">,</span> <span class="nx">NextFunction</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"@types/express"</span><span class="p">;</span>
+<span class="c1">// declare</span>
+<span class="kd">function</span> <span class="nx">myMiddleWare</span> <span class="p">(</span><span class="nx">req</span><span class="err">:</span> <span class="nx">Request</span><span class="p">,</span> <span class="nx">res</span><span class="err">:</span> <span class="nx">Response</span><span class="p">,</span> <span class="nx">next</span><span class="err">:</span><span class="nx">NextFunction</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// middleware code</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="react-and-typescript">React and TypeScript</h2>
+
+<p>TypeScript, being an open-source community driven project, have added support for react in a really nice way.</p>
+
+<p>Just like you’re going to rename your <code class="highlighter-rouge">.js</code> files to <code class="highlighter-rouge">.ts</code>, your <code class="highlighter-rouge">.jsx</code> files should be <code class="highlighter-rouge">.tsx</code>. And that’s it, now install React’s type declarations from the definitely typed repository, and feel how good it is to have everything in your project to be strong-typed. Yes! Even HTML! and CSS!</p>
+
+<h2 id="dart-flow-purescript-elm">Dart, Flow, PureScript, Elm</h2>
+
+<ul>
+  <li><strong>Flow</strong>: Is a facebook product. However, it’s not a language, it’s just a type-checker. TypeScript does what Flow does in addition to many other features. Also it has a larger community.</li>
+  <li><strong>Dart</strong>: Although very powerful, but Dart’s syntax is different from JavaScript. I think that’s the main reason why it didn’t catch up with the community as TypeScript did. TypeScript embraced the new ES6/ES7 features and built it’s foundation on top of them.</li>
+  <li><strong>PureScript</strong> &amp; <strong>Elm</strong>: Are trying to achieve different thing, pure functional programming language, that compiles to JavaScript.</li>
+</ul>
+
+<h2 id="closing-statement">Closing statement</h2>
+
+<p>I’ve been developing with JavaScript for at least 5 years. However, After trying TypeScript for merly 4 months, working with JavaScript feels like walking on thin ice, you may make it for 10 meters or so, but you shouldn’t go any longer.</p>
+
+<p>I can now understand why there are so many well-educated developers disliking the dynamic nature of JavaScript.</p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="http://www.typescriptlang.org/docs/tutorial.html">The official documentation</a>.</li>
+  <li>Anders Hejlsberg Talks about TypeScript: <a href="http://video.ch9.ms/ch9/4ae3/062c336d-9cf0-498f-ae9a-582b87954ae3/B881_mid.mp4">1</a> <a href="https://www.youtube.com/watch?v=s0ecDXWvLmU">2</a> <a href="https://www.youtube.com/watch?v=eX2PXjj-KDk">3</a>.</li>
+  <li><a href="http://definitelytyped.org/">Definitely Typed</a>.</li>
+  <li>Editors and IDEs plugins: <a href="https://github.com/Microsoft/TypeScript-Sublime-Plugin">Sublime Text</a> <a href="https://atom.io/packages/atom-typescript">Atom</a> <a href="https://github.com/palantir/eclipse-typescript">Eclipse</a> <a href="https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support#vim">Vim</a>.</li>
+</ul>
+
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'iqdevs';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+            <div class="svg-icon">
+          
+
+
+
+<a href="https://github.com/iqdevs"><i class="icon-github icon-2x"></i></a>
+
+
+
+
+
+
+
+
+
+            </div>
+        </footer>
+      </div>
+    </div>
+
+
+    
+
+  </body>
+</html>

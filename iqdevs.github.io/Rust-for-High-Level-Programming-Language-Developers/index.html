@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rust for High-Level Programming Language Developers – IQDevs – Technology Excellence Redefined</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="So you’ve been doing high-level programming all your life, and you’ve been eyeing Rust for some time now, and you’re not sure where to start (or how to start). Well, this walk-through-like post will guide you through some of the common tasks you preform in high-level languages like JavaScript, Python, or even C#.
+
+" />
+    <meta property="og:description" content="So you’ve been doing high-level programming all your life, and you’ve been eyeing Rust for some time now, and you’re not sure where to start (or how to start). Well, this walk-through-like post will guide you through some of the common tasks you preform in high-level languages like JavaScript, Python, or even C#.
+
+" />
+    
+    <meta name="author" content="IQDevs" />
+
+    
+    <meta property="og:title" content="Rust for High-Level Programming Language Developers" />
+    <meta property="twitter:title" content="Rust for High-Level Programming Language Developers" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="IQDevs - Technology Excellence Redefined" href="/feed.xml" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+  </head>
+
+  <body>
+
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+            <h1>Rust for High-Level Programming Language Developers</h1>
+            <span class="meta">Posted by <a href="https://github.com/alkass"> Fadi Hanna Al-Kass
+            </a> on April 12, 2017
+            </span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+ <div class="space-extra-small">
+ </div>
+
+  <div class="entry">
+    <p>So you’ve been doing high-level programming all your life, and you’ve been eyeing Rust for some time now, and you’re not sure where to start (or how to start). Well, this walk-through-like post will guide you through some of the common tasks you preform in high-level languages like JavaScript, Python, or even C#.</p>
+
+<h3 id="so-json-in-rust">So, JSON in Rust?</h3>
+<h4 id="the-short-answer-is-no-built-in-support-for-json-but">The short answer is ‘no built-in support for JSON but…’</h4>
+<p>Well, Rust has no built-in support for JSON objects, but before you let that throw you off, Rust <code class="highlighter-rouge">struct</code>s are ~ 99% identical to JSON objects in their outer structure and the way they are defined and used. Let’s look at an example.</p>
+
+<p>Say you want to define a Person JSON object with fields holding things like the <code class="highlighter-rouge">full name</code>, <code class="highlighter-rouge">date of birth</code>, and <code class="highlighter-rouge">gender</code> of a person. Here’s how you’d likely define your object in a language like JavaScript:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">fullName</span><span class="p">:</span> <span class="s1">'Fadi Hanna Al-Kass'</span><span class="p">,</span>
+  <span class="na">dateOfBirth</span><span class="p">:</span> <span class="s1">'01-01-1990'</span><span class="p">,</span>
+  <span class="na">gender</span><span class="p">:</span> <span class="s1">'MALE'</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>Here’s how you’d write this in Rust:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="c">// Our pseudo-JSON object skeleton</span>
+<span class="k">struct</span> <span class="n">Person</span> <span class="p">{</span>
+  <span class="n">full_name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+  <span class="n">date_of_birth</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+  <span class="n">gender</span><span class="p">:</span> <span class="nb">String</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">person</span> <span class="o">=</span> <span class="n">Person</span> <span class="p">{</span>
+    <span class="n">full_name</span><span class="p">:</span> <span class="s">"Fadi Hanna Al-Kass"</span><span class="nf">.to_string</span><span class="p">(),</span>
+    <span class="n">date_of_birth</span><span class="p">:</span> <span class="s">"01-01-1990"</span><span class="nf">.to_string</span><span class="p">(),</span>
+    <span class="n">gender</span><span class="p">:</span> <span class="s">"MALE"</span><span class="nf">.to_string</span><span class="p">()</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>You’ve probably already noticed two differences between the two code snippets:</p>
+
+<ol>
+  <li>We had to define a skeleton for our pseudo-JSON object.</li>
+  <li>We used lowerCamelCase with JavaScript and snake_case with our Rust code snippet. This is really nothing more than a naming convention that the Rust compiler will throw a bunch of warnings at you if you don’t follow, but it shouldn’t have an effect on the execution of your program if you so choose not to follow.</li>
+</ol>
+
+<p>Now back to the first (and perhaps, more obvious) difference. Rust is a very (and I mean very) strongly typed programming language. That said, it needs to own as much information about your object types during the compilation process as possible. Of course, <code class="highlighter-rouge">struct</code>s are no exception, and you can really consider two ways (or more, depending on how imaginational you are) of looking at this: it is either (1) <code class="highlighter-rouge">limiting</code> or (2) <code class="highlighter-rouge">validating</code>. I wouldn’t be putting this post together had I considered strong-typing limiting.</p>
+
+<blockquote>
+  <p>You can always replace a strongly typed pseudo-JSON object with a <code class="highlighter-rouge">HashMap</code> to get around the static typing issue, but I’d advice against that, and I believe I can convince you to stick to the <code class="highlighter-rouge">struct</code> approach. You may, at this point, still not think so, but wait until we get to these magical little thingies called <code class="highlighter-rouge">traits</code> and then we’ll see ;-)</p>
+</blockquote>
+
+<h3 id="nested-pseudo-json-objects">Nested pseudo-JSON Objects?</h3>
+<h4 id="sure-forward-we-go">Sure, forward we go</h4>
+
+<p>Let’s design our <code class="highlighter-rouge">Person</code> JSON object in a more modern fashion. Instead of having a field containing the <code class="highlighter-rouge">full_name</code>, we can turn <code class="highlighter-rouge">full_name</code> into a sub-<code class="highlighter-rouge">struct</code> that has two fields (<code class="highlighter-rouge">first_name</code> and <code class="highlighter-rouge">last_name</code>). Instead of storing <code class="highlighter-rouge">date_of_birth</code> as a string that we may, at some point, need to parse down to extract the day, month, and the year from, we can store this information in a <code class="highlighter-rouge">struct</code> with three separate fields. And for our <code class="highlighter-rouge">gender</code> field, we can reference an <code class="highlighter-rouge">enum</code> value.</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">FullName</span> <span class="p">{</span>
+    <span class="n">first_name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+    <span class="n">last_name</span><span class="p">:</span> <span class="nb">String</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">DateOfBirth</span> <span class="p">{</span>
+    <span class="n">day</span><span class="p">:</span> <span class="nb">i8</span><span class="p">,</span>  <span class="c">// 8-bit integer variable</span>
+    <span class="n">month</span><span class="p">:</span> <span class="nb">i8</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="nb">i16</span> <span class="c">// 16-bit integer variable</span>
+<span class="p">}</span>
+
+<span class="k">enum</span> <span class="n">Gender</span> <span class="p">{</span>
+    <span class="n">MALE</span><span class="p">,</span>
+    <span class="n">FEMALE</span><span class="p">,</span>
+    <span class="n">NotDisclosed</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">Person</span> <span class="p">{</span>
+  <span class="n">full_name</span><span class="p">:</span> <span class="n">FullName</span><span class="p">,</span>
+  <span class="n">date_of_birth</span><span class="p">:</span> <span class="n">DateOfBirth</span><span class="p">,</span>
+  <span class="n">gender</span><span class="p">:</span> <span class="n">Gender</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">person</span> <span class="o">=</span> <span class="n">Person</span> <span class="p">{</span>
+      <span class="n">full_name</span><span class="p">:</span> <span class="n">FullName</span> <span class="p">{</span>
+          <span class="n">first_name</span><span class="p">:</span> <span class="s">"Fadi"</span><span class="nf">.to_string</span><span class="p">(),</span>
+          <span class="n">last_name</span><span class="p">:</span> <span class="s">"Hanna Al-Kass"</span><span class="nf">.to_string</span><span class="p">()</span>
+      <span class="p">},</span>
+      <span class="n">date_of_birth</span><span class="p">:</span> <span class="n">DateOfBirth</span> <span class="p">{</span>
+          <span class="n">day</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="n">month</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="n">year</span><span class="p">:</span> <span class="mi">1990</span>
+      <span class="p">},</span>
+      <span class="n">gender</span><span class="p">:</span> <span class="nn">Gender</span><span class="p">::</span><span class="n">MALE</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Our pseudo-JSON object is now looking much cleaner and even easier to utilize. Speaking of utilization, how do we reference our fields? Well, you’ve probably guessed it already. Yes, it’s the dot operator. If you’re interested in, say, printing the full name of your Person object, here’s how you’d do that:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="c">// The following line of code goes inside your main function right after</span>
+<span class="c">// your person object has been instantiated, or really anywhere after the</span>
+<span class="c">// object has been declared.</span>
+
+<span class="nd">println!</span><span class="p">(</span><span class="s">"{} {}"</span><span class="p">,</span> <span class="n">person</span><span class="py">.full_name.first_name</span><span class="p">,</span> <span class="n">person</span><span class="py">.full_name.last_name</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>and you’re probably seeing a problem here already. It would be absolutely tedious to use this approach to print out the full name of a person especially if you were to do this from multiple places in your program let alone the fact the way the print is done looks really primitive. There must be a different (perhaps, even, better) way you say. You bet there is. In fact, there not only is but are many ways you can go about handling this issue, which one of which would be the use of <code class="highlighter-rouge">traits</code>. A trait is a programmatical way of telling the compiler how to carry out specific functionalities during the build process. We’re going to use one here and learn how to write our own further below. The trait we’re about to use in a moment is called the <code class="highlighter-rouge">Debug</code> trait which basically sets out a specific printing layout for your defined <code class="highlighter-rouge">enum</code>, <code class="highlighter-rouge">struct</code> or what have you.</p>
+
+<p>If you simply add <code class="highlighter-rouge">#[derive(Debug)]</code> right on top of your <code class="highlighter-rouge">FullName</code> <code class="highlighter-rouge">struct</code> definition: i.e.:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="err">#</span><span class="p">[</span><span class="nf">derive</span><span class="p">(</span><span class="n">Debug</span><span class="p">)]</span>
+<span class="k">struct</span> <span class="n">FullName</span> <span class="p">{</span>
+    <span class="n">first_name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+    <span class="n">last_name</span><span class="p">:</span> <span class="nb">String</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>and replace:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="nd">println!</span><span class="p">(</span><span class="s">"{} {}"</span><span class="p">,</span> <span class="n">person</span><span class="py">.full_name.first_name</span><span class="p">,</span> <span class="n">person</span><span class="py">.full_name.last_name</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>with:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="nd">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span> <span class="n">person</span><span class="py">.full_name</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>You’ll end up with:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="n">FullName</span> <span class="p">{</span> <span class="n">first_name</span><span class="p">:</span> <span class="s">"Fadi"</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s">"Hanna Al-Kass"</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Cool, isn’t it? Well, it gets even cooler in a bit.</p>
+
+<p>But hang on a second, why did I have to replace <code class="highlighter-rouge"><span class="p">{}</span></code> with <code class="highlighter-rouge"><span class="p">{</span><span class="err">:?</span><span class="p">}</span></code> in my <code class="highlighter-rouge">println</code> statement? Or an even more proper question to ask is: what is the difference between the two?
+Well, so Rust has two ways of printing out stuff (there might be even more ways I am yet to discover!): a (1) <code class="highlighter-rouge">Display</code> and a <code class="highlighter-rouge">Debug</code>. <code class="highlighter-rouge">Display</code> is what you’d probably want to use to allow the program to communicate some meaningful output to your user, and <code class="highlighter-rouge">Debug</code> is what you could use during the development process. These two <code class="highlighter-rouge">traits</code> can co-exist without overlapping each other. By that I mean you can allow your object to print something with <code class="highlighter-rouge"><span class="p">{}</span></code> and something entirely different with <code class="highlighter-rouge"><span class="p">{</span><span class="err">:?</span><span class="p">}</span></code>, but that’s to be covered when we get down to writing our own <code class="highlighter-rouge">trait</code>s.</p>
+
+<p>So is it possible to use <code class="highlighter-rouge">#[derive(Debug)]</code> to print out nested objects? Yes, it is, and following is how. Simply add <code class="highlighter-rouge">#[derive(Debug)]</code> right on top of your main object and every object that’s part of it and then print the object as a whole by passing it to a  <code class="highlighter-rouge">println</code> function using the <code class="highlighter-rouge"><span class="p">{</span><span class="err">:?</span><span class="p">}</span></code> notation, i.e.:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="err">#</span><span class="p">[</span><span class="nf">derive</span><span class="p">(</span><span class="n">Debug</span><span class="p">)]</span>
+<span class="k">struct</span> <span class="n">FullName</span> <span class="p">{</span>
+    <span class="n">first_name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+    <span class="n">last_name</span><span class="p">:</span> <span class="nb">String</span>
+<span class="p">}</span>
+
+<span class="cp">#[derive(Debug)]</span>
+<span class="k">struct</span> <span class="n">DateOfBirth</span> <span class="p">{</span>
+    <span class="n">day</span><span class="p">:</span> <span class="nb">i8</span><span class="p">,</span>  <span class="c">// 8-bit integer variable</span>
+    <span class="n">month</span><span class="p">:</span> <span class="nb">i8</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="nb">i16</span> <span class="c">// 16-bit integer variable</span>
+<span class="p">}</span>
+
+<span class="cp">#[derive(Debug)]</span>
+<span class="k">enum</span> <span class="n">Gender</span> <span class="p">{</span>
+    <span class="n">MALE</span><span class="p">,</span>
+    <span class="n">FEMALE</span><span class="p">,</span>
+    <span class="n">NotDisclosed</span>
+<span class="p">}</span>
+
+<span class="cp">#[derive(Debug)]</span>
+<span class="k">struct</span> <span class="n">Person</span> <span class="p">{</span>
+  <span class="n">full_name</span><span class="p">:</span> <span class="n">FullName</span><span class="p">,</span>
+  <span class="n">date_of_birth</span><span class="p">:</span> <span class="n">DateOfBirth</span><span class="p">,</span>
+  <span class="n">gender</span><span class="p">:</span> <span class="n">Gender</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">person</span> <span class="o">=</span> <span class="n">Person</span> <span class="p">{</span>
+      <span class="n">full_name</span><span class="p">:</span> <span class="n">FullName</span> <span class="p">{</span>
+          <span class="n">first_name</span><span class="p">:</span> <span class="s">"Fadi"</span><span class="nf">.to_string</span><span class="p">(),</span>
+          <span class="n">last_name</span><span class="p">:</span> <span class="s">"Hanna Al-Kass"</span><span class="nf">.to_string</span><span class="p">()</span>
+      <span class="p">},</span>
+      <span class="n">date_of_birth</span><span class="p">:</span> <span class="n">DateOfBirth</span> <span class="p">{</span>
+          <span class="n">day</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="n">month</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="n">year</span><span class="p">:</span> <span class="mi">1990</span>
+      <span class="p">},</span>
+      <span class="n">gender</span><span class="p">:</span> <span class="nn">Gender</span><span class="p">::</span><span class="n">MALE</span>
+  <span class="p">};</span>
+  <span class="nd">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span> <span class="n">person</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And your output will look like:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="n">Person</span> <span class="p">{</span> <span class="n">full_name</span><span class="p">:</span> <span class="n">FullName</span> <span class="p">{</span> <span class="n">first_name</span><span class="p">:</span> <span class="s">"Fadi"</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s">"Hanna Al-Kass"</span> <span class="p">},</span> <span class="n">date_of_birth</span><span class="p">:</span> <span class="n">DateOfBirth</span> <span class="p">{</span> <span class="n">day</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="mi">1990</span> <span class="p">},</span> <span class="n">gender</span><span class="p">:</span> <span class="n">MALE</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Our output is looking pretty verbose already, and you may not like that. Is there a way to manipulate this output in terms of re-arranging its layout or limiting the amount of information being displayed? You bet there is, and it’s through writing our own <code class="highlighter-rouge">Debug</code> <code class="highlighter-rouge">trait</code> instead of using a <code class="highlighter-rouge">derive</code>d one. I think it’s better to introduce one more thing right before we get down to business with <code class="highlighter-rouge">trait</code>s, and that is Rust’s <code class="highlighter-rouge">OOP</code>-like paradigm. I call it <code class="highlighter-rouge">OOP</code>-like because Rust doesn’t consider itself an Object-Oriented Programming Language, but sure that in no way means we can’t do <code class="highlighter-rouge">OOP</code> in Rust. It just means <code class="highlighter-rouge">OOP</code> is done differently. To be more precise, <code class="highlighter-rouge">OOP</code> in Rust is done in a way Rust wouldn’t consider <code class="highlighter-rouge">OOP</code>.</p>
+
+<p>Up until now, we’ve only been working with <code class="highlighter-rouge">struct</code>s and <code class="highlighter-rouge">enum</code>s. You’ve probably already noticed that we used them to store data, but no logic (constructors, functions, destructors, etc) was added to them. That’s because that’s not where the functions go. before I further explain this, let’s look at a tiny Python class and discuss how its alternative can be written in Rust.
+Say you have a <code class="highlighter-rouge">Person</code> <code class="highlighter-rouge">class</code> with a constructor that takes a <code class="highlighter-rouge">first_name</code> and a <code class="highlighter-rouge">last_name</code> and provides two separate getter functions that give you these two string values whenever you need them. You’d write your class something as follows:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">firstName</span><span class="p">,</span> <span class="n">lastName</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">firstName</span> <span class="o">=</span> <span class="n">firstName</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lastName</span> <span class="o">=</span> <span class="n">lastName</span>
+  <span class="k">def</span> <span class="nf">getFirstName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">firstName</span>
+  <span class="k">def</span> <span class="nf">getLastName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastName</span>
+</code></pre>
+</div>
+
+<p>Notice how we have our fields and functions mixed together inside a single class. Rust separates the two. You’d have your fields defined inside a <code class="highlighter-rouge">struct</code> and an <code class="highlighter-rouge">impl</code> containing all relevant functions. So, when interpreted, our Python class would look in Rust as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Person</span> <span class="p">{</span>
+    <span class="n">first_name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+    <span class="n">last_name</span><span class="p">:</span> <span class="nb">String</span>
+<span class="p">}</span>
+
+<span class="k">impl</span> <span class="n">Person</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">new</span> <span class="p">(</span><span class="n">first_name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">Person</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Person</span> <span class="p">{</span>
+            <span class="n">first_name</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span>
+            <span class="n">last_name</span><span class="p">:</span> <span class="n">last_name</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+    <span class="k">fn</span> <span class="nf">get_first_name</span> <span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="o">&amp;</span><span class="nb">str</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">&amp;</span><span class="k">self</span><span class="py">.first_name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="nf">get_last_name</span> <span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="o">&amp;</span><span class="nb">str</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">&amp;</span><span class="k">self</span><span class="py">.last_name</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And to instantiate the object and access/utilize its functions, we do the following:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">person</span> <span class="o">=</span> <span class="nn">Person</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="s">"Fadi"</span><span class="nf">.to_string</span><span class="p">(),</span> <span class="s">"Hanna Al-Kass"</span><span class="nf">.to_string</span><span class="p">());</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"{}, {}"</span><span class="p">,</span> <span class="n">person</span><span class="nf">.get_last_name</span><span class="p">(),</span> <span class="n">person</span><span class="nf">.get_first_name</span><span class="p">());</span>
+</code></pre>
+</div>
+
+<p>You’ve probably already looked at the code and thought to yourself “aha, <code class="highlighter-rouge">Person::new()</code> must be the constructor” to which you’d definitely be right. however, one thing you need to keep in mind is that Rust has no concept of a <code class="highlighter-rouge">constructor</code> per se. Instead, we define a static function that we use to instantiate our object. This also means <code class="highlighter-rouge">new</code> is not a keyword nor is it the required name of your entry point to your object; it can really be anything but <code class="highlighter-rouge">new</code> is the convention.</p>
+
+<blockquote>
+  <p>In short, your class constructor is a static function located inside an <code class="highlighter-rouge">impl</code> and turns an object of the type of the class you’re instantiating (Person in our case).</p>
+</blockquote>
+
+<h3 id="traits">Traits</h3>
+<h4 id="if-this-doesnt-turn-you-into-a-rust-fanatic-i-dont-think-anything-will-sad--">If this doesn’t turn you into a Rust fanatic, I don’t think anything will. <em>Sad :-(</em></h4>
+
+<p>A <code class="highlighter-rouge">trait</code> is nothing but a language feature that tells the compiler about a type-specific functionality. The definition of a <code class="highlighter-rouge">trait</code> may be confusing as heck to you, but it’ll all settle for you with the first example or two.</p>
+
+<p>Remember how we were talking about classes with constructors, functions, and destructors? Well, we’ve already discussed how constructors and functions are done in Rust. Let’s talk a little about destructors. A <code class="highlighter-rouge">destructor</code> is a class function that invokes itself once the class is out of scope. In some low-level programming languages like C++, a class destructor is normally used to deallocate all allocated memory and preform some house cleaning. Rust has an <code class="highlighter-rouge">impl</code> destruction functionality (<code class="highlighter-rouge">trait</code>) called <code class="highlighter-rouge">Drop</code>. Let’s look at how this trait can be implemented and invoked:</p>
+
+<p>Let’s say you have a <code class="highlighter-rouge">Response</code> object you return to a HTTP validation layer that sends it to an end-client. Once this operation is complete, you have no business in maintaining this <code class="highlighter-rouge">Response</code> object, so it’ll delete itself once it’s out of scope. Let’s start by defining this structure:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Response</span> <span class="p">{</span>
+  <span class="n">code</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span>
+  <span class="n">message</span><span class="p">:</span> <span class="nb">String</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">Response</span> <span class="p">{</span>
+    <span class="n">code</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">message</span><span class="p">:</span> <span class="s">"OK"</span><span class="nf">.to_string</span><span class="p">()</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now let’s add a <code class="highlighter-rouge">Drop</code> <code class="highlighter-rouge">trait</code> to our object and see when <code class="highlighter-rouge">Drop</code> is invoked:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">impl</span> <span class="n">Drop</span> <span class="k">for</span> <span class="n">Response</span> <span class="p">{</span>
+  <span class="k">fn</span> <span class="k">drop</span> <span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span> <span class="k">self</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"I ran out of scope. I'm about to be destroyed"</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>If you try to run the complete program now, i.e.:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Response</span> <span class="p">{</span>
+  <span class="n">code</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span>
+  <span class="n">message</span><span class="p">:</span> <span class="nb">String</span>
+<span class="p">}</span>
+
+<span class="k">impl</span> <span class="n">Drop</span> <span class="k">for</span> <span class="n">Response</span> <span class="p">{</span>
+  <span class="k">fn</span> <span class="k">drop</span> <span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span> <span class="k">self</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"I ran out of scope. I'm about to be destroyed"</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">Response</span> <span class="p">{</span>
+    <span class="n">code</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">message</span><span class="p">:</span> <span class="s">"OK"</span><span class="nf">.to_string</span><span class="p">()</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>You’ll see the following output right before the program finishes executing:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>I ran out of scope. I'm about to be destroyed
+</code></pre>
+</div>
+
+<p>Let’s look at another example.
+If you’ve ever done any scientific computation in Python, chances are you’ve overloaded some of the arithmetic operations (<code class="highlighter-rouge">+</code>, <code class="highlighter-rouge">-</code>, <code class="highlighter-rouge">*</code>, <code class="highlighter-rouge">/</code>, <code class="highlighter-rouge">%</code>, etc). A vector class with <code class="highlighter-rouge">+</code> overloaded would look something like the following:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Vector</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+  <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">otherVector</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">otherVector</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="n">otherVector</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">"Vector(</span><span class="si">%</span><span class="s">s, </span><span class="si">%</span><span class="s">s)"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>And if you were to add two <code class="highlighter-rouge">Vector</code> objects together, you’d so something like the following:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">v1</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">v3</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span>
+</code></pre>
+</div>
+
+<p>And print the result as follows:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">v3</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>This will print the following:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Vector</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Hmm.. Let’s see how we could go about implementing this in Rust. First, we’d need to somehow find a way to add objects (i.e., overload the <code class="highlighter-rouge">+</code> operator). Second, we’d need to be able to give our object to <code class="highlighter-rouge">println</code> and see it print something like <code class="highlighter-rouge">Vector(#, #)</code>. Lucky for us, both of these features are available as <code class="highlighter-rouge">trait</code>s we can implement. Let’s chase them one at a time. We’ll start with the <code class="highlighter-rouge">Add</code> <code class="highlighter-rouge">trait</code>.</p>
+
+<p>Here’s our Rust <code class="highlighter-rouge">Vector</code> object:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Vector</span> <span class="p">{</span>
+  <span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span>
+  <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Then we add the <code class="highlighter-rouge">constructor</code>:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">impl</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">new</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">Vector</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Vector</span> <span class="p">{</span>
+            <span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span>
+            <span class="n">b</span><span class="p">:</span> <span class="n">b</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>We, then, add the <code class="highlighter-rouge">+</code> operation overloaded to our <code class="highlighter-rouge">Vector</code> <code class="highlighter-rouge">struct</code> as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="nn">ops</span><span class="p">::</span><span class="nb">Add</span><span class="p">;</span>
+
+<span class="k">impl</span> <span class="nb">Add</span> <span class="k">for</span> <span class="n">Vector</span> <span class="p">{</span>
+  <span class="k">type</span> <span class="n">Output</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">;</span>
+  <span class="k">fn</span> <span class="nf">add</span> <span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="n">other_vector</span><span class="p">:</span> <span class="n">Vector</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">Vector</span> <span class="p">{</span>
+      <span class="n">a</span><span class="p">:</span> <span class="k">self</span><span class="py">.a</span> <span class="o">+</span> <span class="n">other_vector</span><span class="py">.a</span><span class="p">,</span>
+      <span class="n">b</span><span class="p">:</span> <span class="k">self</span><span class="py">.b</span> <span class="o">+</span> <span class="n">other_vector</span><span class="py">.b</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>At this point, we can have the following in our <code class="highlighter-rouge">main</code> function:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">v1</span> <span class="o">=</span> <span class="nn">Vector</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="k">let</span> <span class="n">v2</span> <span class="o">=</span> <span class="nn">Vector</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+<span class="k">let</span> <span class="n">v3</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>But we can’t print quite yet. Let’s implement this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="nn">fmt</span><span class="p">::{</span><span class="n">Debug</span><span class="p">,</span> <span class="n">Formatter</span><span class="p">,</span> <span class="n">Result</span><span class="p">};</span>
+<span class="k">impl</span> <span class="n">Debug</span> <span class="k">for</span> <span class="n">Vector</span> <span class="p">{</span>
+  <span class="k">fn</span> <span class="nf">fmt</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">Formatter</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">Result</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nd">write!</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">"Vector({}, {})"</span><span class="p">,</span> <span class="k">self</span><span class="py">.a</span><span class="p">,</span> <span class="k">self</span><span class="py">.b</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now we can print <code class="highlighter-rouge">v3</code> as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="nd">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span> <span class="n">v3</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>And get the following output:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="nf">Vector</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Your final program should look like the following:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Vector</span> <span class="p">{</span>
+  <span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span>
+  <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span>
+<span class="p">}</span>
+
+<span class="k">impl</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">new</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">Vector</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Vector</span> <span class="p">{</span>
+            <span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span>
+            <span class="n">b</span><span class="p">:</span> <span class="n">b</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="nn">ops</span><span class="p">::</span><span class="nb">Add</span><span class="p">;</span>
+<span class="k">impl</span> <span class="nb">Add</span> <span class="k">for</span> <span class="n">Vector</span> <span class="p">{</span>
+  <span class="k">type</span> <span class="n">Output</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">;</span>
+  <span class="k">fn</span> <span class="nf">add</span> <span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="n">other_vector</span><span class="p">:</span> <span class="n">Vector</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">Vector</span> <span class="p">{</span>
+      <span class="n">a</span><span class="p">:</span> <span class="k">self</span><span class="py">.a</span> <span class="o">+</span> <span class="n">other_vector</span><span class="py">.a</span><span class="p">,</span>
+      <span class="n">b</span><span class="p">:</span> <span class="k">self</span><span class="py">.b</span> <span class="o">+</span> <span class="n">other_vector</span><span class="py">.b</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="nn">fmt</span><span class="p">::{</span><span class="n">Debug</span><span class="p">,</span> <span class="n">Formatter</span><span class="p">,</span> <span class="n">Result</span><span class="p">};</span>
+<span class="k">impl</span> <span class="n">Debug</span> <span class="k">for</span> <span class="n">Vector</span> <span class="p">{</span>
+  <span class="k">fn</span> <span class="nf">fmt</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">Formatter</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">Result</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nd">write!</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">"Vector({}, {})"</span><span class="p">,</span> <span class="k">self</span><span class="py">.a</span><span class="p">,</span> <span class="k">self</span><span class="py">.b</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">v1</span> <span class="o">=</span> <span class="nn">Vector</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="k">let</span> <span class="n">v2</span> <span class="o">=</span> <span class="nn">Vector</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+  <span class="k">let</span> <span class="n">v3</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">;</span>
+  <span class="nd">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span> <span class="n">v3</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Oh, and you know how I said <code class="highlighter-rouge"><span class="p">{}</span></code> is used to communicate output to the user while <code class="highlighter-rouge"><span class="p">{</span><span class="err">:?</span><span class="p">}</span></code> is usually used for debugging purposes? Well, it turns out you can overload the <code class="highlighter-rouge">Display</code> trail (available under <code class="highlighter-rouge">std::fmt</code> as well) to print your object using <code class="highlighter-rouge"><span class="p">{}</span></code> instead of <code class="highlighter-rouge"><span class="p">{</span><span class="err">:?</span><span class="p">}</span></code>.</p>
+
+<p>So, simply replace:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="nn">fmt</span><span class="p">::{</span><span class="n">Debug</span><span class="p">,</span> <span class="n">Formatter</span><span class="p">,</span> <span class="n">Result</span><span class="p">};</span>
+</code></pre>
+</div>
+
+<p>With:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="nn">fmt</span><span class="p">::{</span><span class="n">Display</span><span class="p">,</span> <span class="n">Formatter</span><span class="p">,</span> <span class="n">Result</span><span class="p">};</span>
+</code></pre>
+</div>
+
+<p>And:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">impl</span> <span class="n">Debug</span> <span class="k">for</span> <span class="n">Vector</span> <span class="p">{</span>
+</code></pre>
+</div>
+
+<p>With:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">impl</span> <span class="n">Display</span> <span class="k">for</span> <span class="n">Vector</span> <span class="p">{</span>
+</code></pre>
+</div>
+
+<p>And:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="nd">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span> <span class="n">v3</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>With:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="nd">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="n">v3</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>And voila, you’re all set.</p>
+
+<h3 id="statements-vs-expressions">Statements vs. Expressions?</h3>
+<p>At this point, I’m a bit tired of having to included unnecessary keywords in my code snippets, so I thought I’d introduce the concept of statement-vs-expression in Rust.</p>
+
+<p>So, basically statements that don’t end with a semi-colon (<code class="highlighter-rouge">;</code>) return something and they even have a special label: <code class="highlighter-rouge">expressions</code>. Without getting into too much detail and get you all confused, let me instead throw a little snippet at you and let you sort it out in your head.</p>
+
+<p>So, let’s say you have a function that takes two <code class="highlighter-rouge">i32</code> arguments and returns the sum of the two values. You could have your function written like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">sum</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">i32</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>or you could have the shorthand notation of the function by using an expression instead of a statement:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">sum</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">i32</span> <span class="p">{</span>
+  <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>From this point on, I will be using expressions whenever possible.</p>
+
+<h3 id="our-journey-into-the-specifics">Our Journey into the Specifics</h3>
+<p>We’re now going to dive into the basics of Rust.</p>
+
+<h4 id="variableobject-declaration">Variable/Object Declaration</h4>
+<p>We’ve been declaring objects and variables all over the place already, but perhaps there’s more to them than what’s been covered already. If you want to declare an integer <code class="highlighter-rouge">x</code> and assign the value <code class="highlighter-rouge">2</code> to it, you could do so as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>But if you were to write an operating system, a kernel module, and/or an application that runs on an embedded system, the size of your object really matters, and chances are you’ll need to control these sizes. Unless you dive into the specifics of the design of the compiler of Rust, you really have no idea how many bits are used to store your variable. There must be a better way to carry this out, and here’s how. Rust allows you to specify the type of your object with a slight edit to your statement. Instead of writing your variable declaration like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>You could write it like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span><span class="p">:</span> <span class="nb">i8</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>And you know for sure that your variable is stored as an 8-bit integer.</p>
+
+<p>Read more about Primitive Types and Object Declaration <a href="https://doc.Rust-lang.org/book/primitive-types.html">here</a></p>
+
+<h4 id="mutability">Mutability</h4>
+<p>By default, objects and variables in Rust are immutable (not modifiable after they’ve been declared). Something like the following won’t work:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span><span class="p">:</span> <span class="nb">i8</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>To be able to change the value of <code class="highlighter-rouge">x</code>, we need to tell the compiler to mark our variable as mutable (able to change value after it’s been declared). This introduces a slight change to our declaration that’s pretty intuitive; you simply add the keyword <code class="highlighter-rouge">mut</code> on the left side of your object declaration statement like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="k">mut</span> <span class="n">x</span><span class="p">:</span> <span class="nb">i8</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>And now the following will work like a charm!</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<h4 id="type-aliases">Type Aliases</h4>
+<p>Rust has a keyword called <code class="highlighter-rouge">type</code> used to declare aliases of other types.
+Say you want to use <code class="highlighter-rouge">i32</code> across a whole <code class="highlighter-rouge">class</code>, <code class="highlighter-rouge">module</code> or even across your whole application, and for clarity’s sake you’d rather use <code class="highlighter-rouge">Int</code> instead of <code class="highlighter-rouge">i32</code> to reference 32-bit integers. You could define your <code class="highlighter-rouge">Int</code> type as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">type</span> <span class="n">Int</span> <span class="o">=</span> <span class="nb">i32</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>And now to use your new type, you could define your variables like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">var1</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="k">let</span> <span class="n">var2</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>And so on.</p>
+
+<h4 id="functions">Functions</h4>
+<p>Function declarations are pretty intuitive and straightforward. Say you want to write a <code class="highlighter-rouge">greeting</code> function that prints out the test <code class="highlighter-rouge">"hello there!"</code> over <code class="highlighter-rouge">stdio</code>. You’d write your function as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">greeting</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"hello there!"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>What if you want to pass the string to the function instead of hard-coding a specific value? Then, you’d write it like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">greeting</span> <span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c">// TODO: Implement me</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Multiple function arguments? Sure! Here’s how:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">greeting</span> <span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c">// TODO: Implement me</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Functions with return values? Here’s how:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">add</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">i32</span> <span class="p">{</span>
+ <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>i32 is a 32-bit integer type in Rust. You can read more about Rust’s support for numeric types <a href="https://doc.Rust-lang.org/book/primitive-types.html#numeric-types">here</a>.</p>
+</blockquote>
+
+<p>Remember that we’re using an <code class="highlighter-rouge">expression</code> in the code snippet above. If you wanted to replace it with a statement <code class="highlighter-rouge">return a + b;</code> will do.</p>
+
+<h4 id="closures">Closures</h4>
+<p>The easiest definition of a <code class="highlighter-rouge">closure</code> I can give is that a <code class="highlighter-rouge">closure</code> is a function with untyped arguments. If you were to write a function that multiplies two numbers together and return the product, you’d do so as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">mul</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">i32</span> <span class="p">{</span>
+	<span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>This function can be written as a closure as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">mul</span> <span class="o">=</span> <span class="p">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">|</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>And then you can call it the exact same way you’d call a function, i.e.:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>println!("{}", mul(10, 20));
+</code></pre>
+</div>
+
+<p>If you, for whatever reason, want to strongly-type your closure arguments, you can do so by defining their types the same way you’d define function arguments, e.g.:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">mul</span> <span class="o">=</span> <span class="p">|</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">|</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>And you can even strongly-type your closure return type as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">mul</span> <span class="o">=</span> <span class="p">|</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">|</span> <span class="k">-&gt;</span> <span class="nb">i32</span> <span class="p">{</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">};</span>
+</code></pre>
+</div>
+
+<p>But that’ll require you to wrap your closure content within two curly brackets (<code class="highlighter-rouge"><span class="p">{</span></code> and <code class="highlighter-rouge">}</code>).</p>
+
+<p>You can read more about most of the cool stuff you can do with <code class="highlighter-rouge">closure</code>s <a href="https://doc.Rust-lang.org/book/closures.html">here</a>.</p>
+
+<h4 id="function-pointers">Function Pointers</h4>
+<p>If you’re coming from a solid background in languages like C and C++, chances are you’ve worked with function pointers a lot. You’ve probably even worked with function pointers in languages like JavaScript and Python without ever coming across the name.
+At its core, a function pointer is a variable holding access to a specific memory location representing the beginning of the function. In JavaScript, if you were to have the following:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">callee</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// TODO: Implement me</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">caller</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// TODO: Implement a task</span>
+  <span class="nx">callback</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nx">caller</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>It can be said that “<code class="highlighter-rouge">caller</code> is a function that takes an argument of type function pointer (which in this case is our <code class="highlighter-rouge">callee</code> function)”.</p>
+
+<p>Rust isn’t that flexible when it comes to function pointers though. If you were to pass a function pointer to a function, the calling function needs to have a somewhat hard set on callback function specifications; your calling function needs to specify the arguments and the return type of the callee function. Let’s discuss a use case where you may want to use a function pointer.</p>
+
+<p>Say you’re creating a struct called <code class="highlighter-rouge">CommandInterface</code> that will contain two fields: (1) a command string, and (2) a function pointer pointing to the function to be executed with the specified command. Let’s start by defining the outer skeleton of our interface <code class="highlighter-rouge">struct</code>:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">CommandInterface</span> <span class="p">{</span>
+	<span class="nb">str</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+	<span class="n">exec</span><span class="p">:</span> <span class="k">fn</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="nb">i8</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Here we’re telling the compiler to expect our function pointer to have no arguments and return an 8-bit integer. Let’s now define a function according to these specifications:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">ls</span> <span class="p">()</span> <span class="k">-&gt;</span> <span class="nb">i8</span> <span class="p">{</span>
+	<span class="c">// TODO: Implement me</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>Our function needs not have a specific name. I’m only naming it after the command you’re about to see below to maintain a convention.</p>
+</blockquote>
+
+<p>Let’s now define our function, set the function pointer, and see how we could use the function pointer in calling our function.</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">CommandInterface</span> <span class="p">{</span>
+	<span class="nb">str</span><span class="p">:</span> <span class="s">"ls"</span><span class="nf">.to_string</span><span class="p">(),</span>
+	<span class="n">exec</span><span class="p">:</span> <span class="n">ls</span> <span class="c">// points to the ls function declared above</span>
+<span class="p">};</span>
+
+<span class="p">(</span><span class="n">cmd</span><span class="py">.exec</span><span class="p">)();</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>The parenthesis (<code class="highlighter-rouge">()</code>) around <code class="highlighter-rouge">cmd.exec</code> are a syntax requirement. If you forget to add them, the compiler will throw an error at you.</p>
+</blockquote>
+
+<p>But what about functions with arguments? Say we want to pass some command arguments to our function, how would we do that? Well, this is pretty easy and it’ll require very slight changes. You could replace:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="n">exec</span><span class="p">:</span> <span class="k">fn</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="nb">i8</span>
+</code></pre>
+</div>
+
+<p>with:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="n">exec</span><span class="p">:</span> <span class="k">fn</span><span class="p">(</span><span class="n">arg1</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">arg2</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">i8</span>
+</code></pre>
+</div>
+
+<p>and:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">ls</span> <span class="p">(</span><span class="n">arg1</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">arg2</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">i8</span>
+</code></pre>
+</div>
+
+<p>with:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="n">cmd</span><span class="py">.exec</span><span class="p">)();</span>
+</code></pre>
+</div>
+
+<p>with something like this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="n">cmd</span><span class="py">.exec</span><span class="p">)(</span><span class="s">"-a"</span><span class="nf">.to_string</span><span class="p">(),</span> <span class="s">"-l"</span><span class="nf">.to_string</span><span class="p">());</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>In a practical world, it’d be better to pass a vector of arguments but I intentionally ignored vectors just to keep things clean.</p>
+</blockquote>
+
+<h4 id="conditionals">Conditionals</h4>
+<p>When it comes to code path redirection, Rust has the three keywords you’ll likely find in most programming languages out there: <code class="highlighter-rouge">if</code>, <code class="highlighter-rouge">else</code>, and <code class="highlighter-rouge">else if</code>. If you’ve worked with languages like <code class="highlighter-rouge">C</code>, <code class="highlighter-rouge">C++</code>, <code class="highlighter-rouge">C#</code>, <code class="highlighter-rouge">Java</code>, and <code class="highlighter-rouge">JavaScript</code>, then you already know how to work with conditional expressions in Rust. Here’s the trick: conditional expressions in Rust are done exactly the way they’re done in the languages I just mentioned, except without the wrapping parenthesis, e.g.:</p>
+
+<p>The following JavaScript code:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// TODO: Implement me</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// TODO: Implement me</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+	<span class="c1">// TODO: Implement me</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>is written in Rust as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">||</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">{</span>
+	<span class="c">// TODO: Implement me</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+	<span class="c">// TODO: Implement me</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+	<span class="c">// TODO: Implement me</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And that’s really all there is to it when it comes to code path redirection.</p>
+
+<p>You might, however, be used to using the <code class="highlighter-rouge">?</code> operator for quick things like “if <code class="highlighter-rouge">x</code> is even do this and if <code class="highlighter-rouge">x</code> is odd do that”, e.g.:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="c1">// The following JavaScript statement sets `res` to 'even' if `x` is an even value, and 'odd' if `x` is an odd value</span>
+
+<span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">?</span> <span class="s1">'even'</span> <span class="p">:</span> <span class="s1">'odd'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>In Rust, the same can be written as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span><span class="s">"even"</span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span><span class="s">"odd"</span><span class="p">};</span>
+</code></pre>
+</div>
+
+<h4 id="matching-aka-pseudo-switch-case-statements">Matching (aka pseudo-Switch-Case Statements)</h4>
+<p>Matching is your typical <code class="highlighter-rouge">switch</code> case code block plus the ability to return something. If you were to compare integer <code class="highlighter-rouge">x</code> against a number of different values, using classical <code class="highlighter-rouge">if - else -- else if</code> gets pretty tedious really quickly, so developers tend to resort to <code class="highlighter-rouge">switch</code> case statements. Referring back to our <code class="highlighter-rouge">x</code> example, the following JavaScript compares <code class="highlighter-rouge">x</code> against 5 different values (cases):</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="k">switch</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="mi">1</span><span class="err">:</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'x is 1'</span><span class="p">);</span>
+    <span class="k">break</span><span class="p">;</span>
+  <span class="k">case</span> <span class="mi">2</span><span class="err">:</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'x is 2'</span><span class="p">);</span>
+    <span class="k">break</span><span class="p">;</span>
+  <span class="k">case</span> <span class="mi">3</span><span class="err">:</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'x is 3'</span><span class="p">);</span>
+    <span class="k">break</span><span class="p">;</span>
+  <span class="k">case</span> <span class="mi">4</span><span class="err">:</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'x is 4'</span><span class="p">);</span>
+    <span class="k">break</span><span class="p">;</span>
+  <span class="nl">default</span><span class="p">:</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'x is something else'</span><span class="p">);</span>
+    <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The snipper above can be written in Rust as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">match</span> <span class="n">x</span> <span class="p">{</span>
+    <span class="mi">1</span> <span class="k">=&gt;</span> <span class="nd">println!</span><span class="p">(</span><span class="s">"x is 1"</span><span class="p">),</span>
+    <span class="mi">2</span> <span class="k">=&gt;</span> <span class="nd">println!</span><span class="p">(</span><span class="s">"x is 2"</span><span class="p">),</span>
+    <span class="mi">3</span> <span class="k">=&gt;</span> <span class="nd">println!</span><span class="p">(</span><span class="s">"x is 3"</span><span class="p">),</span>
+    <span class="mi">4</span> <span class="k">=&gt;</span> <span class="nd">println!</span><span class="p">(</span><span class="s">"x is 4"</span><span class="p">),</span>
+    <span class="mi">5</span> <span class="k">=&gt;</span> <span class="nd">println!</span><span class="p">(</span><span class="s">"x is 5"</span><span class="p">),</span>
+    <span class="n">_</span> <span class="k">=&gt;</span> <span class="nd">println!</span><span class="p">(</span><span class="s">"x is something else"</span><span class="p">)</span>
+  <span class="p">};</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>_ is how you handle <code class="highlighter-rouge">default</code> cases</p>
+</blockquote>
+
+<p>But things don’t end here; there’s more to <code class="highlighter-rouge">match</code> statements. Like I mentioned above, you can actually return a value or an object from a <code class="highlighter-rouge">match</code> statement. Let’s do some refactoring to our code snippet above and make it return the actual string instead of printing it to screen:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">res</span> <span class="o">=</span> <span class="k">match</span> <span class="n">x</span> <span class="p">{</span>
+    <span class="mi">1</span> <span class="k">=&gt;</span> <span class="s">"x is 1"</span><span class="p">,</span>
+    <span class="mi">2</span> <span class="k">=&gt;</span> <span class="s">"x is 2"</span><span class="p">,</span>
+    <span class="mi">3</span> <span class="k">=&gt;</span> <span class="s">"x is 3"</span><span class="p">,</span>
+    <span class="mi">4</span> <span class="k">=&gt;</span> <span class="s">"x is 4"</span><span class="p">,</span>
+    <span class="mi">5</span> <span class="k">=&gt;</span> <span class="s">"x is 5"</span><span class="p">,</span>
+    <span class="n">_</span> <span class="k">=&gt;</span> <span class="s">"x is something else"</span>
+  <span class="p">};</span>
+  <span class="nd">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="n">res</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>That will print the exact same thing except it handed you back the string instead of printing it, and you printed it.</p>
+
+<p><code class="highlighter-rouge">match</code> can work with sophisticated objects and patterns. Read more about it <a href="https://doc.rust-lang.org/book/match.html">here</a>.</p>
+
+<h4 id="loops">Loops</h4>
+<p>Loops are a very interesting subject in Rust. The language currently has three approaches to any kind of iterative activity. These three approaches use three separate keywords: <code class="highlighter-rouge">for</code>, <code class="highlighter-rouge">while</code>, and <code class="highlighter-rouge">loop</code>.</p>
+
+<p>The <code class="highlighter-rouge">for</code> loop is used when you’ve already decided the number of times you’d like to iterate. For example, the following will loop 9 times and print the values <code class="highlighter-rouge">0</code> through <code class="highlighter-rouge">9</code>:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="mi">0</span><span class="err">..</span><span class="mi">10</span> <span class="p">{</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>This interprets to the following Python code:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">d"</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>You can also iterate over a list using a <code class="highlighter-rouge">for</code> loop as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="o">&amp;</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span> <span class="p">{</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>This is equivalent to the following Python code:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">d"</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">for</code> loops can also preform some sophisticated tasks. For instance, if you have the string <code class="highlighter-rouge">"hello\nworld\nmy\nname\nis\nFadi"</code> and you want it up split it up using the linefeed (<code class="highlighter-rouge">\n</code>) delimiter, you can use the <code class="highlighter-rouge">lines()</code> function. This function returns an enumerator containing both the substring and the line number. So something like the following:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">my_str_tokens</span> <span class="o">=</span> <span class="s">"hello</span><span class="se">\n</span><span class="s">world</span><span class="se">\n</span><span class="s">my</span><span class="se">\n</span><span class="s">name</span><span class="se">\n</span><span class="s">is</span><span class="se">\n</span><span class="s">Fadi"</span><span class="nf">.lines</span><span class="p">();</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">line_no</span><span class="p">,</span> <span class="n">term</span><span class="p">)</span> <span class="n">in</span> <span class="n">my_str_tokens</span><span class="nf">.enumerate</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"{}: {}"</span><span class="p">,</span> <span class="n">line_no</span><span class="p">,</span> <span class="n">term</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Results in this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0: hello
+1: world
+2: my
+3: name
+4: is
+5: Fadi
+</code></pre>
+</div>
+
+<p>The above example is equivalent to the following Python code:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">myStrTokens</span> <span class="o">=</span> <span class="s">"hello</span><span class="se">\n</span><span class="s">world</span><span class="se">\n</span><span class="s">my</span><span class="se">\n</span><span class="s">name</span><span class="se">\n</span><span class="s">is</span><span class="se">\n</span><span class="s">Fadi"</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">myStrTokens</span><span class="p">)):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">d: </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">myStrTokens</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">while</code> loop is used when you’re not sure how many times you need to loop. It works the exact same way a <code class="highlighter-rouge">while</code> loop works in languages like C, C++, C#, Java, JavaScript, and Python. Here’s a JavaScript example:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">bool</span> <span class="nx">status</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// add some case that can set `status` to false</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The snippet above can be translated into Rust and look like the following:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">status</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+<span class="k">while</span> <span class="n">status</span> <span class="p">{</span>
+  <span class="c">// add some case that can set `status` to false</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">loop</code> loop is used when you want to run your loop indefinitely until a terminating statement is reached. An example of when this would come in handy is when you have a web server with request handlers each assigned a thread. In a case like this you wouldn’t want to have this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">status</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+
+<span class="k">while</span> <span class="k">true</span> <span class="p">{</span>
+  <span class="c">// add some case that can set `status` to false</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>When you could actually have this:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="k">loop</span> <span class="p">{</span>
+  <span class="c">// add some case that can break out of the loop</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>“Rust’s control-flow analysis treats this construct differently than a while true, since we know that it will always loop. In general, the more information we can give to the compiler, the better it can do with safety and code generation, so you should always prefer loop when you plan to loop infinitely” - Quoted from https://doc.rust-lang.org/book/loops.html</p>
+</blockquote>
+
+<p>Here’s one more thing you’d probably like about loops in Rust. Loops can have labels. Labels are extremely useful when working with nested loops. Here’s a JavaScript example:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">status1</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">status2</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="n">status1</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">status2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">status1</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+    <span class="n">status2</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The snippet above can be written with labels as follows:</p>
+
+<div class="language-rust highlighter-rouge"><pre class="highlight"><code><span class="err">'</span><span class="n">outer_loop</span><span class="p">:</span> <span class="k">loop</span> <span class="p">{</span>
+  <span class="err">'</span><span class="n">inner_loop</span><span class="p">:</span> <span class="k">loop</span> <span class="p">{</span>
+    <span class="k">break</span> <span class="err">'</span><span class="n">outer_loop</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Read more about loops <a href="https://doc.rust-lang.org/book/loops.html">here</a>.</p>
+
+<p>I think I’ve covered enough in this post and will stop right here. More stuff is coming in upcoming posts though, so stay tuned.</p>
+
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'iqdevs';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+            <div class="svg-icon">
+          
+
+
+
+<a href="https://github.com/iqdevs"><i class="icon-github icon-2x"></i></a>
+
+
+
+
+
+
+
+
+
+            </div>
+        </footer>
+      </div>
+    </div>
+
+
+    
+
+  </body>
+</html>

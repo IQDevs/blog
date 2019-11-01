@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Constructors and Destructors in C – IQDevs – Technology Excellence Redefined</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="
+  Everything discussed here is a feature brought to you by the GCC compiler. If you happen to be using a different compiler, I’m not sure all or any of this would apply given the fact that these features aren’t part of the C programming language per se.
+
+
+" />
+    <meta property="og:description" content="
+  Everything discussed here is a feature brought to you by the GCC compiler. If you happen to be using a different compiler, I’m not sure all or any of this would apply given the fact that these features aren’t part of the C programming language per se.
+
+
+" />
+    
+    <meta name="author" content="IQDevs" />
+
+    
+    <meta property="og:title" content="Constructors and Destructors in C" />
+    <meta property="twitter:title" content="Constructors and Destructors in C" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="IQDevs - Technology Excellence Redefined" href="/feed.xml" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+  </head>
+
+  <body>
+
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+            <h1>Constructors and Destructors in C</h1>
+            <span class="meta">Posted by <a href="https://github.com/alkass"> Fadi Hanna Al-Kass
+            </a> on October 25, 2017
+            </span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+ <div class="space-extra-small">
+ </div>
+
+  <div class="entry">
+    <blockquote>
+  <p>Everything discussed here is a feature brought to you by the <a href="https://gcc.gnu.org/"><code class="highlighter-rouge">GCC</code></a> compiler. If you happen to be using a different compiler, I’m not sure all or any of this would apply given the fact that these features aren’t part of the <code class="highlighter-rouge">C</code> programming language per se.</p>
+</blockquote>
+
+<p>When writing programs of considerable size and complexity, we tend to modularize our code. That is, we try to think of all different components as objects that can be easily moved around and fit within existing and future code. In C, it’s common practice for developers to divide code into libraries and header files that can be included as needed. When working with someone else’s library, you’d normally rather have a getting-started document that’s as short and as concise as possible.</p>
+
+<p>Let’s consider an example. You’re working with a team that’s responsible for implementing a stack data structure and is expected to hand you the five essential functions every stack should have: <code class="highlighter-rouge">push()</code>, <code class="highlighter-rouge">pop()</code>, <code class="highlighter-rouge">peek()</code>, <code class="highlighter-rouge">isFull()</code>, and <code class="highlighter-rouge">isEmpty()</code>. You’re probably already wondering “who’s going to initialize the stack? Do I have to? Will they hand me an initialized instance? Is it stack-allocated or heap-allocated? If it’s heap-allocated, do I have to worry about freeing it myself?” The stream of questions can literally be endless the more complex the library is. Wouldn’t it be better for the library to handle all the heavy lifting of having to instantiate all necessary data objects and do the housekeeping after itself when its job is finished (something of the nature of a constructor that’s called automatically once the library is included and a destructor that’s called when the library is done with)?</p>
+
+<h2 id="constructors">Constructors</h2>
+
+<p>Let’s assume we have a header file named ‘stack.h’:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#ifndef STACK_H
+#define STACK_H
+</span>
+<span class="cp">#include &lt;stdio.h&gt;   // printf
+#include &lt;stdlib.h&gt;  // calloc &amp; free
+#include &lt;stdbool.h&gt; // true &amp; false
+</span>
+<span class="cp">#define STACK_CAP 12
+</span>
+<span class="kt">int</span><span class="o">*</span> <span class="n">stack</span><span class="p">;</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">stack_ptr</span><span class="p">;</span>
+
+<span class="n">bool</span> <span class="nf">isEmpty</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">stack_ptr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="nf">isFull</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">stack_ptr</span> <span class="o">==</span> <span class="n">STACK_CAP</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="nf">push</span><span class="p">(</span><span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isFull</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">stack</span><span class="p">[</span><span class="n">stack_ptr</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="nf">peek</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">ref</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isEmpty</span><span class="p">())</span> <span class="p">{</span>
+    <span class="o">*</span><span class="n">ref</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="n">stack_ptr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="nf">pop</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">ref</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">peek</span><span class="p">(</span><span class="n">ref</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">stack_ptr</span><span class="o">--</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#endif
+</span></code></pre>
+</div>
+
+<p>You’ve probably already noticed that <code class="highlighter-rouge">stack</code> and <code class="highlighter-rouge">stack_ptr</code> are left uninitialized, so if you were to blindly use <code class="highlighter-rouge">push</code>, <code class="highlighter-rouge">peek</code>, or <code class="highlighter-rouge">pop</code>, you’re going to run into a segmentation fault as <code class="highlighter-rouge">stack</code> is a <code class="highlighter-rouge">NULL</code> pointer, and <code class="highlighter-rouge">stack_ptr</code> is likely to contain some gibberish that was left behind on the stack. The proper way to use these functions would be to allocate memory for the <code class="highlighter-rouge">stack</code> pointer and <code class="highlighter-rouge">free</code> it when you’re done. An even better way to do this would be to have this task automatically preformed at the time of including this header file. This is done through a library constructor, and it’s done as follows:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*  Library Constructor
+    @Brief: This function is automatically called when
+    the containing header file is included.
+*/</span>
+<span class="n">__attribute__</span><span class="p">((</span><span class="n">constructor</span><span class="p">))</span> <span class="kt">void</span> <span class="n">start</span><span class="p">()</span> <span class="p">{</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">"Inside Constructor</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+   <span class="n">stack_ptr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="n">stack</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="n">calloc</span><span class="p">(</span><span class="n">STACK_CAP</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The function above needs to be located inside your header file and will be automatically called once you’ve included the header file somewhere in your code.</p>
+
+<blockquote>
+  <p>In case you didn’t know, <code class="highlighter-rouge">#ifndef STACK_H</code>, <code class="highlighter-rouge">#define STACK_H</code> and <code class="highlighter-rouge">#endif</code> are needed to prevent multiple or recursive includes that’ll cause the compiler to run into redefinition issues.</p>
+</blockquote>
+
+<p>Now the following program:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include "header.h"
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Inside main</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Will generate the following output:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Inside Constructor
+Inside Main
+</code></pre>
+</div>
+
+<p>And exit peacefully… Well not really peacefully. At least not in every sense of the word as your program has left some heap-allocated memory un-deallocated. You’re not likely going to see your program crash or anything, but you’ve still introduced a bug to your system that the OS may or may not be able to resolve depending on what OS you happen to be using. The proper way to go about programmatically solve this problem is to use a destructor in your application. A destructor is another function that gets called automatically once you’re done with the library. Read ahead to find out how this is done.</p>
+
+<h2 id="destructors">Destructors</h2>
+
+<p>You’re going to like this part.</p>
+
+<p>We’ve used <code class="highlighter-rouge">__attribute__((constructor))</code> to introduce a constructor into our code, so you’re probably already thinking a <code class="highlighter-rouge">__attribute__((destructor))</code> is what we’d use to add a destructor, in which case you’d be absolutely right. Here’s our destructor function implementation for our stack library:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*  Library Destructor
+    @Brief: This function is automatically called when
+    the containing header file is dismissed (normally
+    at the end of the program lifecycle).
+*/</span>
+<span class="n">__attribute__</span><span class="p">((</span><span class="n">destructor</span><span class="p">))</span> <span class="kt">void</span> <span class="n">finish</span><span class="p">()</span> <span class="p">{</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">"Inside Destructor</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+   <span class="n">free</span><span class="p">(</span><span class="n">stack</span><span class="p">);</span>
+   <span class="n">stack</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now if you execute the same tiny program we’ve written above, you’ll get the following output:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Inside Constructor
+Inside Main
+Inside Destructor
+</code></pre>
+</div>
+
+<p>And there we’ve achieved a library implementation that takes care of all necessary memory management for us.</p>
+
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'iqdevs';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+            <div class="svg-icon">
+          
+
+
+
+<a href="https://github.com/iqdevs"><i class="icon-github icon-2x"></i></a>
+
+
+
+
+
+
+
+
+
+            </div>
+        </footer>
+      </div>
+    </div>
+
+
+    
+
+  </body>
+</html>
