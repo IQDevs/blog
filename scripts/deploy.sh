@@ -1,4 +1,4 @@
-branch=`git branch | tail -n 1 | awk '{printf $1}'`
+branch=$(git branch | tail -n 1 | awk '{printf $1}')
 
 if [ $branch == "master" ]; then
   gem install jekyll
@@ -8,9 +8,7 @@ if [ $branch == "master" ]; then
   cd iqdevs.github.io
   git config --global user.email "$4"
   git config --global user.name "$3"
-  git status
   git add --all
-  git status
   git commit -m "Automatically updated on `date` by $3"
   git push origin HEAD:master
 else
