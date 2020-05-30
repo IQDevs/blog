@@ -7,10 +7,7 @@ author: Fadi Hanna Al-Kass
 handle: https://github.com/alkass
 ---
 
-One of the early design challenges we faced when designing the DSP (Device Service Provider) project is coming up with a plug-and-play architecture. DSP's main responsibility is to read data from a specific tracking device, process and store the data, or send commands and process responses. But then different devices come with different protocols, though they share common traits like they all (all the ones we now support at least) are TCP based.
-
-Devices, when connected to DSP, are expected to be recognized so they're handed to the proper protocol handler.
-Our silver bullet here is abstraction, but then we're using Go, and Go doesn't have native support for abstractions. So how do we solve this?
+One of the early design challenges we faced when designing the `DSP` (Device Service Provider) project is coming up with a plug-and-play architecture. `DSP`'s main responsibility is to read data from a specific tracking device, process and store the data, or send commands and process responses. Different devices come with different protocols, though they share common traits, like they all (all the ones we now support at least) are TCP based. Devices, when connected to `DSP`, are expected to be recognized so they're handed to the proper protocol handler. Our silver bullet here is abstraction, but then we're using Go, and Go doesn't have native support for abstractions. So how do we solve this?
 
 We came up with a list of functions every device --no matter how distinct-- must support, and we created an interface called `DeviceProtocol` that encompasses all these functions. Our interface will include functions like `SetDeviceConnection`, `SetLogger`, `Read`, `Write`, `GetIMEI`, `SetUnit`, `Acknowledge`, `Reject`, `Handle`, `StoreRecord`, and `Disconnect`.
 
@@ -87,15 +84,14 @@ type DeviceProtocol interface {
 Soon after a tracking device connects, we call `SetDeviceConnection` with our connection object, we then call `GetIMEI` that'll internally compose a device identifier request and send it to the device using the `Write` function. The response is then retrieved with the `Read` function. Our `GetIMEI` function returns either the device unique identifier or an error (happens when the client fails to provide its IMEI within a designated timeframe, or when invalid data is provided or when the function identifies a suspicious activity).
 
 A lot of these functions will have identical internal implementations. For instance,
-* SetDeviceConnection, SetLogger and SetUnit are a common one-liner across all protocol implementations.
-* Read and Write will be identical across all protocols given Read is flexible with its ReadParameters and Write blindlessly transmits a given slice of bites. No device-specific intelligence required.
-* StoreRecord treats is a device-agnostic microservice-consuming function that doesn't need to be reimplemented for every protocol.
-* Disconnects performs some Record-related actions (device-agnostic, remember?) and closes the TCP connection generically.
+* `SetDeviceConnection`, `SetLogger` and `SetUnit` are a common one-liner across all protocol implementations.
+* `Read` and `Write` will be identical across all protocols given Read is flexible with its `ReadParameters` and Write blindlessly transmits a given slice of bites. No device-specific intelligence required.
+* `StoreRecord` is a device-agnostic microservice-consuming function that doesn't need to be reimplemented for every protocol.
+* `Disconnect` performs some Record-related actions (device-agnostic, remember?) and closes the TCP connection generically.
 
-The way around the issue is to have a form of abstraction that allows protocols to adopt at will and override when needed. Problem is Go isn't an OOP language (that's not to say OOP can't be employed in the language), and so class abstraction isn't a first-class construct in the language. What we do here is we create a DeviceProtocolHeader with our common functions defined and implemented, and aggregate the object in every protocol object we create:
+The way around the issue is to have a form of abstraction that allows protocols to adopt at will and override when needed. Problem is Go isn't an OOP language (that's not to say OOP can't be employed in the language), and so class abstraction isn't a first-class construct of the language. What we do here is we create a `DeviceProtocolHeader` with our common functions defined and implemented, and aggregate the object in every protocol object we create:
 
 ```go
-
 
 // DeviceProtocolHeader has a set of abstract functions that device protocols tend to have
 // in common. Instead of having to re-implement the same errorprocedures for every
@@ -204,7 +200,6 @@ type ZGPS struct {
 func (proto *ZGPS) GetIMEI() (int64, error) {
     // TODO: Here goes our proprietary IMEI retrieval implementation
 }
-
 
 // Acknowledge ...
 func (proto *ZGPS) Acknowledge() error {
