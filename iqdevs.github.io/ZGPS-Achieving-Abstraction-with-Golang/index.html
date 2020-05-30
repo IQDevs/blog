@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZGPS - Acchieving Abstraction with Golang – IQDevs – Technology Excellence Redefined</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="One of the early design challenges we faced when designing the DSP (Device Service Provider) project is coming up with a plug-and-play architecture. DSP’s main responsibility is to read data from a specific tracking device, process and store the data, or send commands and process responses. But then different devices come with different protocols, though they share common traits like they all (all the ones we now support at least) are TCP based.
+
+" />
+    <meta property="og:description" content="One of the early design challenges we faced when designing the DSP (Device Service Provider) project is coming up with a plug-and-play architecture. DSP’s main responsibility is to read data from a specific tracking device, process and store the data, or send commands and process responses. But then different devices come with different protocols, though they share common traits like they all (all the ones we now support at least) are TCP based.
+
+" />
+    
+    <meta name="author" content="IQDevs" />
+
+    
+    <meta property="og:title" content="ZGPS - Acchieving Abstraction with Golang" />
+    <meta property="twitter:title" content="ZGPS - Acchieving Abstraction with Golang" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="IQDevs - Technology Excellence Redefined" href="/feed.xml" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+  </head>
+
+  <body>
+
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+            <h1>ZGPS - Acchieving Abstraction with Golang</h1>
+            <span class="meta">Posted by <a href="https://github.com/alkass"> Fadi Hanna Al-Kass
+            </a> on May 30, 2020
+            </span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+ <div class="space-extra-small">
+ </div>
+
+  <div class="entry">
+    <p>One of the early design challenges we faced when designing the DSP (Device Service Provider) project is coming up with a plug-and-play architecture. DSP’s main responsibility is to read data from a specific tracking device, process and store the data, or send commands and process responses. But then different devices come with different protocols, though they share common traits like they all (all the ones we now support at least) are TCP based.</p>
+
+<p>Devices, when connected to DSP, are expected to be recognized so they’re handed to the proper protocol handler.
+Our silver bullet here is abstraction, but then we’re using Go, and Go doesn’t have native support for abstractions. So how do we solve this?</p>
+
+<p>We came up with a list of functions every device –no matter how distinct– must support, and we created an interface called <code class="highlighter-rouge">DeviceProtocol</code> that encompasses all these functions. Our interface will include functions like <code class="highlighter-rouge">SetDeviceConnection</code>, <code class="highlighter-rouge">SetLogger</code>, <code class="highlighter-rouge">Read</code>, <code class="highlighter-rouge">Write</code>, <code class="highlighter-rouge">GetIMEI, </code>SetUnit<code class="highlighter-rouge">, </code>Acknowledge<code class="highlighter-rouge">, </code>Reject<code class="highlighter-rouge">, </code>Handle<code class="highlighter-rouge">, </code>StoreRecord<code class="highlighter-rouge">, and </code>Disconnect`.</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">
+</span><span class="c">// DeviceProtocol is a set of functions all supports protocols need to implement.</span><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">DeviceProtocol</span><span class="x"> </span><span class="k">interface</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="c">// SetDeviceConnection is called to hand the connection over to the device</span><span class="x">
+	</span><span class="c">// protocol instance. This is the first thing that happens once a new</span><span class="x">
+	</span><span class="c">// device is connected.</span><span class="x">
+	</span><span class="n">SetDeviceConnection</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">Conn</span><span class="p">)</span><span class="x">
+
+	</span><span class="c">// SetLogger keeps a copy of a provided Logger for the protocol to consume.</span><span class="x">
+	</span><span class="n">SetLogger</span><span class="p">(</span><span class="n">logger</span><span class="o">.</span><span class="n">Logger</span><span class="p">)</span><span class="x">
+
+	</span><span class="c">// Read allows the protocol to read a specified number of bytes directly</span><span class="x">
+	</span><span class="c">// from the device. Refer to the ReadParameters structure to find out</span><span class="x">
+	</span><span class="c">// and/or alter the capabilities of the Read function.</span><span class="x">
+	</span><span class="n">Read</span><span class="p">(</span><span class="n">ReadParameters</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="n">Buffer</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x">
+
+	</span><span class="c">// Write allows the protocol to send byte streams directly to the device.</span><span class="x">
+	</span><span class="c">// If the number of bytes written does NOT comport with the number of bytes</span><span class="x">
+	</span><span class="c">// in the slice passed to the function, an error is returned.</span><span class="x">
+	</span><span class="n">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">)</span><span class="x"> </span><span class="kt">error</span><span class="x">
+
+	</span><span class="c">// GetIMEI does what is necessary for the protocol to retrieve the IMEI from</span><span class="x">
+	</span><span class="c">// the device. Failures can be expected, and tend to be more occasional, then</span><span class="x">
+	</span><span class="c">// they need to be, so the caller needs to always watch out for errors. That</span><span class="x">
+	</span><span class="c">// is, if `error` is anything other than nil, the proper action is to reject</span><span class="x">
+	</span><span class="c">// the connection and bailout.</span><span class="x">
+	</span><span class="n">GetIMEI</span><span class="p">()</span><span class="x"> </span><span class="p">(</span><span class="kt">int64</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x">
+
+	</span><span class="c">// Acknowledge is automatically called once an IMEI is retrieved and</span><span class="x">
+	</span><span class="c">// authenticated.</span><span class="x">
+	</span><span class="c">// NOTE: Units that are marked off as disabled in the database won't</span><span class="x">
+	</span><span class="c">// be acknowledged.</span><span class="x">
+	</span><span class="n">Acknowledge</span><span class="p">()</span><span class="x"> </span><span class="kt">error</span><span class="x">
+
+	</span><span class="c">// Reject is automatically called if the device fails to send an IMEI</span><span class="x">
+	</span><span class="c">// within a specified period of time, or if the IMEI is not found in</span><span class="x">
+	</span><span class="c">// the database or if the database object is marked off as disabled.</span><span class="x">
+	</span><span class="c">// This function is automatically called right before Disconnect is.</span><span class="x">
+	</span><span class="n">Reject</span><span class="p">()</span><span class="x"> </span><span class="kt">error</span><span class="x">
+
+	</span><span class="c">// SetUnit is called once a device is acknowledged. The point of this</span><span class="x">
+	</span><span class="c">// call is to hand over the Unit object to the protocol so that the</span><span class="x">
+	</span><span class="c">// protocol is capable of inferring the Unit identifier.</span><span class="x">
+	</span><span class="n">SetUnit</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">Unit</span><span class="p">)</span><span class="x">
+
+	</span><span class="c">// Handle is the entry point to a device handler. Every supported protocol</span><span class="x">
+	</span><span class="c">// needs to implement this function. &lt;b&gt;No abstraction version of this</span><span class="x">
+	</span><span class="c">// function is provided&lt;/b&gt; for the sole reason that different devices</span><span class="x">
+	</span><span class="c">// come with different protocols.</span><span class="x">
+	</span><span class="n">Handle</span><span class="p">()</span><span class="x"> </span><span class="kt">error</span><span class="x">
+
+	</span><span class="c">// StoreRecord is responsible for processing one device Record at a time.</span><span class="x">
+	</span><span class="c">// Record (defined in Record.go) is supposed to at least have a Unit</span><span class="x">
+	</span><span class="c">// object (defined in ms/Unit.go) and a Position object (defined in</span><span class="x">
+	</span><span class="c">// ms/Position.go). Whether the Position is valid or not is decided by</span><span class="x">
+	</span><span class="c">// its own microservice later.</span><span class="x">
+	</span><span class="n">StoreRecord</span><span class="p">(</span><span class="o">*</span><span class="n">Record</span><span class="p">)</span><span class="x"> </span><span class="kt">error</span><span class="x">
+
+	</span><span class="c">// Disconnect is the last function called towards the end of the lifecycle</span><span class="x">
+	</span><span class="c">// of a protocol instance. That is, the function is called before the</span><span class="x">
+	</span><span class="c">// protocol instance is dismissed forever. Protocol lifecycle comes to an</span><span class="x">
+	</span><span class="c">// end when the device has been idle (no data received from a device within a</span><span class="x">
+	</span><span class="c">// designated timeframe), or if the device fails to send an IMEI or if the</span><span class="x">
+	</span><span class="c">// device IMEI is not associated with any Unit objects in the database, or</span><span class="x">
+	</span><span class="c">// if the Unit object is marked as disabled.</span><span class="x">
+	</span><span class="n">Disconnect</span><span class="p">()</span><span class="x"> </span><span class="kt">error</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>Soon after a tracking device connects, we call <code class="highlighter-rouge">SetDeviceConnection</code> with our connection object, we then call <code class="highlighter-rouge">GetIMEI</code> that’ll internally compose a device identifier request and send it to the device using the <code class="highlighter-rouge">Write</code> function. The response is then retrieved with the <code class="highlighter-rouge">Read</code> function. Our <code class="highlighter-rouge">GetIMEI</code> function returns either the device unique identifier or an error (happens when the client fails to provide its IMEI within a designated timeframe, or when invalid data is provided or when the function identifies a suspicious activity).</p>
+
+<p>A lot of these functions will have identical internal implementations. For instance,</p>
+<ul>
+  <li>SetDeviceConnection, SetLogger and SetUnit are a common one-liner across all protocol implementations.</li>
+  <li>Read and Write will be identical across all protocols given Read is flexible with its ReadParameters and Write blindlessly transmits a given slice of bites. No device-specific intelligence required.</li>
+  <li>StoreRecord treats is a device-agnostic microservice-consuming function that doesn’t need to be reimplemented for every protocol.</li>
+  <li>Disconnects performs some Record-related actions (device-agnostic, remember?) and closes the TCP connection generically.</li>
+</ul>
+
+<p>The way around the issue is to have a form of abstraction that allows protocols to adopt at will and override when needed. Problem is Go isn’t an OOP language (that’s not to say OOP can’t be employed in the language), and so class abstraction isn’t a first-class construct in the language. What we do here is we create a DeviceProtocolHeader with our common functions defined and implemented, and aggregate the object in every protocol object we create:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">
+
+</span><span class="c">// DeviceProtocolHeader has a set of abstract functions that device protocols tend to have</span><span class="x">
+</span><span class="c">// in common. Instead of having to re-implement the same errorprocedures for every</span><span class="x">
+</span><span class="c">// Protocol implementation, it is recommended to include this header and have</span><span class="x">
+</span><span class="c">// the extra functionality at no cost.</span><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">DeviceProtocolHeader</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">logger</span><span class="o">.</span><span class="n">Logger</span><span class="x">
+	</span><span class="n">client</span><span class="x">     </span><span class="n">net</span><span class="o">.</span><span class="n">Conn</span><span class="x">
+	</span><span class="n">Unit</span><span class="x">       </span><span class="n">ms</span><span class="o">.</span><span class="n">Unit</span><span class="x">
+	</span><span class="n">lastRecord</span><span class="x"> </span><span class="n">Record</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// SetConnection ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">DeviceProtocolHeader</span><span class="p">)</span><span class="x"> </span><span class="n">SetDeviceConnection</span><span class="p">(</span><span class="n">client</span><span class="x"> </span><span class="n">net</span><span class="o">.</span><span class="n">Conn</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">proto</span><span class="o">.</span><span class="n">client</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">client</span><span class="x">
+
+	</span><span class="c">// Set timeout to however many seconds ReadTimeout has.</span><span class="x">
+	</span><span class="n">readParams</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">DefaultReadParameters</span><span class="p">()</span><span class="x">
+	</span><span class="n">proto</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">SetReadDeadline</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">readParams</span><span class="o">.</span><span class="n">Timeout</span><span class="p">))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// SetLogger ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">DeviceProtocolHeader</span><span class="p">)</span><span class="x"> </span><span class="n">SetLogger</span><span class="p">(</span><span class="n">logger</span><span class="x"> </span><span class="n">logger</span><span class="o">.</span><span class="n">Logger</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">proto</span><span class="o">.</span><span class="n">Logger</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">logger</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// Read ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">DeviceProtocolHeader</span><span class="p">)</span><span class="x"> </span><span class="n">Read</span><span class="p">(</span><span class="n">params</span><span class="x"> </span><span class="n">ReadParameters</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="n">Buffer</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">buf</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="x"> </span><span class="n">params</span><span class="o">.</span><span class="n">ByteCount</span><span class="p">)</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;=</span><span class="x"> </span><span class="n">params</span><span class="o">.</span><span class="n">MaxTimeoutAttempts</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">if</span><span class="x"> </span><span class="n">bufLen</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">proto</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">Read</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span><span class="x"> </span><span class="n">bufLen</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="k">return</span><span class="x"> </span><span class="n">Buffer</span><span class="p">{</span><span class="n">buf</span><span class="p">[</span><span class="o">:</span><span class="n">bufLen</span><span class="p">]},</span><span class="x"> </span><span class="no">nil</span><span class="x">
+		</span><span class="p">}</span><span class="x">
+		</span><span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">Timeout</span><span class="p">)</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="n">Buffer</span><span class="p">{},</span><span class="x"> </span><span class="n">errors</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"Device read timeout"</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// Write ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">DeviceProtocolHeader</span><span class="p">)</span><span class="x"> </span><span class="n">Write</span><span class="p">(</span><span class="n">data</span><span class="x"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">bCount</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">proto</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">data</span><span class="p">);</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="n">err</span><span class="x">
+	</span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="k">if</span><span class="x"> </span><span class="n">bCount</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="n">fmt</span><span class="o">.</span><span class="n">Errorf</span><span class="p">(</span><span class="s">"Failed to write some or all bytes. Expected count: %d, written count: %d"</span><span class="p">,</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span><span class="x"> </span><span class="n">bCount</span><span class="p">)</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="no">nil</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// SetUnit ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">DeviceProtocolHeader</span><span class="p">)</span><span class="x"> </span><span class="n">SetUnit</span><span class="p">(</span><span class="n">unit</span><span class="x"> </span><span class="n">ms</span><span class="o">.</span><span class="n">Unit</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">proto</span><span class="o">.</span><span class="n">Unit</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">unit</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// StoreRecord ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">DeviceProtocolHeader</span><span class="p">)</span><span class="x"> </span><span class="n">StoreRecord</span><span class="p">(</span><span class="n">record</span><span class="x"> </span><span class="o">*</span><span class="n">Record</span><span class="p">)</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">record</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="n">errors</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"Expected a Record. Received nil"</span><span class="p">)</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="n">record</span><span class="o">.</span><span class="n">Unit</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">proto</span><span class="o">.</span><span class="n">Unit</span><span class="x">
+
+	</span><span class="n">record</span><span class="o">.</span><span class="n">SetLogger</span><span class="p">(</span><span class="n">proto</span><span class="o">.</span><span class="n">Logger</span><span class="p">)</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">record</span><span class="o">.</span><span class="n">Store</span><span class="p">();</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="n">err</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="k">if</span><span class="x"> </span><span class="n">record</span><span class="o">.</span><span class="n">Position</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">After</span><span class="p">(</span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="o">.</span><span class="n">Position</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="c">// Prepare the last possible Record.</span><span class="x">
+		</span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="o">.</span><span class="n">Flags</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">Last</span><span class="p">)</span><span class="x">
+		</span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="o">.</span><span class="n">Unit</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">record</span><span class="o">.</span><span class="n">Unit</span><span class="x">
+		</span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="o">.</span><span class="n">Position</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">record</span><span class="o">.</span><span class="n">Position</span><span class="x">
+		</span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="o">.</span><span class="n">Position</span><span class="o">.</span><span class="n">ID</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">0</span><span class="x">
+		</span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="o">.</span><span class="n">Position</span><span class="o">.</span><span class="n">Speed</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">0</span><span class="x">
+		</span><span class="c">// NOTE: Modifying the last Record can be done here.</span><span class="x">
+
+		</span><span class="n">proto</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="n">logger</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span><span class="x"> </span><span class="s">"Last known Position timestamp: %v"</span><span class="p">,</span><span class="x"> </span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="o">.</span><span class="n">Position</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">)</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="k">return</span><span class="x"> </span><span class="no">nil</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// Disconnect ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">DeviceProtocolHeader</span><span class="p">)</span><span class="x"> </span><span class="n">Disconnect</span><span class="p">()</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">proto</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="o">.</span><span class="n">Flags</span><span class="o">.</span><span class="n">Has</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">Last</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="c">// Store last record. Whether this is a valid last trip or not</span><span class="x">
+		</span><span class="c">// is left for upper layers to decide.</span><span class="x">
+		</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">proto</span><span class="o">.</span><span class="n">StoreRecord</span><span class="p">(</span><span class="o">&amp;</span><span class="n">proto</span><span class="o">.</span><span class="n">lastRecord</span><span class="p">);</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">proto</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="n">logger</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span><span class="x"> </span><span class="s">"Error: %v"</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="p">)</span><span class="x">
+			</span><span class="k">return</span><span class="x"> </span><span class="n">err</span><span class="x">
+		</span><span class="p">}</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="no">nil</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span></code></pre>
+</div>
+
+<p>So, when introducing a new protocol object (say a proprietary ZGPS protocol), we do the following</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">ZGPS</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">DeviceProtocolHeader</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">ZGPS</span><span class="p">)</span><span class="x"> </span><span class="n">GetIMEI</span><span class="p">()</span><span class="x"> </span><span class="p">(</span><span class="kt">int64</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="c">// TODO: Here goes our proprietary IMEI retrieval implementation</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+
+</span><span class="c">// Acknowledge ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">ZGPS</span><span class="p">)</span><span class="x"> </span><span class="n">Acknowledge</span><span class="p">()</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="c">// TODO: Here goes our proprietery device/request acknowledgment implementation</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// Reject ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">ZGPS</span><span class="p">)</span><span class="x"> </span><span class="n">Reject</span><span class="p">()</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="c">// TODO: Here goes our proprietery device/request rejection implementation</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// Handle ...</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">proto</span><span class="x"> </span><span class="o">*</span><span class="n">ZGPS</span><span class="p">)</span><span class="x"> </span><span class="n">Handle</span><span class="p">()</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="c">// TODO: Here goes our proprietary data/request processing implementation</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span></code></pre>
+</div>
+
+<p>What have we objectively achieved here?</p>
+<ol>
+  <li>We’ve set ourselves up for a zero-duplication code base.</li>
+  <li>We’ve added the ability to introduce higher-level system-wide business logic (take <code class="highlighter-rouge">lastRecord</code> for example) that future SMEs don’t even have to know about, making it easier to specialize at their own space.</li>
+  <li>Bug hunting is now easier given the code is modularized yet cohesive, and fixes will often be made in one place.</li>
+</ol>
+
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'iqdevs';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+            <div class="svg-icon">
+          
+
+
+
+<a href="https://github.com/iqdevs"><i class="icon-github icon-2x"></i></a>
+
+
+
+
+
+
+
+
+
+            </div>
+        </footer>
+      </div>
+    </div>
+
+
+    
+
+  </body>
+</html>
