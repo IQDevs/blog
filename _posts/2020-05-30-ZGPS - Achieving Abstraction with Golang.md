@@ -12,7 +12,7 @@ One of the early design challenges we faced when designing the DSP (Device Servi
 Devices, when connected to DSP, are expected to be recognized so they're handed to the proper protocol handler.
 Our silver bullet here is abstraction, but then we're using Go, and Go doesn't have native support for abstractions. So how do we solve this?
 
-We came up with a list of functions every device --no matter how distinct-- must support, and we created an interface called `DeviceProtocol` that encompasses all these functions. Our interface will include functions like `SetDeviceConnection`, `SetLogger`, `Read`, `Write`, `GetIMEI, `SetUnit`, `Acknowledge`, `Reject`, `Handle`, `StoreRecord`, and `Disconnect`.
+We came up with a list of functions every device --no matter how distinct-- must support, and we created an interface called `DeviceProtocol` that encompasses all these functions. Our interface will include functions like `SetDeviceConnection`, `SetLogger`, `Read`, `Write`, `GetIMEI`, `SetUnit`, `Acknowledge`, `Reject`, `Handle`, `StoreRecord`, and `Disconnect`.
 
 ```go
 
