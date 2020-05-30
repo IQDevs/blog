@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  ZGPS - Acchieving Abstraction with Golang
+title:  ZGPS - Achieving Abstraction with Golang
 date:   2020-05-30 00:00:00 -0500
 categories: Golang
 author: Fadi Hanna Al-Kass
